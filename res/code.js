@@ -81,7 +81,7 @@ workers.set("botanist", {
     name: "Botanist",
     quantity: 0,
     cost: new Map([["food", 500]]),
-    consume: new Map([["food", 1]]),
+    consume: new Map([["food", 3]]),
     produce: new Map([["seed", 1]])
 });
 
@@ -113,7 +113,7 @@ workers.set("food_seller", {
     name: "Food Seller",
     quantity: 0,
     cost: new Map([["food", 5000], ["wood", 600]]),
-    consume: new Map([["food", 1]]),
+    consume: new Map([["food", 4]]),
     produce: new Map([["gold", resources.get("food").value]])
 });
 
@@ -121,7 +121,7 @@ workers.set("tool_seller", {
     name: "Tool Seller",
     quantity: 0,
     cost: new Map([["food", 5000], ["wood", 600]]),
-    consume: new Map([["tool", 1]]),
+    consume: new Map([["tool", 1], ["food", 3]]),
     produce: new Map([["gold", resources.get("tool").value]])
 });
 
@@ -129,7 +129,7 @@ workers.set("wood_seller", {
     name: "Wood Seller",
     quantity: 0,
     cost: new Map([["food", 5000], ["wood", 600]]),
-    consume: new Map([["wood", 1]]),
+    consume: new Map([["wood", 1], ["food", 3]]),
     produce: new Map([["gold", resources.get("wood").value]])
 });
 
