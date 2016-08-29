@@ -11,27 +11,35 @@ function tick() {
 }
 
 function updateResources() {
-    console.log("update resource");
+
+    // Clear prodPerTick && ConsPerTick indicatiors
+    resources.forEach((resource) => {
+        resource.prodPerTick = 0;
+        resource.consPerTick = 0;
+    });
+
     workers.forEach((worker, workerName) => {
         worker.produce.forEach((rate, resourceName) => {
-            if (worker.quantity && workerConsume(workerName)) {
-                resources.get(resourceName).quantity += rate * worker.quantity;
+            if (worker.quantity && workerConsume(worker)) {
+                let production = rate * worker.quantity;
+                resources.get(resourceName).quantity += production;
+                resources.get(resourceName).prodPerTick += production;
             }
         });
     });
 }
 
-function workerConsume(workerName) {
-    let consume = workers.get(workerName).consume;
+function workerConsume(worker) {
     let produce = true;
-    consume.forEach((quantity, resourceName) => {
-        if (resources.get(resourceName).quantity < quantity) {
+    worker.consume.forEach((quantity, resourceName) => {
+        if (resources.get(resourceName).quantity < quantity * worker.quantity) {
             produce = false;
         }
     });
     if (produce) {
-        consume.forEach((quantity, resourceName) => {
-            resources.get(resourceName).quantity -= quantity;
+        worker.consume.forEach((quantity, resourceName) => {
+            resources.get(resourceName).quantity -= quantity * worker.quantity;
+            resources.get(resourceName).consPerTick += quantity * worker.quantity;
         });
     }
     return produce;
@@ -49,7 +57,6 @@ function canHire(workerName) {
 }
 
 function hire(workerName) {
-    console.log("hire");
     let cost = workers.get(workerName).cost;
     if (canHire(workerName)) {
         cost.forEach((quantity, resourceName) => {

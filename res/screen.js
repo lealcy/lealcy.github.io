@@ -26,6 +26,9 @@ function buildScreen() {
             <tr id="${resourceName}" style="display: none">
                 <th>${resource.name}</th>
                 <td id="${resourceName}_quantity">${Math.floor(resource.quantity)}</td>
+                <td id="${resourceName}_prodPerTick">${resource.prodPerTick}</td>
+                <td id="${resourceName}_consPerTick">${resource.consPerTick}</td>
+                <td id="${resourceName}_surplus">0</td>
                 <td>${resource.value}</td>
             </tr>`;
     });
@@ -40,6 +43,9 @@ function updateScreen() {
     });
     resources.forEach((resource, resourceName) => {
         document.getElementById(`${resourceName}_quantity`).innerHTML = resource.quantity;
+        document.getElementById(`${resourceName}_prodPerTick`).innerHTML = resource.prodPerTick;
+        document.getElementById(`${resourceName}_consPerTick`).innerHTML = resource.consPerTick;
+        document.getElementById(`${resourceName}_surplus`).innerHTML = resource.prodPerTick - resource.consPerTick;
         if (resource.quantity) {
             document.getElementById(resourceName).style.display = "table-row";
         }
