@@ -25,8 +25,6 @@ for (let i = 0; i < width; i++) {
     }
 }
 
-ctx.font = "30px Verdana";
-
 canvas.addEventListener("mouseup", e => {
     let bX = Math.floor((e.offsetX) / bWidth);
     let bY = Math.floor((e.offsetY) / bHeight);
@@ -74,8 +72,9 @@ function score() {
             }
         }
     }
-    ctx.fillText(`Player1: ${playerPoints}`, canvas.height, 30);
-    ctx.fillText(`Player2: ${enemyPoints}`, canvas.height, 70);
+    ctx.font = "26px Verdana";
+    ctx.fillText(`Player1: ${playerPoints}`, canvas.height + 10, 30);
+    ctx.fillText(`Player2: ${enemyPoints}`, canvas.height + 10, 66);
 
 }
 
