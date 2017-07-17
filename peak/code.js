@@ -18,15 +18,19 @@ let ctx = canvas.getContext("2d");
 
 let undos = [];
 let win = false;
-let lose = false;
 let deck = [];
 let columns = [];
 let discharge = [];
-
+let points = 0;
+let combo = 1;
+let record = 0;
+let maxCombo = 1;
+let games = 0;
 
 canvas.addEventListener("dblclick", () => { return false }, false);
 canvas.addEventListener("mousedown", () => { return false }, false);
 canvas.addEventListener("mouseup", e => {
+    console.log(e.offsetX, e.offsetY);
     let x = 8;
     if (pointInsideRect(e.offsetX, e.offsetY, x, 10, CARD_WIDTH, 180)) {
         moveToDischarge(0);
@@ -51,6 +55,7 @@ canvas.addEventListener("mouseup", e => {
     } else if (pointInsideRect(e.offsetX, e.offsetY, 321, 200, CARD_WIDTH, CARD_HEIGHT)) {
         if (deck.length) {
             discharge.push(deck.pop());
+            combo = 1;
             undos.push(() => {
                 deck.push(discharge.pop());
             });
@@ -69,9 +74,10 @@ function pointInsideRect(x, y, l, t, w, h) {
 
 function undo() {
     if (undos.length) {
-        lose = false;
         win = false;
         undos.pop()();
+        points -= 10 * combo;
+        combo = 1;
     }
 }
 
@@ -144,6 +150,9 @@ function moveToDischarge(coln) {
 
     if ((cn == 13 && dn == 1) || (cn == 1 && dn == 13) || (cn + 1 == dn) || (cn - 1 == dn)) {
         discharge.push(col.pop());
+        points += combo * 10;
+        combo++;
+        maxCombo = Math.max(combo, maxCombo);
         undos.push(() => {
             col.push(discharge.pop());
         });
@@ -159,11 +168,21 @@ function reset() {
         columns[i] = deck.splice(0, 8);
     }
 
+    if (win) {
+        if (points > record) {
+            record = points;
+        }
+        games++;
+    } else {
+        games = 1;
+        points = 0;
+    }
+
     discharge = [];
     discharge.push(deck.pop());
     win = false;
-    lose = false;
     undos = [];
+    combo = 1;
 }
 
 function start() {
@@ -183,21 +202,19 @@ function animationFrame(timestamp) {
         }
     });
 
-    if (!win && !deck.length) {
-        lose = true;
-    }
-
     drawColumns();
 
     // Draw deck
     let x = 321;
     let y = 200;
     if (deck.length > 1) {
-        drawCard(1, 0, x, y, true);
+        let alast = deck[deck.length - 2];
+        drawCard(alast[0], alast[1], x, y, true);
         x += 3;
     }
     if (deck.length) {
-        drawCard(1, 0, x, y, true);
+        let last = deck[deck.length - 1];
+        drawCard(last[0], last[1], x, y, true);
     }
 
     // Draw discharge pile
@@ -233,12 +250,17 @@ function animationFrame(timestamp) {
         ctx.fillText("You Win!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 60);
     }
 
-    if (lose) {
-        ctx.fillStyle = "#ffcccc";
-        ctx.font = "60px sans-serif";
-        let textGeo = ctx.measureText("You Lose!");
-        ctx.fillText("You Lose!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 60);
-    }
+    // Draw Stats
+    ctx.fillStyle = "white";
+    ctx.font = "30px sans-serif";
+    ctx.fillText(`${points} (record: ${record})`, 8, 230);
+    ctx.font = "15px sans-serif";
+    ctx.fillText(`Combo: x${combo} (record: x${maxCombo})`, 8, 250);
+    ctx.font = "15px sans-serif";
+    ctx.fillText(`Games: ${games}`, 8, 270);
+    ctx.font = "11px sans-serif";
+    ctx.fillText(`(${deck.length})`, 322, 210 + CARD_HEIGHT);
+
 
 }
 
