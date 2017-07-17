@@ -16,8 +16,11 @@ backs.src = "backs.png";
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 
+let undos = [];
+
+canvas.addEventListener("dblclick", () => { return false }, false);
+canvas.addEventListener("mousedown", () => { return false }, false);
 canvas.addEventListener("mouseup", e => {
-    console.log("mouseup", e.offsetX, e.offsetY);
     let x = 8;
     if (pointInsideRect(e.offsetX, e.offsetY, x, 10, CARD_WIDTH, 180)) {
         moveToDischarge(0);
@@ -42,12 +45,24 @@ canvas.addEventListener("mouseup", e => {
     } else if (pointInsideRect(e.offsetX, e.offsetY, 321, 200, CARD_WIDTH, CARD_HEIGHT)) {
         if (deck.length) {
             discharge.push(deck.pop());
+            undos.push(() => {
+                deck.push(discharge.pop());
+            });
         }
+    } else if (pointInsideRect(e.offsetX, e.offsetY, 483, 271, 50, 26)) {
+        undo();
     }
+    return false;
 }, false);
 
 function pointInsideRect(x, y, l, t, w, h) {
     return x > l && x < (l + w) && y > t && y < (t + h);
+}
+
+function undo() {
+    if (undos.length) {
+        undos.pop()();
+    }
 }
 
 function getDeck() {
@@ -113,6 +128,9 @@ function moveToDischarge(coln) {
 
     if ((cn == 13 && dn == 1) || (cn == 1 && dn == 13) || (cn + 1 == dn) || (cn - 1 == dn)) {
         discharge.push(col.pop());
+        undos.push(() => {
+            col.push(discharge.pop());
+        });
     }
 }
 
@@ -151,6 +169,14 @@ function animationFrame(timestamp) {
         x = 404;
         let last = discharge[dl - 1];
         drawCard(last[0], last[1], x, y);
+    }
+
+    // Draw undo button
+    if (undos.length) {
+        ctx.fillStyle = "#ff6666";
+        ctx.fillRect(483, 271, 50, 26);
+        ctx.fillStyle = "white";
+        ctx.fillText("UNDO", 493, 287, 50);
     }
 
 
