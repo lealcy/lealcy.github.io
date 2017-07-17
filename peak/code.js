@@ -76,8 +76,13 @@ function undo() {
     if (undos.length) {
         win = false;
         undos.pop()();
-        points -= 10 * combo;
-        combo = 1;
+        if (combo > 1) {
+            combo--;
+            points -= 10 * combo;
+        } else {
+            combo = 1;
+            points -= 10;
+        }
     }
 }
 
