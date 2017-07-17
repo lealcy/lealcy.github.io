@@ -17,6 +17,12 @@ let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 
 let undos = [];
+let win = false;
+let lose = false;
+let deck = [];
+let columns = [];
+let discharge = [];
+
 
 canvas.addEventListener("dblclick", () => { return false }, false);
 canvas.addEventListener("mousedown", () => { return false }, false);
@@ -51,6 +57,8 @@ canvas.addEventListener("mouseup", e => {
         }
     } else if (pointInsideRect(e.offsetX, e.offsetY, 483, 271, 50, 26)) {
         undo();
+    } else if (pointInsideRect(e.offsetX, e.offsetY, canvas.width - 55, 271, 50, 26)) {
+        reset();
     }
     return false;
 }, false);
@@ -61,6 +69,8 @@ function pointInsideRect(x, y, l, t, w, h) {
 
 function undo() {
     if (undos.length) {
+        lose = false;
+        win = false;
         undos.pop()();
     }
 }
@@ -121,6 +131,12 @@ function drawColumns() {
     });
 }
 
+function drawWinScreen() {
+    ctx.font = "14px sans-serif";
+    textGeo = ctx.measureText("Click to try again!");
+    ctx.fillText("Click to try again!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 20);
+}
+
 function moveToDischarge(coln) {
     let col = columns[coln];
     let cn = col[col.length - 1][0];
@@ -134,21 +150,42 @@ function moveToDischarge(coln) {
     }
 }
 
-let deck = shuffleDeck(getDeck().concat(getDeck()));
+function reset() {
+    deck = shuffleDeck(getDeck().concat(getDeck()));
 
-// 10 columns with 8 cards.
-let columns = [];
-for (let i = 0; i < 10; i++) {
-    columns[i] = deck.splice(0, 8);
+    // 10 columns with 8 cards.
+    columns = [];
+    for (let i = 0; i < 10; i++) {
+        columns[i] = deck.splice(0, 8);
+    }
+
+    discharge = [];
+    discharge.push(deck.pop());
+    win = false;
+    lose = false;
+    undos = [];
 }
 
-let discharge = [];
-discharge.push(deck.pop());
+function start() {
+    reset();
+    window.requestAnimationFrame(animationFrame);
+}
 
 function animationFrame(timestamp) {
     window.requestAnimationFrame(animationFrame);
     ctx.fillStyle = "green";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    win = true;
+    columns.forEach(v => {
+        if (v.length) {
+            win = false;
+        }
+    });
+
+    if (!win && !deck.length) {
+        lose = true;
+    }
 
     drawColumns();
 
@@ -173,23 +210,36 @@ function animationFrame(timestamp) {
 
     // Draw undo button
     if (undos.length) {
+        ctx.font = "10px sans-serif";
         ctx.fillStyle = "#ff6666";
         ctx.fillRect(483, 271, 50, 26);
         ctx.fillStyle = "white";
         ctx.fillText("UNDO", 493, 287, 50);
     }
 
+    // Draw reset button
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "#0099cc";
+    ctx.fillRect(canvas.width - 55, 271, 50, 26);
+    ctx.fillStyle = "white";
+    ctx.fillText("RESET", canvas.width - 47, 287, 50);
 
-    /*et x = 10;
-    let y = 10;
-    for (let i = 0; i < deck.length; i++) {
-        drawCard(deck[i][0], deck[i][1], x, y);
-        x += 13;
-        if (x > canvas.width - CARD_WIDTH) {
-            x = 13;
-            y += 32;
-        }
-    }*/
+
+    // Draw win
+    if (win) {
+        ctx.fillStyle = "white";
+        ctx.font = "60px sans-serif";
+        let textGeo = ctx.measureText("You Win!");
+        ctx.fillText("You Win!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 60);
+    }
+
+    if (lose) {
+        ctx.fillStyle = "#ffcccc";
+        ctx.font = "60px sans-serif";
+        let textGeo = ctx.measureText("You Lose!");
+        ctx.fillText("You Lose!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 60);
+    }
+
 }
 
-window.requestAnimationFrame(animationFrame);
+start();
