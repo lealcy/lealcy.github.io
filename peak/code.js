@@ -62,7 +62,7 @@ canvas.addEventListener("mouseup", e => {
         }
     } else if (pointInsideRect(e.offsetX, e.offsetY, 483, 271, 50, 26)) {
         undo();
-    } else if (pointInsideRect(e.offsetX, e.offsetY, canvas.width - 55, 271, 50, 26)) {
+    } else if (pointInsideRect(e.offsetX, e.offsetY, 726, 271, 64, 26)) {
         reset();
     }
     return false;
@@ -242,9 +242,9 @@ function animationFrame(timestamp) {
     // Draw reset button
     ctx.font = "10px sans-serif";
     ctx.fillStyle = "#0099cc";
-    ctx.fillRect(canvas.width - 55, 271, 50, 26);
+    ctx.fillRect(727, 271, 64, 26);
     ctx.fillStyle = "white";
-    ctx.fillText("RESET", canvas.width - 47, 287, 50);
+    ctx.fillText("NEW  GAME", 735, 287, 50);
 
 
     // Draw win
@@ -252,7 +252,7 @@ function animationFrame(timestamp) {
         ctx.fillStyle = "white";
         ctx.font = "60px sans-serif";
         let textGeo = ctx.measureText("You Win!");
-        ctx.fillText("You Win!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 60);
+        ctx.fillText("You Win!", canvas.width / 2 - textGeo.width / 2, 120);
     }
 
     // Draw Stats
