@@ -197,7 +197,7 @@ function start() {
 
 function animationFrame(timestamp) {
     window.requestAnimationFrame(animationFrame);
-    ctx.fillStyle = "green";
+    ctx.fillStyle = "#293d3d";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     win = true;
