@@ -110,7 +110,6 @@ function undo() {
 }
 
 function load() {
-    points = storage.getItem("points");
     record = storage.getItem("record");
     maxCombo = storage.getItem("maxCombo");
     level = storage.getItem("level");
@@ -120,7 +119,6 @@ function load() {
 }
 
 function save() {
-    storage.setItem("points", points);
     storage.setItem("record", record);
     storage.setItem("maxCombo", maxCombo);
     storage.setItem("level", level);
