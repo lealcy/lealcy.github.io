@@ -16,6 +16,8 @@ backs.src = "backs.png";
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 
+let storage = window.localStorage;
+
 let undos = [];
 let win = false;
 let deck = [];
@@ -85,6 +87,7 @@ canvas.addEventListener("mouseup", e => {
         }
         reset();
     }
+    save();
     return false;
 }, false);
 
@@ -104,6 +107,26 @@ function undo() {
             points -= 10 * level;
         }
     }
+}
+
+function load() {
+    points = storage.getItem("points");
+    record = storage.getItem("record");
+    maxCombo = storage.getItem("maxCombo");
+    level = storage.getItem("level");
+    games = storage.getItem("games");
+    wins = storage.getItem("wins");
+    loses = storage.getItem("loses");
+}
+
+function save() {
+    storage.setItem("points", points);
+    storage.setItem("record", record);
+    storage.setItem("maxCombo", maxCombo);
+    storage.setItem("level", level);
+    storage.setItem("games", games);
+    storage.setItem("wins", wins);
+    storage.setItem("loses", loses);
 }
 
 function getDeck() {
@@ -171,12 +194,6 @@ function lerp(v1, v2, t) {
     return (1 - t) * v1 + t * v2;
 };
 
-function drawWinScreen() {
-    ctx.font = "14px sans-serif";
-    textGeo = ctx.measureText("Click to try again!");
-    ctx.fillText("Click to try again!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 20);
-}
-
 function setMoveAnimation(card, x, y) {
     moveAnimation.card = card;
     moveAnimation.x = x;
@@ -241,6 +258,11 @@ function reset() {
 
 function start() {
     reset();
+    if (storage.getItem("games") === null) {
+        save();
+    } else {
+        load();
+    }
     window.requestAnimationFrame(animationFrame);
 }
 
