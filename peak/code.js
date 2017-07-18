@@ -22,10 +22,14 @@ let deck = [];
 let columns = [];
 let discharge = [];
 let points = 0;
+let showPoints = 0;
 let combo = 1;
 let record = 0;
 let maxCombo = 1;
+let level = 0;
 let games = 0;
+let wins = 0;
+let loses = 0;
 
 canvas.addEventListener("dblclick", () => { return false }, false);
 canvas.addEventListener("mousedown", () => { return false }, false);
@@ -63,6 +67,11 @@ canvas.addEventListener("mouseup", e => {
     } else if (pointInsideRect(e.offsetX, e.offsetY, 483, 271, 50, 26)) {
         undo();
     } else if (pointInsideRect(e.offsetX, e.offsetY, 726, 271, 64, 26)) {
+        if (win) {
+            wins++;
+        } else {
+            loses++;
+        }
         reset();
     }
     return false;
@@ -78,10 +87,10 @@ function undo() {
         undos.pop()();
         if (combo > 1) {
             combo--;
-            points -= 10 * combo;
+            points -= 10 * combo * level;
         } else {
             combo = 1;
-            points -= 10;
+            points -= 10 * level;
         }
     }
 }
@@ -155,7 +164,7 @@ function moveToDischarge(coln) {
 
     if ((cn == 13 && dn == 1) || (cn == 1 && dn == 13) || (cn + 1 == dn) || (cn - 1 == dn)) {
         discharge.push(col.pop());
-        points += combo * 10;
+        points += combo * 10 * level;
         combo++;
         maxCombo = Math.max(combo, maxCombo);
         undos.push(() => {
@@ -177,10 +186,13 @@ function reset() {
         if (points > record) {
             record = points;
         }
-        games++;
+        level++;
     } else {
-        games = 1;
+        if (level > 1) {
+            level--;
+        }
         points = 0;
+        showPoints = 0;
     }
 
     discharge = [];
@@ -188,6 +200,7 @@ function reset() {
     win = false;
     undos = [];
     combo = 1;
+    games++;
 }
 
 function start() {
@@ -206,6 +219,7 @@ function animationFrame(timestamp) {
             win = false;
         }
     });
+
 
     drawColumns();
 
@@ -258,15 +272,20 @@ function animationFrame(timestamp) {
     // Draw Stats
     ctx.fillStyle = "white";
     ctx.font = "30px sans-serif";
-    ctx.fillText(`${points} (record: ${record})`, 8, 230);
+    ctx.fillText(`${showPoints} (record: ${record})`, 8, 230);
     ctx.font = "15px sans-serif";
     ctx.fillText(`Combo: x${combo} (record: x${maxCombo})`, 8, 250);
     ctx.font = "15px sans-serif";
-    ctx.fillText(`Games: ${games}`, 8, 270);
+    ctx.fillText(`Level: ${level}`, 8, 270);
+    ctx.font = "15px sans-serif";
+    ctx.fillText(`Games: ${games} (${wins} wins / ${loses} loses)`, 8, 290);
+
     ctx.font = "11px sans-serif";
-    ctx.fillText(`(${deck.length})`, 322, 210 + CARD_HEIGHT);
+    ctx.fillText(deck.length, 322, 210 + CARD_HEIGHT);
 
-
+    if (showPoints < points) {
+        showPoints++;
+    }
 }
 
 start();
