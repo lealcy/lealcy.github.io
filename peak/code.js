@@ -35,7 +35,7 @@ let moveAnimation = {
     card: null,
     x: 0,
     y: 0,
-    opacity: 1.0,
+    t: 1.0,
 };
 
 let wrongAnimation = {
@@ -167,6 +167,10 @@ function drawColumns() {
     });
 }
 
+function lerp(v1, v2, t) {
+    return (1 - t) * v1 + t * v2;
+};
+
 function drawWinScreen() {
     ctx.font = "14px sans-serif";
     textGeo = ctx.measureText("Click to try again!");
@@ -177,7 +181,7 @@ function setMoveAnimation(card, x, y) {
     moveAnimation.card = card;
     moveAnimation.x = x;
     moveAnimation.y = y;
-    moveAnimation.opacity = 1.0;
+    moveAnimation.t = 0.0;
 }
 
 function setWrongAnimation(x, y) {
@@ -270,20 +274,18 @@ function animationFrame(timestamp) {
     let dl = discharge.length;
     if (dl) {
         x = 404;
-        let last = discharge[dl - 1];
+        let last = moveAnimation.t < 1.0 ? discharge[dl - 2] : discharge[dl - 1];
         drawCard(last[0], last[1], x, y);
     }
 
-    if (moveAnimation.card && moveAnimation.opacity > 0) {
+    if (moveAnimation.card && moveAnimation.t < 1.0) {
         drawCard(
             moveAnimation.card[0],
             moveAnimation.card[1],
-            moveAnimation.x,
-            moveAnimation.y,
-            false,
-            moveAnimation.opacity
+            lerp(moveAnimation.x, 404, moveAnimation.t),
+            lerp(moveAnimation.y, 200, moveAnimation.t)
         );
-        moveAnimation.opacity -= 0.04;
+        moveAnimation.t += 0.08;
     } else {
         moveAnimation.card = null;
     }
