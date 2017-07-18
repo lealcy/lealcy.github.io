@@ -31,8 +31,19 @@ let games = 0;
 let wins = 0;
 let loses = 0;
 
-canvas.addEventListener("dblclick", () => { return false }, false);
-canvas.addEventListener("mousedown", () => { return false }, false);
+let moveAnimation = {
+    card: null,
+    x: 0,
+    y: 0,
+    opacity: 1.0,
+};
+
+let wrongAnimation = {
+    x: 0,
+    y: 0,
+    opacity: 0.0,
+};
+
 canvas.addEventListener("mouseup", e => {
     console.log(e.offsetX, e.offsetY);
     let x = 8;
@@ -123,7 +134,7 @@ function shuffleDeck(deck) {
     return deck;
 }
 
-function drawCard(number, suit, x, y, back) {
+function drawCard(number, suit, x, y, back, opacity) {
     let cx, cy;
     if (back) {
         cx = suit == CLUB || suit == SPADE ? 0 : CARD_WIDTH;
@@ -132,9 +143,14 @@ function drawCard(number, suit, x, y, back) {
         cx = (number - 1) * CARD_WIDTH;
         cy = suit * CARD_HEIGHT;
     }
+    ctx.save();
+    if (opacity !== undefined) {
+        ctx.globalAlpha = opacity;
+    }
     ctx.drawImage(back ? backs : cards,
         cx, cy, CARD_WIDTH, CARD_HEIGHT,
         x, y, CARD_WIDTH, CARD_HEIGHT);
+    ctx.restore();
 }
 
 function drawColumns() {
@@ -157,12 +173,26 @@ function drawWinScreen() {
     ctx.fillText("Click to try again!", canvas.width / 2 - textGeo.width / 2, canvas.height / 2 + 20);
 }
 
+function setMoveAnimation(card, x, y) {
+    moveAnimation.card = card;
+    moveAnimation.x = x;
+    moveAnimation.y = y;
+    moveAnimation.opacity = 1.0;
+}
+
+function setWrongAnimation(x, y) {
+    wrongAnimation.x = x;
+    wrongAnimation.y = y;
+    wrongAnimation.opacity = 0.7;
+}
+
 function moveToDischarge(coln) {
     let col = columns[coln];
     let cn = col[col.length - 1][0];
     let dn = discharge[discharge.length - 1][0];
 
     if ((cn == 13 && dn == 1) || (cn == 1 && dn == 13) || (cn + 1 == dn) || (cn - 1 == dn)) {
+        setMoveAnimation(col[col.length - 1], 8 + coln * 79, 12 * col.length - 2);
         discharge.push(col.pop());
         points += combo * 10 * level;
         combo++;
@@ -170,6 +200,8 @@ function moveToDischarge(coln) {
         undos.push(() => {
             col.push(discharge.pop());
         });
+    } else {
+        setWrongAnimation(8 + coln * 79, 12 * col.length - 2);
     }
 }
 
@@ -220,7 +252,6 @@ function animationFrame(timestamp) {
         }
     });
 
-
     drawColumns();
 
     // Draw deck
@@ -235,13 +266,35 @@ function animationFrame(timestamp) {
         let last = deck[deck.length - 1];
         drawCard(last[0], last[1], x, y, true);
     }
-
     // Draw discharge pile
     let dl = discharge.length;
     if (dl) {
         x = 404;
         let last = discharge[dl - 1];
         drawCard(last[0], last[1], x, y);
+    }
+
+    if (moveAnimation.card && moveAnimation.opacity > 0) {
+        drawCard(
+            moveAnimation.card[0],
+            moveAnimation.card[1],
+            moveAnimation.x,
+            moveAnimation.y,
+            false,
+            moveAnimation.opacity
+        );
+        moveAnimation.opacity -= 0.04;
+    } else {
+        moveAnimation.card = null;
+    }
+
+    if (wrongAnimation.opacity > 0) {
+        ctx.save();
+        ctx.fillStyle = `rgba(255,0,0,${wrongAnimation.opacity})`;
+        ctx.fillRect(wrongAnimation.x, wrongAnimation.y, CARD_WIDTH, CARD_HEIGHT);
+        ctx.restore();
+        wrongAnimation.opacity -= 0.04;
+
     }
 
     // Draw undo button
