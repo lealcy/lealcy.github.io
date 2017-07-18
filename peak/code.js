@@ -13,6 +13,9 @@ cards.src = "cards.png";
 let backs = new Image(147, 98);
 backs.src = "backs.png";
 
+let preview = new Image(532, 265);
+preview.src = "preview.png";
+
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 
@@ -32,6 +35,7 @@ let level = 1;
 let games = 0;
 let wins = 0;
 let loses = 0;
+let lang = "en";
 
 let moveAnimation = {
     card: null,
@@ -116,6 +120,7 @@ function load() {
     games = storage.getItem("games");
     wins = storage.getItem("wins");
     loses = storage.getItem("loses");
+    lang = storage.getItem("lang");
 }
 
 function save() {
@@ -125,6 +130,7 @@ function save() {
     storage.setItem("games", games);
     storage.setItem("wins", wins);
     storage.setItem("loses", loses);
+    storage.setItem("lang", lang);
 }
 
 function getDeck() {
@@ -361,6 +367,25 @@ function animationFrame(timestamp) {
     if (showPoints < points) {
         showPoints++;
     }
+
+    // Draw tutorial
+
+    ctx.drawImage(preview, 10, 340);
+    ctx.fillStyle = "#0099cc";
+    ctx.font = "15px sans-serif";
+    ctx.fillText("1. The purpose of the game is to", 550, 360);
+    ctx.fillText("move cards from the columns to the", 555, 375);
+    ctx.fillText("discharge pile in increasing or", 555, 390);
+    ctx.fillText("decreasing order. Suits don't matter.", 555, 405);
+    ctx.fillText("2. If there's no more suitable card in", 550, 425);
+    ctx.fillText("the columns to move. click in the", 555, 440);
+    ctx.fillText("deck will draw a new card, to the", 555, 455);
+    ctx.fillText("pile. Draw new cards until you find", 555, 470);
+    ctx.fillText("one to start a new sequence.", 555, 485);
+    ctx.fillText("You win the game by moving all the", 550, 505);
+    ctx.fillText("cards from the columns to the pile.", 555, 520);
+    ctx.fillText("You lose if there's no more valid", 555, 535);
+    ctx.fillText("moves.", 555, 550);
 }
 
 start();
