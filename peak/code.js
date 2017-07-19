@@ -6,6 +6,34 @@ const HEART = 2;
 const DIAMOND = 3;
 const CARD_WIDTH = 73;
 const CARD_HEIGHT = 98;
+const COLUMNS = 10;
+const COLUMN_V_OFFSET = 8;
+const COLUMN_H_OFFSET = 8;
+const COLUMN_H_SPACING = 79;
+const COLUMN_HEIGHT = 180;
+const CARD_OVERLAP_V_OFFSET = 12;
+const CARDS_PER_COLUMN = 8;
+const PILE_X = 404;
+const PILE_Y = 200;
+const DECK_X = 321;
+const DECK_Y = 200;
+const BTN_HEIGHT = 26;
+const BTN_TEXT_V_PADDING = 16;
+const BTN_UNDO_X = 483;
+const BTN_UNDO_Y = 271;
+const BTN_UNDO_WIDTH = 70;
+const BTN_RESET_X = 726;
+const BTN_RESET_Y = 271;
+const BTN_RESET_WIDTH = 64;
+const FLAG_WIDTH = 29;
+const FLAG_HEIGHT = 29;
+const FLAG_EN_X = 758;
+const FLAG_EN_Y = 308;
+const FLAG_PTBR_X = 725;
+const FLAG_PTBR_Y = 308;
+const BASE_POINTS = 10;
+const MOVE_SPEED = 0.08;
+
 
 let cards = new Image(950, 392);
 cards.src = "cards.png";
@@ -56,50 +84,42 @@ let wrongAnimation = {
     opacity: 0.0,
 };
 
+
 canvas.addEventListener("mouseup", e => {
     console.log(e.offsetX, e.offsetY);
-    let x = 8;
-    if (pointInsideRect(e.offsetX, e.offsetY, x, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(0);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(1);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(2);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(3);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(4);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(5);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(6);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(7);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(8);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, x += 80, 10, CARD_WIDTH, 180)) {
-        moveToDischarge(9);
-    } else if (pointInsideRect(e.offsetX, e.offsetY, 321, 200, CARD_WIDTH, CARD_HEIGHT)) {
-        if (deck.length) {
-            discharge.push(deck.pop());
-            combo = 1;
-            undos.push(() => {
-                deck.push(discharge.pop());
-            });
+    let x = COLUMN_V_OFFSET;
+    let hit = false;
+    for (let i = 0; i < COLUMNS; i++) {
+        if (pointInsideRect(e.offsetX, e.offsetY, x, COLUMN_H_OFFSET, CARD_WIDTH, COLUMN_HEIGHT)) {
+            moveToDischarge(i);
+            hit = true;
+            break;
         }
-    } else if (pointInsideRect(e.offsetX, e.offsetY, 483, 271, 50, 26)) {
-        undo();
-    } else if (pointInsideRect(e.offsetX, e.offsetY, 726, 271, 64, 26)) {
-        if (win) {
-            wins++;
-        } else {
-            loses++;
+        x += COLUMN_H_SPACING;
+    }
+    if (!hit) {
+        if (pointInsideRect(e.offsetX, e.offsetY, DECK_X, DECK_Y, CARD_WIDTH, CARD_HEIGHT)) {
+            if (deck.length) {
+                discharge.push(deck.pop());
+                combo = 1;
+                undos.push(() => {
+                    deck.push(discharge.pop());
+                });
+            }
+        } else if (pointInsideRect(e.offsetX, e.offsetY, BTN_UNDO_X, BTN_UNDO_Y, BTN_UNDO_WIDTH, BTN_HEIGHT)) {
+            undo();
+        } else if (pointInsideRect(e.offsetX, e.offsetY, BTN_RESET_X, BTN_RESET_Y, BTN_RESET_WIDTH, BTN_HEIGHT)) {
+            if (win) {
+                wins++;
+            } else {
+                loses++;
+            }
+            reset();
+        } else if (pointInsideRect(e.offsetX, e.offsetY, FLAG_EN_X, FLAG_EN_Y, FLAG_WIDTH, FLAG_HEIGHT)) {
+            lang = "en";
+        } else if (pointInsideRect(e.offsetX, e.offsetY, FLAG_PTBR_X, FLAG_PTBR_Y, FLAG_WIDTH, FLAG_HEIGHT)) {
+            lang = "ptbr";
         }
-        reset();
-    } else if (pointInsideRect(e.offsetX, e.offsetY, 758, 308, 29, 29)) {
-        lang = "en";
-    } else if (pointInsideRect(e.offsetX, e.offsetY, 725, 308, 29, 29)) {
-        lang = "ptbr";
     }
     save();
     return false;
@@ -115,10 +135,10 @@ function undo() {
         undos.pop()();
         if (combo > 1) {
             combo--;
-            points -= 10 * combo * level;
+            points -= BASE_POINTS * combo * level;
         } else {
             combo = 1;
-            points -= 10 * level;
+            points -= BASE_POINTS * level;
         }
     }
 }
@@ -191,16 +211,16 @@ function drawCard(number, suit, x, y, back, opacity) {
 }
 
 function drawColumns() {
-    let x = 8;
-    let y = 10;
+    let x = COLUMN_H_OFFSET;
+    let y = COLUMN_V_OFFSET;
 
     columns.forEach((v, i) => {
         v.forEach((c, j, a) => {
             drawCard(c[0], c[1], x, y, j < a.length - 1);
-            y += 12;
+            y += CARD_OVERLAP_V_OFFSET;
         });
-        y = 10;
-        x += 79;
+        y = COLUMN_V_OFFSET;
+        x += COLUMN_H_SPACING;
     });
 }
 
@@ -227,16 +247,16 @@ function moveToDischarge(coln) {
     let dn = discharge[discharge.length - 1][0];
 
     if ((cn == 13 && dn == 1) || (cn == 1 && dn == 13) || (cn + 1 == dn) || (cn - 1 == dn)) {
-        setMoveAnimation(col[col.length - 1], 8 + coln * 79, 12 * col.length - 2);
+        setMoveAnimation(col[col.length - 1], COLUMN_H_OFFSET + coln * COLUMN_H_SPACING, CARD_OVERLAP_V_OFFSET * col.length - 2);
         discharge.push(col.pop());
-        points += combo * 10 * level;
+        points += combo * BASE_POINTS * level;
         combo++;
         maxCombo = Math.max(combo, maxCombo);
         undos.push(() => {
             col.push(discharge.pop());
         });
     } else {
-        setWrongAnimation(8 + coln * 79, 12 * col.length - 2);
+        setWrongAnimation(COLUMN_H_OFFSET + coln * COLUMN_H_SPACING, CARD_OVERLAP_V_OFFSET * col.length - 2);
     }
 }
 
@@ -245,8 +265,8 @@ function reset() {
 
     // 10 columns with 8 cards.
     columns = [];
-    for (let i = 0; i < 10; i++) {
-        columns[i] = deck.splice(0, 8);
+    for (let i = 0; i < COLUMNS; i++) {
+        columns[i] = deck.splice(0, CARDS_PER_COLUMN);
     }
 
     if (win) {
@@ -294,6 +314,10 @@ function roundedRect(x, y, width, height, radius) {
     ctx.fill();
 }
 
+function getButtonWidth(text) {
+    return ctx.measureText(text).width + BTN_V_PADDING;
+}
+
 function animationFrame(timestamp) {
     window.requestAnimationFrame(animationFrame);
     ctx.fillStyle = "#293d3d";
@@ -332,10 +356,10 @@ function animationFrame(timestamp) {
         drawCard(
             moveAnimation.card[0],
             moveAnimation.card[1],
-            lerp(moveAnimation.x, 404, moveAnimation.t),
-            lerp(moveAnimation.y, 200, moveAnimation.t)
+            lerp(moveAnimation.x, PILE_X, moveAnimation.t),
+            lerp(moveAnimation.y, PILE_Y, moveAnimation.t)
         );
-        moveAnimation.t += 0.08;
+        moveAnimation.t += MOVE_SPEED;
     } else {
         moveAnimation.card = null;
     }
@@ -351,56 +375,53 @@ function animationFrame(timestamp) {
 
     // Draw undo button
     if (undos.length) {
+        let undoText;
         switch (lang) {
             case "ptbr":
-                ctx.font = "10px sans-serif";
-                ctx.fillStyle = "#ff6666";
-                ctx.fillRect(483, 271, 70, 26);
-                ctx.fillStyle = "white";
-                ctx.fillText("DESFAZER", 493, 287, 50);
+                undoText = "DESFAZER";
                 break;
             default:
-                ctx.font = "10px sans-serif";
-                ctx.fillStyle = "#ff6666";
-                ctx.fillRect(483, 271, 50, 26);
-                ctx.fillStyle = "white";
-                ctx.fillText("UNDO", 493, 287, 50);
+                undoText = "UNDO";
                 break;
         }
+        ctx.font = "10px sans-serif";
+        ctx.fillStyle = "#ff6666";
+        let padding = (BTN_UNDO_WIDTH - ctx.measureText(undoText).width) / 2;
+        ctx.fillRect(BTN_UNDO_X, BTN_UNDO_Y, BTN_UNDO_WIDTH, BTN_HEIGHT);
+        ctx.fillStyle = "white";
+        ctx.fillText(undoText, BTN_UNDO_X + padding, BTN_UNDO_Y + BTN_TEXT_V_PADDING);
+
     }
 
     // Draw reset button
+    let resetText;
     switch (lang) {
         case "ptbr":
-            ctx.font = "10px sans-serif";
-            ctx.fillStyle = "#0099cc";
-            ctx.fillRect(727, 271, 64, 26);
-            ctx.fillStyle = "white";
-            ctx.fillText("NOVO JOGO", 735, 287, 50);
+            resetText = "NOVO JOGO";
             break;
         default:
-            ctx.font = "10px sans-serif";
-            ctx.fillStyle = "#0099cc";
-            ctx.fillRect(727, 271, 64, 26);
-            ctx.fillStyle = "white";
-            ctx.fillText("NEW  GAME", 735, 287, 50);
+            resetText = "NEW  GAME";
             break;
     }
-
+    ctx.font = "10px sans-serif";
+    ctx.fillStyle = "#0099cc";
+    ctx.fillRect(BTN_RESET_X, BTN_RESET_Y, BTN_RESET_WIDTH, BTN_HEIGHT);
+    ctx.fillStyle = "white";
+    let padding = (BTN_RESET_WIDTH - ctx.measureText(resetText).width) / 2;
+    ctx.fillText(resetText, BTN_RESET_X + padding, BTN_RESET_Y + BTN_TEXT_V_PADDING);
 
     // Draw language selection flags
     ctx.fillStyle = "#0099cc";
     switch (lang) {
         case "ptbr":
-            roundedRect(725, 308, 29, 29, 3);
+            roundedRect(FLAG_PTBR_X, FLAG_PTBR_Y, FLAG_WIDTH, FLAG_HEIGHT, 3);
             break;
         default:
-            roundedRect(758, 308, 29, 29, 3);
+            roundedRect(FLAG_EN_X, FLAG_EN_Y, FLAG_WIDTH, FLAG_HEIGHT, 3);
             break;
     }
-    ctx.drawImage(flag_ptbr, 727, 310, 26, 26);
-    ctx.drawImage(flag_en, 760, 310, 26, 26);
-
+    ctx.drawImage(flag_ptbr, FLAG_PTBR_X + 2, FLAG_PTBR_Y + 2, FLAG_WIDTH - 2, FLAG_HEIGHT - 2);
+    ctx.drawImage(flag_en, FLAG_EN_X + 2, FLAG_EN_Y + 2, FLAG_WIDTH - 2, FLAG_HEIGHT - 2);
 
     // Draw win
     if (win) {
@@ -450,7 +471,7 @@ function animationFrame(timestamp) {
     }
 
     ctx.font = "11px sans-serif";
-    ctx.fillText(deck.length, 322, 210 + CARD_HEIGHT);
+    ctx.fillText(deck.length, DECK_X + 1, DECK_Y + 10 + CARD_HEIGHT);
 
     // Draw tutorial
     ctx.drawImage(preview, 10, 340);
