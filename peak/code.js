@@ -16,6 +16,12 @@ backs.src = "backs.png";
 let preview = new Image(532, 265);
 preview.src = "preview.png";
 
+let flag_en = new Image(128, 128);
+flag_en.src = "flag_en.webp";
+
+let flag_ptbr = new Image(128, 128);
+flag_ptbr.src = "flag_ptbr.webp";
+
 let canvas = document.querySelector("canvas");
 let ctx = canvas.getContext("2d");
 
@@ -90,6 +96,10 @@ canvas.addEventListener("mouseup", e => {
             loses++;
         }
         reset();
+    } else if (pointInsideRect(e.offsetX, e.offsetY, 758, 308, 29, 29)) {
+        lang = "en";
+    } else if (pointInsideRect(e.offsetX, e.offsetY, 725, 308, 29, 29)) {
+        lang = "ptbr";
     }
     save();
     return false;
@@ -270,6 +280,20 @@ function start() {
     window.requestAnimationFrame(animationFrame);
 }
 
+function roundedRect(x, y, width, height, radius) {
+    ctx.beginPath();
+    ctx.moveTo(x, y + radius);
+    ctx.lineTo(x, y + height - radius);
+    ctx.arcTo(x, y + height, x + radius, y + height, radius);
+    ctx.lineTo(x + width - radius, y + height);
+    ctx.arcTo(x + width, y + height, x + width, y + height - radius, radius);
+    ctx.lineTo(x + width, y + radius);
+    ctx.arcTo(x + width, y, x + width - radius, y, radius);
+    ctx.lineTo(x + radius, y);
+    ctx.arcTo(x, y, x, y + radius, radius);
+    ctx.fill();
+}
+
 function animationFrame(timestamp) {
     window.requestAnimationFrame(animationFrame);
     ctx.fillStyle = "#293d3d";
@@ -327,65 +351,147 @@ function animationFrame(timestamp) {
 
     // Draw undo button
     if (undos.length) {
-        ctx.font = "10px sans-serif";
-        ctx.fillStyle = "#ff6666";
-        ctx.fillRect(483, 271, 50, 26);
-        ctx.fillStyle = "white";
-        ctx.fillText("UNDO", 493, 287, 50);
+        switch (lang) {
+            case "ptbr":
+                ctx.font = "10px sans-serif";
+                ctx.fillStyle = "#ff6666";
+                ctx.fillRect(483, 271, 70, 26);
+                ctx.fillStyle = "white";
+                ctx.fillText("DESFAZER", 493, 287, 50);
+                break;
+            default:
+                ctx.font = "10px sans-serif";
+                ctx.fillStyle = "#ff6666";
+                ctx.fillRect(483, 271, 50, 26);
+                ctx.fillStyle = "white";
+                ctx.fillText("UNDO", 493, 287, 50);
+                break;
+        }
     }
 
     // Draw reset button
-    ctx.font = "10px sans-serif";
+    switch (lang) {
+        case "ptbr":
+            ctx.font = "10px sans-serif";
+            ctx.fillStyle = "#0099cc";
+            ctx.fillRect(727, 271, 64, 26);
+            ctx.fillStyle = "white";
+            ctx.fillText("NOVO JOGO", 735, 287, 50);
+            break;
+        default:
+            ctx.font = "10px sans-serif";
+            ctx.fillStyle = "#0099cc";
+            ctx.fillRect(727, 271, 64, 26);
+            ctx.fillStyle = "white";
+            ctx.fillText("NEW  GAME", 735, 287, 50);
+            break;
+    }
+
+
+    // Draw language selection flags
     ctx.fillStyle = "#0099cc";
-    ctx.fillRect(727, 271, 64, 26);
-    ctx.fillStyle = "white";
-    ctx.fillText("NEW  GAME", 735, 287, 50);
+    switch (lang) {
+        case "ptbr":
+            roundedRect(725, 308, 29, 29, 3);
+            break;
+        default:
+            roundedRect(758, 308, 29, 29, 3);
+            break;
+    }
+    ctx.drawImage(flag_ptbr, 727, 310, 26, 26);
+    ctx.drawImage(flag_en, 760, 310, 26, 26);
 
 
     // Draw win
     if (win) {
         ctx.fillStyle = "white";
-        ctx.font = "60px sans-serif";
-        let textGeo = ctx.measureText("You Win!");
-        ctx.fillText("You Win!", canvas.width / 2 - textGeo.width / 2, 120);
+        let textGeo;
+        switch (lang) {
+            case "ptbr":
+                ctx.font = "60px sans-serif";
+                textGeo = ctx.measureText("Você Venceu!");
+                ctx.fillText("Você Venceu!", canvas.width / 2 - textGeo.width / 2, 120);
+                break;
+            default:
+                ctx.font = "60px sans-serif";
+                textGeo = ctx.measureText("You Win!");
+                ctx.fillText("You Win!", canvas.width / 2 - textGeo.width / 2, 120);
+                break;
+        }
     }
 
     // Draw Stats
     ctx.fillStyle = "white";
-    ctx.font = "30px sans-serif";
-    ctx.fillText(`${showPoints} (record: ${record})`, 8, 230);
-    ctx.font = "15px sans-serif";
-    ctx.fillText(`Combo: x${combo} (record: x${maxCombo})`, 8, 250);
-    ctx.font = "15px sans-serif";
-    ctx.fillText(`Level: ${level}`, 8, 270);
-    ctx.font = "15px sans-serif";
-    ctx.fillText(`Games: ${games} (${wins} wins / ${loses} loses)`, 8, 290);
-
-    ctx.font = "11px sans-serif";
-    ctx.fillText(deck.length, 322, 210 + CARD_HEIGHT);
+    switch (lang) {
+        case "ptbr":
+            ctx.font = "30px sans-serif";
+            ctx.fillText(`${showPoints} (recorde: ${record})`, 8, 230);
+            ctx.font = "15px sans-serif";
+            ctx.fillText(`Combo: x${combo} (recorde: x${maxCombo})`, 8, 250);
+            ctx.font = "15px sans-serif";
+            ctx.fillText(`Nível: ${level}`, 8, 270);
+            ctx.font = "15px sans-serif";
+            ctx.fillText(`Jogos: ${games} (${wins} vitórias / ${loses} derrotas)`, 8, 290);
+            break;
+        default:
+            ctx.font = "30px sans-serif";
+            ctx.fillText(`${showPoints} (record: ${record})`, 8, 230);
+            ctx.font = "15px sans-serif";
+            ctx.fillText(`Combo: x${combo} (record: x${maxCombo})`, 8, 250);
+            ctx.font = "15px sans-serif";
+            ctx.fillText(`Level: ${level}`, 8, 270);
+            ctx.font = "15px sans-serif";
+            ctx.fillText(`Games: ${games} (${wins} wins / ${loses} loses)`, 8, 290);
+            break;
+    }
 
     if (showPoints < points) {
         showPoints++;
     }
 
-    // Draw tutorial
+    ctx.font = "11px sans-serif";
+    ctx.fillText(deck.length, 322, 210 + CARD_HEIGHT);
 
+    // Draw tutorial
     ctx.drawImage(preview, 10, 340);
     ctx.fillStyle = "#0099cc";
-    ctx.font = "15px sans-serif";
-    ctx.fillText("1. The purpose of the game is to", 550, 360);
-    ctx.fillText("move cards from the columns to the", 555, 375);
-    ctx.fillText("discharge pile in increasing or", 555, 390);
-    ctx.fillText("decreasing order. Suits don't matter.", 555, 405);
-    ctx.fillText("2. If there's no more suitable card in", 550, 425);
-    ctx.fillText("the columns to move. click in the", 555, 440);
-    ctx.fillText("deck will draw a new card, to the", 555, 455);
-    ctx.fillText("pile. Draw new cards until you find", 555, 470);
-    ctx.fillText("one to start a new sequence.", 555, 485);
-    ctx.fillText("You win the game by moving all the", 550, 505);
-    ctx.fillText("cards from the columns to the pile.", 555, 520);
-    ctx.fillText("You lose if there's no more valid", 555, 535);
-    ctx.fillText("moves.", 555, 550);
+    switch (lang) {
+        case "ptbr":
+            ctx.font = "15px sans-serif";
+            ctx.fillText("1. O objetivo desse jogo e mover", 550, 360);
+            ctx.fillText("todas as cartas das colunas para", 555, 375);
+            ctx.fillText("a pilha de descarte (2) em ordem.", 555, 390);
+            ctx.fillText("crescente ou decrescente. O naipe", 555, 405);
+            ctx.fillText("não importa.", 555, 420);
+            ctx.fillText("2. Se não existir mais cartas nas", 550, 440);
+            ctx.fillText("colunas para seguir a sequência,", 555, 455);
+            ctx.fillText("clique no monte para tirar uma", 555, 470);
+            ctx.fillText("carta e colocar na pilha.", 555, 485);
+            ctx.fillText("Continue tirando cartas até", 555, 500);
+            ctx.fillText("encontrar uma que possa dar ", 555, 515);
+            ctx.fillText("seguimento a sequência.", 555, 530);
+            ctx.fillText("Você ganha o jogo ao mover todas", 550, 550);
+            ctx.fillText("as cartas das colunas para a", 555, 565);
+            ctx.fillText("pilha. Você perde se ficar sem", 555, 580);
+            ctx.fillText("jogadas.", 555, 595);
+            break;
+        default:
+            ctx.font = "15px sans-serif";
+            ctx.fillText("1. The purpose of the game is to", 550, 360);
+            ctx.fillText("move cards from the columns to the", 555, 375);
+            ctx.fillText("discharge pile (2) in increasing or", 555, 390);
+            ctx.fillText("decreasing order. Suits don't matter.", 555, 405);
+            ctx.fillText("2. If there's no more suitable card in", 550, 425);
+            ctx.fillText("the columns to move. click in the", 555, 440);
+            ctx.fillText("deck will draw a new card, to the", 555, 455);
+            ctx.fillText("pile. Draw new cards until you find", 555, 470);
+            ctx.fillText("one to start a new sequence.", 555, 485);
+            ctx.fillText("You win the game by moving all the", 550, 505);
+            ctx.fillText("cards from the columns to the pile.", 555, 520);
+            ctx.fillText("You lose if there's no more valid", 555, 535);
+            ctx.fillText("moves.", 555, 550);
+            break;
+    }
 }
 
 start();
