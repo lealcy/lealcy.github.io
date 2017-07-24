@@ -59,7 +59,8 @@ function addWall(x, y) {
 
 function update() {
     window.requestAnimationFrame(update);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "lightgray";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
     walls.forEach(v => v.update());
 }
 
