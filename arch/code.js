@@ -33,7 +33,7 @@ class Wall {
 function mouseDown(e) {
     mode = e.button;
     if (mode == MODE_DRAW) {
-        drawWall(Math.floor(e.offsetX / WALL_WIDTH), Math.floor(e.offsetY / WALL_HEIGHT));
+        addWall(Math.floor(e.offsetX / WALL_WIDTH), Math.floor(e.offsetY / WALL_HEIGHT));
     }
 }
 
@@ -43,11 +43,11 @@ function mouseUp(e) {
 
 function mouseMove(e) {
     if (mode === MODE_DRAW) {
-        drawWall(Math.floor(e.offsetX / WALL_WIDTH), Math.floor(e.offsetY / WALL_HEIGHT));
+        addWall(Math.floor(e.offsetX / WALL_WIDTH), Math.floor(e.offsetY / WALL_HEIGHT));
     }
 }
 
-function drawWall(x, y) {
+function addWall(x, y) {
     for (let i = 0, j = walls.length; i < j; i++) {
         if (walls[i].x === x && walls[i].y === y) {
             // Wall already exist.
