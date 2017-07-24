@@ -449,9 +449,7 @@ function animationFrame(timestamp) {
             ctx.fillText(`${showPoints} (recorde: ${record})`, 8, 230);
             ctx.font = "15px sans-serif";
             ctx.fillText(`Combo: x${combo} (recorde: x${maxCombo})`, 8, 250);
-            ctx.font = "15px sans-serif";
             ctx.fillText(`Nível: ${level}`, 8, 270);
-            ctx.font = "15px sans-serif";
             ctx.fillText(`Jogos: ${games} (${wins} vitórias / ${loses} derrotas)`, 8, 290);
             break;
         default:
@@ -459,9 +457,7 @@ function animationFrame(timestamp) {
             ctx.fillText(`${showPoints} (record: ${record})`, 8, 230);
             ctx.font = "15px sans-serif";
             ctx.fillText(`Combo: x${combo} (record: x${maxCombo})`, 8, 250);
-            ctx.font = "15px sans-serif";
             ctx.fillText(`Level: ${level}`, 8, 270);
-            ctx.font = "15px sans-serif";
             ctx.fillText(`Games: ${games} (${wins} wins / ${loses} loses)`, 8, 290);
             break;
     }
