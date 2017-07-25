@@ -43,11 +43,11 @@ class TileBoard {
     }
 
     getId(x, y) {
-        return x * this.width + y;
+        return y * this.width + x;
     }
 
     getTileId(tile) {
-        return tile.x * this.width + tile.y;
+        return tile.y * this.width + tile.x;
     }
 
 }
