@@ -19,4 +19,8 @@ class Tile {
             ctx.fillRect(this.tileX, this.tileY, TILE_WIDTH, TILE_HEIGHT);
         }
     }
+
+    tileAdded(tileBoard, tile) {
+        // This function is called every time a tile is added to the TileBoard.
+    }
 }

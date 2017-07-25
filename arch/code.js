@@ -14,9 +14,11 @@ const MODE_ERASE = 2;
 
 const TILE_WIDTH = 32;
 const TILE_HEIGHT = 32;
+const BOARD_WIDTH = Math.floor(canvas.width / TILE_WIDTH);
+const BOARD_HEIGHT = Math.floor(canvas.height / TILE_HEIGHT);
 
 let mode = MODE_NONE;
-let tb = new TileBoard();
+let tb = new TileBoard(BOARD_WIDTH, BOARD_HEIGHT);
 
 function start() {
     loadImages(images, ctx, update);
