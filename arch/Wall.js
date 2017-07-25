@@ -14,7 +14,6 @@ class Wall extends Tile {
             (neigh.right.type === "wall" ? 1 : 0) +
             (neigh.bottom.type === "wall" ? 1 : 0) +
             (neigh.left.type === "wall" ? 1 : 0);
-        //console.log(neigh);
         switch (config) {
             case "0000":
                 this.image = "wall_unique_tile";

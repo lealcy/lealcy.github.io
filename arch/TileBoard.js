@@ -11,7 +11,6 @@ class TileBoard {
         let id = this.getTileId(tile);
         this.tiles[id] = tile;
         this.tiles.forEach(v => v.tileAdded(this, tile));
-        console.log(id);
         return id;
     }
 
