@@ -57,6 +57,7 @@ function mouseUp(e) {
 function mouseMove(e) {
     if (!e.buttons) {
         mode = MODE_NONE;
+        drawWallOutline = null;
         return;
     }
     let tileX = Math.floor(e.offsetX / TILE_WIDTH);

@@ -35,6 +35,9 @@ class TileBoard {
     }
 
     getTileAt(x, y) {
+        if (x < 0 || x > this.width - 1 || y < 0 || y > this.height - 1) {
+            return new Tile(x, y);
+        }
         let id = this.getId(x, y);
         if (this.tiles[id] === undefined) {
             return new Tile(x, y);
