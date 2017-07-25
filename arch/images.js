@@ -1,6 +1,13 @@
 "use strict";
 
 let images = {
-    // example: { file: "image/example.png", width: 111, height: 222, img: new Image(111, 222), loaded: false },
-    // example2: { file: "image/example2.png", width: 333, height: 444, img: new Image(333, 444), loaded: false },
+	wall_vertical_sides: { file: "img/wall_vertical_sides.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_down_left_corner: { file: "img/wall_down_left_corner.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_down_right_corner: { file: "img/wall_down_right_corner.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_tip_down: { file: "img/wall_tip_down.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_tip_up: { file: "img/wall_tip_up.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_horizontal_sides: { file: "img/wall_horizontal_sides.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_top_left_corner: { file: "img/wall_top_left_corner.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_top_right_corner: { file: "img/wall_top_left_corner.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
+	wall_top_turnabout: { file: "img/wall_top_turnabout.png", width: 32, height: 32, img = new Image(32, 32), loaded: false },
 };
