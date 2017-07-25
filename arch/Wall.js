@@ -74,4 +74,19 @@ class Wall extends Tile {
 
         }
     }
+
+    static addWall(tb, bx, by, ex, ey) {
+        let x1 = Math.min(bx, ex);
+        let y1 = Math.min(by, ey);
+        let x2 = Math.max(bx, ex);
+        let y2 = Math.max(by, ey);
+
+        for (let x = x1; x <= x2; x++) {
+            for (let y = y1; y <= y2; y++) {
+                if (x === x1 || x === x2 || y === y1 || y === y2) {
+                    tb.add(new Wall(x, y));
+                }
+            }
+        }
+    }
 }
