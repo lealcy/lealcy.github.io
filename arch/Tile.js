@@ -23,4 +23,9 @@ class Tile {
     tileAdded(tileBoard, tile) {
         // This function is called every time a tile is added to the TileBoard.
     }
+
+    tileRemoved(tileBoard, tile) {
+        // This function is called every time a tile is removed from the TileBoard.
+    }
+
 }

@@ -8,6 +8,14 @@ class Wall extends Tile {
     }
 
     tileAdded(tileBoard, tile) {
+        this.updateWallImage(tileBoard);
+    }
+
+    tileRemoved(tileBoard, tile) {
+        this.updateWallImage(tileBoard);
+    }
+
+    updateWallImage(tileBoard) {
         let neigh = tileBoard.getNeighbours(this.x, this.y);
         let config = "" +
             (neigh.top.type === "wall" ? 1 : 0) +
@@ -65,6 +73,5 @@ class Wall extends Tile {
                 break;
 
         }
-
     }
 }

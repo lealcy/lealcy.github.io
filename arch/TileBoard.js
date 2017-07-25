@@ -14,6 +14,12 @@ class TileBoard {
         return id;
     }
 
+    removeTileAt(x, y) {
+        let tile = this.tiles[this.getId(x, y)];
+        this.tiles[this.getId(x, y)] = new Tile(x, y);
+        this.tiles.forEach(v => v.tileRemoved(this, tile));
+    }
+
     update(ctx) {
         this.tiles.forEach(v => v.update(ctx));
     }

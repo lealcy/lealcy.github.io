@@ -26,8 +26,14 @@ function start() {
 
 function mouseDown(e) {
     mode = e.button;
-    if (mode == MODE_DRAW) {
-        tb.add(new Wall(Math.floor(e.offsetX / TILE_WIDTH), Math.floor(e.offsetY / TILE_HEIGHT)));
+    let tileX = Math.floor(e.offsetX / TILE_WIDTH);
+    let tileY = Math.floor(e.offsetY / TILE_HEIGHT);
+    switch (mode) {
+        case MODE_DRAW:
+            tb.add(new Wall(tileX, tileY));
+            break;
+        case MODE_ERASE:
+            tb.removeTileAt(tileX, tileY);
     }
 }
 
@@ -36,8 +42,14 @@ function mouseUp(e) {
 }
 
 function mouseMove(e) {
-    if (mode === MODE_DRAW) {
-        tb.add(new Wall(Math.floor(e.offsetX / TILE_WIDTH), Math.floor(e.offsetY / TILE_HEIGHT)));
+    let tileX = Math.floor(e.offsetX / TILE_WIDTH);
+    let tileY = Math.floor(e.offsetY / TILE_HEIGHT);
+    switch (mode) {
+        case MODE_DRAW:
+            tb.add(new Wall(tileX, tileY));
+            break;
+        case MODE_ERASE:
+            tb.removeTileAt(tileX, tileY);
     }
 }
 
