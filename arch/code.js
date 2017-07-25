@@ -42,6 +42,9 @@ function mouseUp(e) {
 }
 
 function mouseMove(e) {
+    if (!e.buttons) {
+        return;
+    }
     let tileX = Math.floor(e.offsetX / TILE_WIDTH);
     let tileY = Math.floor(e.offsetY / TILE_HEIGHT);
     switch (mode) {
