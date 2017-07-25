@@ -18,6 +18,10 @@ const TILE_HEIGHT = 32;
 let mode = MODE_NONE;
 let tb = new TileBoard();
 
+function start() {
+    loadImages(images, ctx, update);
+}
+
 function mouseDown(e) {
     mode = e.button;
     if (mode == MODE_DRAW) {
@@ -42,4 +46,4 @@ function update() {
     tb.update(ctx);
 }
 
-update();
+start();
