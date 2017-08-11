@@ -3,11 +3,14 @@
 const body = document.querySelector("body");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d", { alpha: false });
+const maxSkidMarks = 200;
 
 const terrain = new Image();
 terrain.src = "terrain.jpg";
 const tank = new Image();
 tank.src = "tank.png";
+const skidMark = new Image();
+skidMark.src = "skidmark2.png";
 
 let keys = {};
 body.addEventListener("keydown", (e) => keys[e.key] = true, false);
@@ -20,9 +23,13 @@ class Vehicle {
         this.sprite = sprite;
         this.angle = 0;
         this.scale = scale;
+        this.skidMarks = [];
     }
 
     update() {
+        let oldAngle = this.angle;
+        let oldX = this.x;
+        let oldY = this.y;
         if (keys.ArrowRight === true) {
             this.angle += keys.ArrowDown === true ? -0.03 : 0.06;
         }
@@ -51,9 +58,26 @@ class Vehicle {
             }
         }
 
+        if (oldX !== this.x || oldY !== this.y || oldAngle !== this.angle) {
+            this.skidMarks.push({ x: oldX, y: oldY, angle: oldAngle });
+            if (this.skidMarks.length > maxSkidMarks) {
+                this.skidMarks.shift();
+            }
+        }
+
     }
 
     draw() {
+        for (let sm of this.skidMarks) {
+            ctx.save();
+            ctx.translate(sm.x, sm.y);
+            ctx.rotate(sm.angle);
+            ctx.drawImage(
+                skidMark, -skidMark.width * this.scale / 2, -skidMark.height * this.scale / 2,
+                skidMark.width * this.scale,
+                skidMark.height * this.scale);
+            ctx.restore();
+        }
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
