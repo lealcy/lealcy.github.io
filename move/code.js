@@ -2,7 +2,7 @@
 
 const body = document.querySelector("body");
 const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d");
+const ctx = canvas.getContext("2d", { alpha: false });
 const tank = new Image();
 tank.src = "tank.png";
 
@@ -27,12 +27,25 @@ class Vehicle {
             this.angle += keys.ArrowDown === true ? 0.03 : -0.06;
         }
         if (keys.ArrowUp === true) {
-            this.x += 3 * Math.cos(this.angle);
-            this.y += 3 * Math.sin(this.angle);
+            let newX = this.x + 3 * Math.cos(this.angle);
+            let newY = this.y + 3 * Math.sin(this.angle);
+            if (newX > 0 && newX < canvas.width) {
+                this.x = newX;
+            }
+            if (newY > 0 && newY < canvas.height) {
+                this.y = newY;
+            }
+
         }
         if (keys.ArrowDown === true) {
-            this.x += -2 * Math.cos(this.angle);
-            this.y += -2 * Math.sin(this.angle);
+            let newX = this.x + -2 * Math.cos(this.angle);
+            let newY = this.y + -2 * Math.sin(this.angle);
+            if (newX > 0 && newX < canvas.width) {
+                this.x = newX;
+            }
+            if (newY > 0 && newY < canvas.height) {
+                this.y = newY;
+            }
         }
 
     }
@@ -41,7 +54,8 @@ class Vehicle {
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
-        ctx.drawImage(this.sprite, -this.sprite.width * this.scale / 2, -this.sprite.height * this.scale / 2,
+        ctx.drawImage(
+            this.sprite, -this.sprite.width * this.scale / 2, -this.sprite.height * this.scale / 2,
             this.sprite.width * this.scale,
             this.sprite.height * this.scale);
         ctx.restore();
