@@ -107,7 +107,7 @@ function start() {
 function update() {
     window.requestAnimationFrame(update);
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(terrain, 0, 0, 800, 600);
+    ctx.drawImage(terrain, 0, 0, canvas.width, canvas.height);
 
     vehicle.update();
     vehicle.draw();
