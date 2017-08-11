@@ -3,6 +3,9 @@
 const body = document.querySelector("body");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d", { alpha: false });
+
+const terrain = new Image();
+terrain.src = "terrain.jpg";
 const tank = new Image();
 tank.src = "tank.png";
 
@@ -71,7 +74,8 @@ function start() {
 
 function update() {
     window.requestAnimationFrame(update);
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    //ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.drawImage(terrain, 0, 0, 800, 600);
 
     vehicle.update();
     vehicle.draw();
