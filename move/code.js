@@ -6,6 +6,8 @@ const ctx = canvas.getContext("2d", { alpha: false });
 const maxSkidMarks = 200;
 const maxSpeed = 3;
 const accel = 0.05;
+const shotCooldown = 10;
+const projectileSpeed = 6;
 
 const terrain = new Image();
 terrain.src = "terrain.jpg";
@@ -13,10 +15,54 @@ const tank = new Image();
 tank.src = "tank.png";
 const skidMark = new Image();
 skidMark.src = "skidmark2.png";
+const projectile = new Image();
+projectile.src = "projectile.png";
+const dummy = new Image();
+dummy.src = "dummy.png";
 
 let keys = {};
-body.addEventListener("keydown", (e) => keys[e.key] = true, false);
-body.addEventListener("keyup", (e) => keys[e.key] = false, false);
+body.addEventListener("keydown", e => keys[e.key] = true, false);
+body.addEventListener("keyup", e => keys[e.key] = false, false);
+
+class Dummy {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    update() {
+
+    }
+
+    draw() {
+        ctx.drawImage(dummy, this.x - dummy.width * 0.2 / 2, this.y - dummy.height * 0.2 / 2, dummy.width * 0.2, dummy.height * 0.2);
+    }
+}
+
+class Projectile {
+    constructor(x, y, angle) {
+        this.x = x;
+        this.y = y;
+        this.angle = angle;
+        this.scale = 0.1;
+    }
+
+    update() {
+        this.x += projectileSpeed * Math.cos(this.angle);
+        this.y += projectileSpeed * Math.sin(this.angle);
+    }
+
+    draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.drawImage(
+            projectile, -projectile.width * this.scale / 2, -projectile.height * this.scale / 2,
+            projectile.width * this.scale,
+            projectile.height * this.scale);
+        ctx.restore();
+    }
+}
 
 class Vehicle {
     constructor(x, y, sprite, scale) {
@@ -27,9 +73,27 @@ class Vehicle {
         this.scale = scale;
         this.skidMarks = [];
         this.speed = 0;
+        this.projectiles = [];
+        this.cooldown = 0;
+        this.shot = false;
     }
 
     update() {
+        if (keys[" "] === true) {
+            if (!this.shot) {
+                if (this.cooldown <= 0) {
+                    this.projectiles.push(new Projectile(this.x, this.y, this.angle));
+                    this.cooldown = shotCooldown;
+                    this.shot = true;
+                }
+            }
+        } else {
+            this.shot = false;
+        }
+
+        this.cooldown--;
+        this.projectiles.forEach(p => p.update());
+
         let oldAngle = this.angle;
         let oldX = this.x;
         let oldY = this.y;
@@ -86,6 +150,7 @@ class Vehicle {
                 skidMark.height * this.scale);
             ctx.restore();
         }
+        this.projectiles.forEach(p => p.draw());
         ctx.save();
         ctx.translate(this.x, this.y);
         ctx.rotate(this.angle);
@@ -98,6 +163,7 @@ class Vehicle {
 }
 
 const vehicle = new Vehicle(canvas.width / 2, canvas.height / 2, tank, 0.3);
+const target = new Dummy(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.width));
 
 function start() {
     window.requestAnimationFrame(update);
@@ -110,7 +176,11 @@ function update() {
     ctx.drawImage(terrain, 0, 0, canvas.width, canvas.height);
 
     vehicle.update();
+    target.update();
+
     vehicle.draw();
+    target.draw();
+
 }
 
 start();
