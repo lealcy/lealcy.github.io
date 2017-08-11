@@ -4,6 +4,8 @@ const body = document.querySelector("body");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d", { alpha: false });
 const maxSkidMarks = 200;
+const maxSpeed = 3;
+const accel = 0.05;
 
 const terrain = new Image();
 terrain.src = "terrain.jpg";
@@ -24,6 +26,7 @@ class Vehicle {
         this.angle = 0;
         this.scale = scale;
         this.skidMarks = [];
+        this.speed = 0;
     }
 
     update() {
@@ -37,34 +40,39 @@ class Vehicle {
             this.angle += keys.ArrowDown === true ? 0.03 : -0.06;
         }
         if (keys.ArrowUp === true) {
-            let newX = this.x + 3 * Math.cos(this.angle);
-            let newY = this.y + 3 * Math.sin(this.angle);
-            if (newX > 0 && newX < canvas.width) {
-                this.x = newX;
+            if (this.speed < maxSpeed) {
+                this.speed += accel;
+                if (this.speed > maxSpeed) {
+                    this.speed = maxSpeed;
+                }
             }
-            if (newY > 0 && newY < canvas.height) {
-                this.y = newY;
+        } else {
+            if (this.speed > 0 || keys.ArrowDown === true) {
+                this.speed -= accel * 2;
+                if (this.speed < -(maxSpeed / 2)) {
+                    this.speed = -(maxSpeed / 2);
+                }
+            } else if (keys.ArrowDown === false && this.speed < 0) {
+                this.speed += accel * 5;
+                if (this.speed > 0) {
+                    this.speed = 0;
+                }
             }
-
         }
-        if (keys.ArrowDown === true) {
-            let newX = this.x + -2 * Math.cos(this.angle);
-            let newY = this.y + -2 * Math.sin(this.angle);
-            if (newX > 0 && newX < canvas.width) {
-                this.x = newX;
-            }
-            if (newY > 0 && newY < canvas.height) {
-                this.y = newY;
-            }
+        let newX = this.x + this.speed * Math.cos(this.angle);
+        let newY = this.y + this.speed * Math.sin(this.angle);
+        if (newX > 0 && newX < canvas.width) {
+            this.x = newX;
         }
-
+        if (newY > 0 && newY < canvas.height) {
+            this.y = newY;
+        }
         if (oldX !== this.x || oldY !== this.y || oldAngle !== this.angle) {
             this.skidMarks.push({ x: oldX, y: oldY, angle: oldAngle });
-            if (this.skidMarks.length > maxSkidMarks) {
+            while (this.skidMarks.length > maxSkidMarks) {
                 this.skidMarks.shift();
             }
         }
-
     }
 
     draw() {
