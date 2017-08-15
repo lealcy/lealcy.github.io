@@ -28,6 +28,7 @@ class Dummy {
     constructor(x, y) {
         this.x = x;
         this.y = y;
+        this.scale = 0.2;
     }
 
     update() {
@@ -35,7 +36,21 @@ class Dummy {
     }
 
     draw() {
-        ctx.drawImage(dummy, this.x - dummy.width * 0.2 / 2, this.y - dummy.height * 0.2 / 2, dummy.width * 0.2, dummy.height * 0.2);
+        ctx.drawImage(
+            dummy,
+            this.x - dummy.width * this.scale / 2,
+            this.y - dummy.height * this.scale / 2,
+            dummy.width * this.scale,
+            dummy.height * this.scale
+        );
+    }
+
+    hit(x, y) {
+        let dx = this.x - dummy.width * this.scale / 2;
+        let dy = this.y - dummy.height * this.scale / 2;
+        let dw = dummy.width * this.scale;
+        let dh = dummy.height * this.scale;
+        return x >= dx && y >= dy && x < dx + dw && y < dy + dh;
     }
 }
 
@@ -44,7 +59,7 @@ class Projectile {
         this.x = x;
         this.y = y;
         this.angle = angle;
-        this.scale = 0.1;
+        this.scale = 0.15;
     }
 
     update() {
@@ -59,8 +74,13 @@ class Projectile {
         ctx.drawImage(
             projectile, -projectile.width * this.scale / 2, -projectile.height * this.scale / 2,
             projectile.width * this.scale,
-            projectile.height * this.scale);
+            projectile.height * this.scale
+        );
         ctx.restore();
+    }
+
+    offScreen() {
+        return this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height;
     }
 }
 
@@ -82,7 +102,9 @@ class Vehicle {
         if (keys[" "] === true) {
             if (!this.shot) {
                 if (this.cooldown <= 0) {
-                    this.projectiles.push(new Projectile(this.x, this.y, this.angle));
+                    this.projectiles.push(
+                        new Projectile(this.x, this.y, this.angle)
+                    );
                     this.cooldown = shotCooldown;
                     this.shot = true;
                 }
@@ -92,7 +114,19 @@ class Vehicle {
         }
 
         this.cooldown--;
-        this.projectiles.forEach(p => p.update());
+        this.projectiles.forEach((p, i) => {
+            p.update();
+            if (p.offScreen()) {
+                this.projectiles.splice(i, 1);
+                return;
+            }
+            if (target.hit(p.x, p.y)) {
+                target.x = Math.floor(Math.random() * canvas.width);
+                target.y = Math.floor(Math.random() * canvas.height);
+                this.projectiles.splice(i, 1);
+                return;
+            }
+        });
 
         let oldAngle = this.angle;
         let oldX = this.x;
@@ -147,7 +181,8 @@ class Vehicle {
             ctx.drawImage(
                 skidMark, -skidMark.width * this.scale / 2, -skidMark.height * this.scale / 2,
                 skidMark.width * this.scale,
-                skidMark.height * this.scale);
+                skidMark.height * this.scale
+            );
             ctx.restore();
         }
         this.projectiles.forEach(p => p.draw());
@@ -157,13 +192,17 @@ class Vehicle {
         ctx.drawImage(
             this.sprite, -this.sprite.width * this.scale / 2, -this.sprite.height * this.scale / 2,
             this.sprite.width * this.scale,
-            this.sprite.height * this.scale);
+            this.sprite.height * this.scale
+        );
         ctx.restore();
     }
 }
 
 const vehicle = new Vehicle(canvas.width / 2, canvas.height / 2, tank, 0.3);
-const target = new Dummy(Math.floor(Math.random() * canvas.width), Math.floor(Math.random() * canvas.width));
+const target = new Dummy(
+    Math.floor(Math.random() * canvas.width),
+    Math.floor(Math.random() * canvas.height)
+);
 
 function start() {
     window.requestAnimationFrame(update);

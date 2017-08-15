@@ -18,10 +18,10 @@ class Wall extends Tile {
     updateWallImage(tileBoard) {
         let neigh = tileBoard.getNeighbours(this.x, this.y);
         let config = "" +
-            (neigh.top.type === "wall" ? 1 : 0) +
-            (neigh.right.type === "wall" ? 1 : 0) +
-            (neigh.bottom.type === "wall" ? 1 : 0) +
-            (neigh.left.type === "wall" ? 1 : 0);
+            (neigh.top && neigh.top.type === "wall" ? 1 : 0) +
+            (neigh.right && neigh.right.type === "wall" ? 1 : 0) +
+            (neigh.bottom && neigh.bottom.type === "wall" ? 1 : 0) +
+            (neigh.left && neigh.left.type === "wall" ? 1 : 0);
         switch (config) {
             case "0000":
                 this.image = "wall_unique_tile";
