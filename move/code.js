@@ -20,6 +20,9 @@ projectile.src = "projectile.png";
 const dummy = new Image();
 dummy.src = "dummy.png";
 
+let clientName = "Guest";
+let ws;
+
 let keys = {};
 body.addEventListener("keydown", e => keys[e.key] = true, false);
 body.addEventListener("keyup", e => keys[e.key] = false, false);
@@ -205,8 +208,29 @@ const target = new Dummy(
 );
 
 function start() {
-    window.requestAnimationFrame(update);
 
+    clientName = prompt("Type your name", `Guest${Math.round(Math.random() * 10000000)}`);
+
+    ws = new WebSocket("ws://localhost:9998");
+
+    ws.onerror = function(e) {
+        console.log("Error", e);
+    };
+
+    ws.onopen = function(e) {
+        console.log("Connected", e);
+        ws.send(JSON.stringify({ clientName, cmd: "hello" }));
+    };
+
+    ws.onmessage = function(e) {
+        console.log("Message", e);
+    };
+    ws.onclose = function(e) {
+        // websocket is closed.
+        console.log("Closed", e);
+    };
+
+    window.requestAnimationFrame(update);
 }
 
 function update() {

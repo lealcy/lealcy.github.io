@@ -1,0 +1,9 @@
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\bin\Debug\server.exe.config
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\bin\Debug\server.exe
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\bin\Debug\server.pdb
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\obj\Debug\server.csprojResolveAssemblyReference.cache
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\obj\Debug\server.exe
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\obj\Debug\server.pdb
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\bin\Debug\Fleck.dll
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\bin\Debug\Newtonsoft.Json.dll
+C:\Users\lealcybj\Documents\GitHub\lealcy.github.io\move\server\server\bin\Debug\Newtonsoft.Json.xml
