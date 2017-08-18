@@ -3,11 +3,13 @@
 const body = document.querySelector("body");
 const canvas = document.querySelector("canvas");
 const ctx = canvas.getContext("2d", { alpha: false });
+const vehicleScale = 0.3;
 const maxSkidMarks = 200;
 const maxSpeed = 3;
 const accel = 0.05;
 const shotCooldown = 10;
 const projectileSpeed = 6;
+const SERVER_ADDRESS = "ws://localhost:8181";
 
 const terrain = new Image();
 terrain.src = "terrain.jpg";
@@ -20,12 +22,13 @@ projectile.src = "projectile.png";
 const dummy = new Image();
 dummy.src = "dummy.png";
 
-let clientName = "Guest";
+let clientName;
+let singlePlayer = true;
 let ws;
-
+let connectionId;
+let clients = {};
 let keys = {};
-body.addEventListener("keydown", e => keys[e.key] = true, false);
-body.addEventListener("keyup", e => keys[e.key] = false, false);
+
 
 class Dummy {
     constructor(x, y) {
@@ -88,12 +91,12 @@ class Projectile {
 }
 
 class Vehicle {
-    constructor(x, y, sprite, scale) {
+    constructor(x, y, angle) {
         this.x = x;
         this.y = y;
-        this.sprite = sprite;
-        this.angle = 0;
-        this.scale = scale;
+        this.sprite = tank;
+        this.angle = angle;
+        this.scale = vehicleScale;
         this.skidMarks = [];
         this.speed = 0;
         this.projectiles = [];
@@ -101,8 +104,12 @@ class Vehicle {
         this.shot = false;
     }
 
-    update() {
-        if (keys[" "] === true) {
+    update(data) {
+        this.x = data.x;
+        this.y = data.y;
+        this.angle = data.angle;
+        this.speed = data.speed;
+        /*if (this.keys[" "] === true) {
             if (!this.shot) {
                 if (this.cooldown <= 0) {
                     this.projectiles.push(
@@ -134,13 +141,13 @@ class Vehicle {
         let oldAngle = this.angle;
         let oldX = this.x;
         let oldY = this.y;
-        if (keys.ArrowRight === true) {
-            this.angle += keys.ArrowDown === true ? -0.03 : 0.06;
+        if (this.keys.ArrowRight === true) {
+            this.angle += this.keys.ArrowDown === true ? -0.03 : 0.06;
         }
-        if (keys.ArrowLeft === true) {
-            this.angle += keys.ArrowDown === true ? 0.03 : -0.06;
+        if (this.keys.ArrowLeft === true) {
+            this.angle += this.keys.ArrowDown === true ? 0.03 : -0.06;
         }
-        if (keys.ArrowUp === true) {
+        if (this.keys.ArrowUp === true) {
             if (this.speed < maxSpeed) {
                 this.speed += accel;
                 if (this.speed > maxSpeed) {
@@ -148,12 +155,12 @@ class Vehicle {
                 }
             }
         } else {
-            if (this.speed > 0 || keys.ArrowDown === true) {
+            if (this.speed > 0 || this.keys.ArrowDown === true) {
                 this.speed -= accel * 2;
                 if (this.speed < -(maxSpeed / 2)) {
                     this.speed = -(maxSpeed / 2);
                 }
-            } else if (keys.ArrowDown === false && this.speed < 0) {
+            } else if (this.keys.ArrowDown === false && this.speed < 0) {
                 this.speed += accel * 5;
                 if (this.speed > 0) {
                     this.speed = 0;
@@ -173,7 +180,7 @@ class Vehicle {
             while (this.skidMarks.length > maxSkidMarks) {
                 this.skidMarks.shift();
             }
-        }
+        }*/
     }
 
     draw() {
@@ -199,36 +206,88 @@ class Vehicle {
         );
         ctx.restore();
     }
+
+    keyDown(key) {
+        this.keys[key] = true;
+        console.log("keyDown", this.keys);
+    }
+
+    keyUp(key) {
+        this.keys[key] = false;
+        console.log("keyUp", this.keys);
+    }
 }
 
-const vehicle = new Vehicle(canvas.width / 2, canvas.height / 2, tank, 0.3);
+//const vehicle = new Vehicle(canvas.width / 2, canvas.height / 2, tank, 0.3);
 const target = new Dummy(
     Math.floor(Math.random() * canvas.width),
     Math.floor(Math.random() * canvas.height)
 );
 
-function start() {
+function send(data) {
+    data = JSON.stringify(data);
+    ws.send(data);
+    console.log("sent: ", data)
+}
 
-    clientName = prompt("Type your name", `Guest${Math.round(Math.random() * 10000000)}`);
+function receive(data) {
+    console.log("received:", data);
+    data = JSON.parse(data);
+    switch (data.cmd) {
+        case "clientConnected":
+            if (data.clientName === clientName && !connectionId) {
+                connectionId = data.id;
+            }
+            clients[data.id] = new Vehicle(data.x, data.y, data.angle);
+            break;
+        case "keydown":
+            clients[data.id].keyDown(data.key);
+            break;
+        case "keyup":
+            clients[data.id].keyUp(data.key);
+            break;
+        case "update":
+            clients[data.id].update(data);
+            break;
+        case "clientDisconnected":
+            delete clients[data.id];
+        default:
+            console.log("Command not implemented.");
+            break;
+    }
+}
 
-    ws = new WebSocket("ws://localhost:9998");
+function wsConnect() {
+    ws = new WebSocket(SERVER_ADDRESS);
 
-    ws.onerror = function(e) {
-        console.log("Error", e);
-    };
+    ws.onerror = function(e) {};
 
     ws.onopen = function(e) {
         console.log("Connected", e);
-        ws.send(JSON.stringify({ clientName, cmd: "hello" }));
+        singlePlayer = false;
+        send({ cmd: "hello", clientName });
     };
 
     ws.onmessage = function(e) {
-        console.log("Message", e);
+        receive(e.data);
     };
     ws.onclose = function(e) {
-        // websocket is closed.
-        console.log("Closed", e);
+        singlePlayer = true;
+        clients = {};
+        setTimeout(wsConnect, 3000);
     };
+}
+
+function start() {
+
+    while (!clientName || clientName.trim() === "") {
+        clientName = prompt("Type your name", `Guest${Math.round(Math.random() * 10000000)}`);
+    }
+
+    wsConnect();
+
+    body.addEventListener("keydown", e => send({ cmd: "keydown", key: e.key }), false);
+    body.addEventListener("keyup", e => send({ cmd: "keyup", key: e.key }), false);
 
     window.requestAnimationFrame(update);
 }
@@ -238,12 +297,23 @@ function update() {
     //ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(terrain, 0, 0, canvas.width, canvas.height);
 
-    vehicle.update();
+    /*for (let i in clients) {
+        send({ cmd: "update" });
+        //clients[i].update();
+    }*/
+
+    //vehicle.update();
     target.update();
 
-    vehicle.draw();
+    for (let i in clients) {
+        clients[i].draw();
+    }
+
+    //vehicle.draw();
     target.draw();
 
 }
+
+
 
 start();
