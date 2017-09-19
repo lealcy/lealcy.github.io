@@ -9,6 +9,7 @@ class Tile {
         this.y = y;
         this.tileX = this.x * TILE_WIDTH;
         this.tileY = this.y * TILE_HEIGHT;
+        this.visited = false;
     }
 
     update() {

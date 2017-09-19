@@ -84,4 +84,35 @@ function update() {
     }
 }
 
+function maze() {
+    // Fill the board with walls
+    tb.clear();
+    let wall;
+    for (let x = 0; x < BOARD_WIDTH; x++) {
+        for (let y = 0; y < BOARD_HEIGHT; y++) {
+            wall = new Wall(x, y);
+            tb.add(wall);
+        }
+    }
+    let walls = [];
+    let tile = tb.getRandomTile();
+    tb.add(new Tile(tile.x, tile.y));
+    walls = walls.concat(Object.values(tb.getNeighbours(tile.x, tile.y)).filter(v => v));
+    let wallIndex, neighbourWalls;
+    while (walls.length) {
+        if (walls.length > 1000) {
+            console.error("too many walls.");
+            break;
+        }
+        wallIndex = Math.floor(Math.random() * walls.length);
+        wall = walls[wallIndex];
+        neighbourWalls = Object.values(tb.getNeighbours(wall.x, wall.y)).filter(v => v && v.type === "wall");
+        if (neighbourWalls.length !== 2) {
+            tb.add(new Tile(wall.x, wall.y));
+            walls = walls.concat(neighbourWalls);
+        }
+        walls = walls.filter(v => v && v !== wall);
+    }
+}
+
 start();
