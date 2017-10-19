@@ -11,12 +11,50 @@
             user-select: none;
             cursor: default;
         }
+
+        #buttons {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .resource {
+            width: 100px;
+            border: 1px outset;
+        }
+
+        .resourceContent {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            text-align: center;
+
+            width: 100%;
+        }
+
+        .name {
+            font-size: xx-small;
+        }
+
+        .quantity {}
     </style>
 </head>
 
 <body>
-    <div id="resources"></div>
     <div id="buttons"></div>
+
+    <template id="buttonTemplate">
+        <div class="resource">
+            <div class="resourceContent">
+                <div class="imageContainer">
+                    <img class="image" src="images/coal.png">
+                </div>
+                <div class="name">Template Button</div>
+                <div class="quantity">0</div>
+            </div>
+
+            </button>
+    </template>
+
     <script type="module" src="main.js"></script>
 </body>
 

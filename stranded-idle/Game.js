@@ -1,42 +1,53 @@
 import { resources } from "./resources.js";
 
 export default class Game {
-    constructor(buttonsEl, resourcesEl) {
+    constructor(buttonsEl) {
         this.buttonsEl = buttonsEl;
-        this.resourcesEl = resourcesEl;
-        this.updateTimer = null;
+        this.lastTimestamp = 0;
     }
 
     run() {
-        if (!this.updateTimer) {
+        requestAnimationFrame(this.update.bind(this));
+        /*if (!this.updateTimer) {
             this.updateTimer = setInterval(() => {
-                this.resourcesEl.innerHTML = "";
-                resources.forEach(r => {
-                    r.operate();
-                    if (r.craftable && !r.enabled && r.canCraft()) {
-                        this.createButton(r.id);
-                        r.enabled = true;
-                    }
-                    if (r.quantity > 0) {
-                        this.resourcesEl.innerHTML += `<span>${r.name}: ${r.quantity < 1 ? "< 1" : r.quantity | 0}</span> | `;
-                    }
-                });
             }, 1000);
-        }
+        }*/
     }
 
-    stop() {
+    /*top() {
         clearInterval(this.updateTimer);
+    }*/
+
+    update(timestamp) {
+        requestAnimationFrame(this.update.bind(this));
+        const frameTime = timestamp - this.lastTimestamp;
+        this.lastTimestamp = timestamp;
+
+        resources.forEach(r => {
+            r.operate(frameTime);
+            if (!r.enabled && ((r.craftable && r.canCraft()) || (!r.craftable && r.quantity > 0))) {
+                this.createButton(r.id);
+                r.enabled = true;
+            }
+
+            if (r.enabled) {
+                const quantity = r.quantity > 0 && r.quantity < 1 ? "< 1" : r.quantity | 0;
+                document.querySelector(`#${r.id} .quantity`).innerText = quantity;
+            }
+        });
     }
 
     createButton(id) {
-        const buttonEl = document.createElement("button");
-        const resource = resources.get(id);
+        const buttonTemplateEl = document.getElementById("buttonTemplate");
+        const clonedEl = buttonTemplateEl.content.cloneNode(true);
+        const buttonEl = clonedEl.querySelector(".resource");
         buttonEl.id = id;
-        buttonEl.innerText = resource.name;
+        const resource = resources.get(id);
+        buttonEl.querySelector(".name").innerText = resource.name;
+        buttonEl.querySelector(".image").src = `images/${id}.png`;
         buttonEl.addEventListener("click", e => {
             resource.craft();
         });
-        this.buttonsEl.appendChild(buttonEl);
+        this.buttonsEl.appendChild(clonedEl);
     }
 }
