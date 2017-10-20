@@ -60,11 +60,8 @@ export default class Resource {
     }
 
     operate(frameTime) {
-        if (this.quantity) {
-            if (this.quantity < 1 || this.operationTime < this.produceTime) {
-                this.operationTime += frameTime;
-                return;
-            }
+        if (this.quantity >= 1) {
+            this.operationTime += frameTime;
             while (this.operationTime >= this.produceTime) {
                 this.operationTime -= this.produceTime;
                 for (let i = 0; i < this.quantity; i++) {
