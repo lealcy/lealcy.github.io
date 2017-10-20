@@ -6,7 +6,7 @@ export default class Resource {
         this.quantity = 0;
         this.enabled = false;
         this.name = data.name;
-        this.produceTime = data.produceTime || 1;
+        this.produceTime = data.produceTime || 0;
         this.craftable = data.craftable || false;
         this.operationTime = 0;
 
@@ -60,7 +60,7 @@ export default class Resource {
     }
 
     operate(frameTime) {
-        if (this.quantity >= 1) {
+        if (this.quantity >= 1 && this.produce.size) {
             this.operationTime += frameTime;
             while (this.operationTime >= this.produceTime) {
                 this.operationTime -= this.produceTime;
@@ -73,6 +73,7 @@ export default class Resource {
                             resources.get(id).quantity += quantity;
                         }
                     } else {
+                        this.operationTime = 0;
                         break;
                     }
                 }

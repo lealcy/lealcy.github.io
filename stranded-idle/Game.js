@@ -8,15 +8,7 @@ export default class Game {
 
     run() {
         requestAnimationFrame(this.update.bind(this));
-        /*if (!this.updateTimer) {
-            this.updateTimer = setInterval(() => {
-            }, 1000);
-        }*/
     }
-
-    /*top() {
-        clearInterval(this.updateTimer);
-    }*/
 
     update(timestamp) {
         requestAnimationFrame(this.update.bind(this));
@@ -45,6 +37,44 @@ export default class Game {
         const resource = resources.get(id);
         buttonEl.querySelector(".name").innerText = resource.name;
         buttonEl.querySelector(".image").src = `images/${id}.png`;
+        const chronometerEl = document.createElement("img");
+        chronometerEl.src= "images/chronometer.png";
+        if (resource.cost.size) {
+            const costEl = buttonEl.querySelector(".cost");
+            resource.cost.forEach((quantity, id) => {
+                const itemEl = document.createElement("div");
+                itemEl.innerText = `${quantity} ${resources.get(id).name}`;
+                costEl.appendChild(itemEl);
+            });
+        }
+        if (resource.consume.size) {
+            const consumeEl = buttonEl.querySelector(".consume");
+            resource.consume.forEach((quantity, id) => {
+                const itemEl = document.createElement("div");
+                itemEl.innerText = `- ${quantity} ${resources.get(id).name}`;
+                consumeEl.appendChild(itemEl);
+            });
+        }
+
+
+        if (resource.produce.size) {
+            const produceEl = buttonEl.querySelector(".produce");
+            resource.produce.forEach((quantity, id) => {
+                const itemEl = document.createElement("div");
+                itemEl.innerText = `+ ${quantity} ${resources.get(id).name}`;
+                produceEl.appendChild(itemEl);
+            });
+        }
+
+        if (resource.produceTime) {
+            console.log("resourceTime", resource.produceTime);
+            const timeEl = buttonEl.querySelector(".time");
+            timeEl.appendChild(chronometerEl);
+            const time = document.createElement("span");
+            time.innerText = `${resource.produceTime / 1000} sec.`;
+            timeEl.appendChild(time);
+        }
+
         buttonEl.addEventListener("click", e => {
             resource.craft();
         });

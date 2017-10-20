@@ -10,6 +10,8 @@
         body {
             user-select: none;
             cursor: default;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+
         }
 
         #buttons {
@@ -18,8 +20,12 @@
         }
 
         .resource {
-            width: 100px;
+            width: 70px;
+            /*height: 100px;*/
             border: 1px outset;
+            margin: 5px;
+            padding: 10px;
+            background-color: rgb(240, 217, 143);
         }
 
         .resourceContent {
@@ -32,7 +38,45 @@
         }
 
         .name {
+            font-size: x-small;
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+
+        .imageContainer {
+            height: 40px;
+        }
+
+        .cost {
+            color: blue;
             font-size: xx-small;
+            padding-bottom: 5px;
+        }
+
+        .consume {
+            color: red;
+            font-size: xx-small;
+            padding-bottom: 5px;
+        }
+
+        .produce {
+            color: green;
+            font-size: xx-small;
+            padding-bottom: 5px;
+        }
+
+        .time {
+            font-size: xx-small;
+        }
+
+        .time>span {
+            height: 10px;
+            vertical-align: middle;
+        }
+
+        .time>img {
+            margin-right: 5px;
+            vertical-align: middle;
         }
 
         .quantity {}
@@ -48,11 +92,15 @@
                 <div class="imageContainer">
                     <img class="image" src="images/coal.png">
                 </div>
-                <div class="name">Template Button</div>
                 <div class="quantity">0</div>
+                <div class="name">Template Button</div>
+                <div class="cost"></div>
+                <div class="produce"></div>
+                <div class="consume"></div>
+                <div class="time"></div>
             </div>
 
-            </button>
+        </div>
     </template>
 
     <script type="module" src="main.js"></script>
