@@ -1,4 +1,5 @@
-import { resources } from "./resources.js";
+import { items } from "./items.js";
+import { createFromTemplate } from "./helpers.js";
 
 export default class Game {
     constructor(buttonsEl) {
@@ -15,15 +16,37 @@ export default class Game {
         const frameTime = timestamp - this.lastTimestamp;
         this.lastTimestamp = timestamp;
 
-        resources.forEach(r => {
-            r.operate(frameTime);
-            if (!r.enabled && ((r.craftable && r.canCraft()) || (!r.craftable && r.quantity > 0))) {
-                this.createButton(r.id);
-                r.enabled = true;
+        items.forEach((item, id) => {
+            item.produce(frameTime);
+            if (!item.enabled && item.canCraft()) {
+                this.createButton(item);
+                item.enable();
             }
 
+            if (item.enabled) {
+                this.updateButton(item);
+            }
+        });
+    }
+
+        /*items.forEach((item, id) => {
+           item.operate(frameTime);
+            if(!item.enabled) {
+                let shouldEnable = ((r.craftable && r.canCraft()) || (!r.craftable && r.quantity > 0));
+                if (!shouldEnable) {
+                    r.producedBy.forEach((quantity, id) => {
+                        if (items.get(id).quantity > 0) {
+                            shouldEnable = true;
+                        }
+                    });
+                }
+                if (shouldEnable) {
+                    this.createButton(r.id);
+                    r.enable();
+                }
+            }
+            const buttonEl = document.getElementById(r.id);
             if (r.enabled) {
-                const buttonEl = document.getElementById(r.id);
                 const quantity = r.quantity > 0 && r.quantity < 1 ? "< 1" : r.quantity | 0;
                 buttonEl.querySelector(".quantity").innerText = quantity;
                 let progress = 0;
@@ -31,60 +54,126 @@ export default class Game {
                     progress = r.operationTime / r.produceTime;
                 }
                 buttonEl.querySelector(".progress").value = progress;
+                r.producedBy.forEach((quantity, id) => {
+                    const machineEl = buttonEl.getElementById(`m_{$id}`);
+                    machineEl.
+                });
             }
-        });
-    }
+        });*/
+    
 
-    createButton(id) {
-        const buttonTemplateEl = document.getElementById("buttonTemplate");
-        const clonedEl = buttonTemplateEl.content.cloneNode(true);
-        const buttonEl = clonedEl.querySelector(".resource");
-        buttonEl.id = id;
-        const resource = resources.get(id);
-        buttonEl.querySelector(".name").innerText = resource.name;
-        buttonEl.querySelector(".image").src = `images/${id}.png`;
-        const chronometerEl = document.createElement("img");
-        chronometerEl.src= "images/chronometer.png";
-        if (resource.cost.size) {
+    createButton(item) {
+        const clonedEl = createFromTemplate("buttonTemplate");
+        const buttonEl = clonedEl.querySelector(".item");
+        buttonEl.id = item.id;
+        buttonEl.querySelector(".name").innerText = item.name;
+        buttonEl.querySelector(".image").src = `images/${item.image}.png`;
+        if (item.cost.size) {
             const costEl = buttonEl.querySelector(".cost");
-            resource.cost.forEach((quantity, id) => {
+            item.cost.forEach((quantity, id) => {
                 const itemEl = document.createElement("div");
-                itemEl.innerText = `${quantity} ${resources.get(id).name}`;
+                itemEl.innerText = `${quantity} ${items.get(id).name}`;
                 costEl.appendChild(itemEl);
             });
         }
-        if (resource.consume.size) {
+        /*if (item.consume.size) {
             const consumeEl = buttonEl.querySelector(".consume");
-            resource.consume.forEach((quantity, id) => {
+            item.consume.forEach((quantity, id) => {
                 const itemEl = document.createElement("div");
-                itemEl.innerText = `- ${quantity} ${resources.get(id).name}`;
+                itemEl.innerText = `- ${quantity} ${items.get(id).name}`;
                 consumeEl.appendChild(itemEl);
             });
-        }
+        }*/
 
 
-        if (resource.produce.size) {
+        /*if (item.produce.size) {
             const produceEl = buttonEl.querySelector(".produce");
-            resource.produce.forEach((quantity, id) => {
+            item.produce.forEach((quantity, id) => {
                 const itemEl = document.createElement("div");
-                itemEl.innerText = `+ ${quantity} ${resources.get(id).name}`;
+                itemEl.innerText = `+ ${quantity} ${items.get(id).name}`;
                 produceEl.appendChild(itemEl);
             });
         } else {
             buttonEl.querySelector(".progress").style.display = "none";
-        }
+        }*/
 
-        if (resource.produceTime) {
-            const timeEl = buttonEl.querySelector(".time");
+
+        const machinesEl = buttonEl.querySelector(".machines");
+        const chronometerEl = document.createElement("img");
+        chronometerEl.src = "images/chronometer.png";
+        item.productionTime.forEach((data, machineId) => {
+            const machine = items.get(machineId);
+            const mClonedEl = createFromTemplate("machineTemplate");
+            const machineEl = mClonedEl.querySelector(".machine");
+            machineEl.id = `m_${machineId}`;
+            machineEl.querySelector(".image").src = `images/${machine.image}.png`;
+            machineEl.querySelector(".name").innerText = machine.name;
+            const timeEl = machineEl.querySelector(".time");
             timeEl.appendChild(chronometerEl);
             const time = document.createElement("span");
-            time.innerText = `${resource.produceTime / 1000} sec.`;
+            time.innerText = `${data.productionTime / 1000} sec.`;
             timeEl.appendChild(time);
-        }
+
+            machineEl.addEventListener("click", e => {
+                e.stopPropagation();
+                item.addMachine(machine);
+                return false;
+            });
+
+            machinesEl.appendChild(mClonedEl);
+            
+        });
+
+        /*item.producedBy.forEach((attachedMachine, id) =>{
+            const mClonedEl = createFromTemplate("machineTemplate");
+            const machineEl = mClonedEl.querySelector(".machine");
+            machineEl = `m_${id}`;
+            machineEl.querySelector(".image").src = `images/${attachedMachine.item.image}.png`;
+            machineEl.querySelector(".name").innerText = attachedMachine.item.name;
+            const timeEl = machineEl.querySelector(".time");
+            timeEl.appendChild(chronometerEl);
+            const time = document.createElement("span");
+            time.innerText = `${attachedMachine.productionTime / 1000} sec.`;
+            timeEl.appendChild(time);
+
+            machineEl.addEventListener("click", e => {
+                item.addMachine(id);
+            });
+
+            machinesEl.appendChild(mClonedEl);
+        });*/
 
         buttonEl.addEventListener("click", e => {
-            resource.craft();
+            e.stopPropagation();
+            item.craft();
+            return false;
         });
         this.buttonsEl.appendChild(clonedEl);
     }
+
+    updateButton(item) {
+        const itemEl = document.getElementById(item.id);
+        const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : item.quantity | 0;
+        itemEl.querySelector(".quantity").innerText = quantity;
+        item.productionTime.forEach((data, machineId) => {
+            //const machine = items.get(machineId);
+            const machineEl = document.getElementById(`m_${machineId}`);
+            machineEl.querySelector(".quantity").innerText = data.quantity;
+            let progress = 0;
+            if (data.productionTime) {            
+                progress = data.elapsedTime / data.productionTime;
+            }
+            machineEl.querySelector(".progress").value = progress;
+
+
+            
+        /*if                 let progress = 0;
+                if (r.canProduce() && r.produceTime) {
+                    progress = r.operationTime / r.produceTime;
+                }
+                buttonEl.querySelector(".progress").value = progress;
+        }*/
+        });
+
+    };
 }
