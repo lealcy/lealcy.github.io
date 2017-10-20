@@ -70,6 +70,8 @@ export default class Game {
                 itemEl.innerText = `+ ${quantity} ${resources.get(id).name}`;
                 produceEl.appendChild(itemEl);
             });
+        } else {
+            buttonEl.querySelector(".progress").style.display = "none";
         }
 
         if (resource.produceTime) {
