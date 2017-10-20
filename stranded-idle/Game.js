@@ -23,8 +23,14 @@ export default class Game {
             }
 
             if (r.enabled) {
+                const buttonEl = document.getElementById(r.id);
                 const quantity = r.quantity > 0 && r.quantity < 1 ? "< 1" : r.quantity | 0;
-                document.querySelector(`#${r.id} .quantity`).innerText = quantity;
+                buttonEl.querySelector(".quantity").innerText = quantity;
+                let progress = 0;
+                if (r.canProduce() && r.produceTime) {
+                    progress = r.operationTime / r.produceTime;
+                }
+                buttonEl.querySelector(".progress").value = progress;
             }
         });
     }
@@ -67,7 +73,6 @@ export default class Game {
         }
 
         if (resource.produceTime) {
-            console.log("resourceTime", resource.produceTime);
             const timeEl = buttonEl.querySelector(".time");
             timeEl.appendChild(chronometerEl);
             const time = document.createElement("span");

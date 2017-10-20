@@ -79,5 +79,9 @@ export default class Resource {
                 }
             }
         }
+
+        if (!this.canProduce()) {
+            this.operationTime = 0;
+        }
     }
 }
