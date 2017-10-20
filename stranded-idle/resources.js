@@ -26,6 +26,12 @@ const resourceData = {
     ironPlate: {
         name: "Iron Plate",
     },
+    copperPlate: {
+        name: "Copper Plate",
+    },
+    steelPlate: {
+        name: "Steel Plate",
+    },
 
     // Machines
     stoneFurnaceStoneBrick: {
@@ -44,6 +50,24 @@ const resourceData = {
         produceTime: 3500,
         consume: { iron: 1, coal: 0.07875 },
         produce: { ironPlate: 1 },
+    },
+
+    stoneFurnaceCopperPlate: {
+        name: "Stone Furnace (Copper Plate)",
+        craftable: true,
+        cost: { stone: 5 },
+        produceTime: 3500,
+        consume: { copper: 1, coal: 0.07875 },
+        produce: { copperPlate: 1 },
+    },
+
+    stoneFurnaceSteelPlate: {
+        name: "Stone Furnace (Steel Plate)",
+        craftable: true,
+        cost: { stone: 5 },
+        produceTime: 17500,
+        consume: { ironPlate: 5, coal: 0.39375 },
+        produce: { steelPlate: 1 },
     },
 };
 
