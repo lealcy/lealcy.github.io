@@ -125,4 +125,15 @@ export default class Item {
             }
         });
     }
+
+    hasMachinery() {
+        let hasMachinery = false;
+        this.productionTime.forEach((quantity, id) => {
+            if (items.get(id).quantity) {
+                hasMachinery = true;
+            }
+        });
+
+        return hasMachinery;
+    }
 }

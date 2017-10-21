@@ -51,12 +51,15 @@ const itemData = {
         cost: { copper: 1 },
         productionTime: { stoneFurnace: 3571.4, },
     },
-
+    steelPlate: {
+        name: "Steel Plate",
+        image: "steelPlate",
+        products: { steelPlate: 1 },
+        cost: { ironPlate: 5 },
+        productionTime: { stoneFurnace: 17543.8, },
+    },
 
     /*
-    copperPlate: {
-           name: "Copper Plate",
-       },
        steelPlate: {
            name: "Steel Plate",
        },

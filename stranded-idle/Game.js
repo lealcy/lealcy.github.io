@@ -18,7 +18,7 @@ export default class Game {
 
         items.forEach((item, id) => {
             item.produce(frameTime);
-            if (!item.enabled && item.canCraft()) {
+            if (!item.enabled && item.canCraft() && (item.craftable || item.hasMachinery())) {
                 this.createButton(item);
                 item.enable();
             }
