@@ -86,6 +86,11 @@ export default class Game {
                 return false;
             });
 
+            machineEl.querySelector(".sell").addEventListener("click", e => {
+                e.stopPropagation();
+                item.removeMachine(machine);
+            });
+
             machinesEl.appendChild(mClonedEl);
 
         });

@@ -83,6 +83,13 @@ export default class Item {
         }
     }
 
+    removeMachine(machine) {
+        if (this.productionTime.get(machine.id).quantity >= 1) {
+            this.productionTime.get(machine.id).quantity--;
+            machine.quantity++;
+        }
+    }
+
     canOperate() {
         let canOperate = true;
         this.consume.forEach((quantity, id) => {

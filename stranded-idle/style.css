@@ -89,12 +89,12 @@
             align-items: center;
         }
 
-        .machine .quantity {
+        .machine .quantityBox {
             text-align: center;
             width: 50%;
         }
 
-        .head .quantity {
+        .head .quantityBox {
             font-size: small;
         }
 
@@ -103,6 +103,13 @@
         }
 
         .machine .progress {
+            margin-top: 2px;
+        }
+
+        .machine .sell {
+            font-size: 0.7em;
+            border: 1px solid black;
+            color: red;
             margin-top: 2px;
         }
 
