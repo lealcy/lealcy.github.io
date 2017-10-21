@@ -29,39 +29,6 @@ export default class Game {
         });
     }
 
-    /*items.forEach((item, id) => {
-       item.operate(frameTime);
-        if(!item.enabled) {
-            let shouldEnable = ((r.craftable && r.canCraft()) || (!r.craftable && r.quantity > 0));
-            if (!shouldEnable) {
-                r.producedBy.forEach((quantity, id) => {
-                    if (items.get(id).quantity > 0) {
-                        shouldEnable = true;
-                    }
-                });
-            }
-            if (shouldEnable) {
-                this.createButton(r.id);
-                r.enable();
-            }
-        }
-        const buttonEl = document.getElementById(r.id);
-        if (r.enabled) {
-            const quantity = r.quantity > 0 && r.quantity < 1 ? "< 1" : r.quantity | 0;
-            buttonEl.querySelector(".quantity").innerText = quantity;
-            let progress = 0;
-            if (r.canProduce() && r.produceTime) {
-                progress = r.operationTime / r.produceTime;
-            }
-            buttonEl.querySelector(".progress").value = progress;
-            r.producedBy.forEach((quantity, id) => {
-                const machineEl = buttonEl.getElementById(`m_{$id}`);
-                machineEl.
-            });
-        }
-    });*/
-
-
     createButton(item) {
         const clonedEl = createFromTemplate("buttonTemplate");
         const buttonEl = clonedEl.querySelector(".item");
@@ -76,27 +43,6 @@ export default class Game {
                 costEl.appendChild(itemEl);
             });
         }
-        /*if (item.consume.size) {
-            const consumeEl = buttonEl.querySelector(".consume");
-            item.consume.forEach((quantity, id) => {
-                const itemEl = document.createElement("div");
-                itemEl.innerText = `- ${quantity} ${items.get(id).name}`;
-                consumeEl.appendChild(itemEl);
-            });
-        }*/
-
-
-        /*if (item.produce.size) {
-            const produceEl = buttonEl.querySelector(".produce");
-            item.produce.forEach((quantity, id) => {
-                const itemEl = document.createElement("div");
-                itemEl.innerText = `+ ${quantity} ${items.get(id).name}`;
-                produceEl.appendChild(itemEl);
-            });
-        } else {
-            buttonEl.querySelector(".progress").style.display = "none";
-        }*/
-
 
         const machinesEl = buttonEl.querySelector(".machines");
         const chronometerEl = document.createElement("img");
@@ -106,6 +52,9 @@ export default class Game {
             const mClonedEl = createFromTemplate("machineTemplate");
             const machineEl = mClonedEl.querySelector(".machine");
             machineEl.id = `${item.id}_${machineId}`;
+            if (!machine.quantity) {
+                machineEl.style.display = "none";
+            }
             machineEl.querySelector(".image").src = `images/${machine.image}.png`;
             machineEl.querySelector(".name").innerText = machine.name;
 
@@ -140,26 +89,6 @@ export default class Game {
             machinesEl.appendChild(mClonedEl);
 
         });
-
-        /*item.producedBy.forEach((attachedMachine, id) =>{
-            const mClonedEl = createFromTemplate("machineTemplate");
-            const machineEl = mClonedEl.querySelector(".machine");
-            machineEl = `m_${id}`;
-            machineEl.querySelector(".image").src = `images/${attachedMachine.item.image}.png`;
-            machineEl.querySelector(".name").innerText = attachedMachine.item.name;
-            const timeEl = machineEl.querySelector(".time");
-            timeEl.appendChild(chronometerEl);
-            const time = document.createElement("span");
-            time.innerText = `${attachedMachine.productionTime / 1000} sec.`;
-            timeEl.appendChild(time);
-
-            machineEl.addEventListener("click", e => {
-                item.addMachine(id);
-            });
-
-            machinesEl.appendChild(mClonedEl);
-        });*/
-
         buttonEl.addEventListener("click", e => {
             e.stopPropagation();
             item.handcraft();
@@ -175,21 +104,15 @@ export default class Game {
         item.productionTime.forEach((data, machineId) => {
             //const machine = items.get(machineId);
             const machineEl = document.getElementById(`${item.id}_${machineId}`);
+            if (items.get(machineId).quantity) {
+                machineEl.style.display = "flex";
+            }
             machineEl.querySelector(".quantity").innerText = data.quantity;
             let progress = 0;
             if (data.productionTime) {
                 progress = data.elapsedTime / data.productionTime;
             }
             machineEl.querySelector(".progress").value = progress;
-
-
-
-            /*if                 let progress = 0;
-                    if (r.canProduce() && r.produceTime) {
-                        progress = r.operationTime / r.produceTime;
-                    }
-                    buttonEl.querySelector(".progress").value = progress;
-            }*/
         });
 
     };
