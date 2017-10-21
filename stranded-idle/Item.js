@@ -24,6 +24,13 @@ export default class Item {
             }
         }
 
+        this.products = new Map;
+        if (data.products !== undefined) {
+            for (const itemId in data.products) {
+                this.products.set(itemId, data.products[itemId]);
+            }
+        }
+
         this.productionTime = new Map;
         if (data.productionTime !== undefined) {
             for (const itemId in data.productionTime) {
@@ -50,19 +57,26 @@ export default class Item {
         return true;
     }
 
-    craft(handCraft = true) {
-        if ((handCraft && this.craftable && this.canCraft()) || (!handCraft && this.canCraft())) {
-            for (const [id, quantity] of this.cost) {
+    handcraft() {
+        if (this.craftable) {
+            this.craft();
+        }
+    }
+
+    craft() {
+        if (this.canCraft()) {
+            this.cost.forEach((quantity, id) => {
                 items.get(id).quantity -= quantity;
-            }
-            this.quantity += 1;
+            });
+            this.products.forEach((quantity, id) => {
+                items.get(id).quantity += quantity;
+            });
             return true;
         }
         return false;
     }
 
     addMachine(machine) {
-        console.log("addMachine", machine);
         if (machine.quantity >= 1) {
             machine.quantity--;
             this.productionTime.get(machine.id).quantity++;
@@ -80,7 +94,7 @@ export default class Item {
     }
 
     operate(item) {
-        if (this.canOperate() && item.craft(false)) {
+        if (this.canOperate() && item.craft()) {
             this.consume.forEach((quantity, id) => {
                 items.get(id).quantity -= quantity;
             });

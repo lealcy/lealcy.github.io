@@ -7,12 +7,14 @@ const itemData = {
         image: "coal",
         craftable: true,
         productionTime: { /*burnerMiningDrill: 3571.4, eletricMiningDrill: 1904.7*/ },
+        products: { coal: 1 },
     },
     stone: {
         name: "Stone",
         image: "stone",
         craftable: true,
-        /*    producedBy: { burnerMiningDrill: 2721, eletricMiningDrill: 1538.4 }*/
+        /*    producedBy: { burnerMiningDrill: 2721, eletricMiningDrill: 1538.4 },*/
+        products: { stone: 1 },
     },
     /*  iron: {
           name: "Iron Ore",
@@ -31,6 +33,7 @@ const itemData = {
         image: "stoneBrick",
         cost: { stone: 2 },
         productionTime: { stoneFurnace: 3571.4, },
+        products: { stoneBrick: 1 }
     },
     /*   ironPlate: {
            name: "Iron Plate",
@@ -63,6 +66,7 @@ const itemData = {
         image: "stoneFurnace",
         consume: { coal: 0.08035 },
         productionFactor: 7,
+        products: { stoneFurnace: 1 },
     },
     /*   burnerMiningDrill: {
            name: "Burner Mining Drill",

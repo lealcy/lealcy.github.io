@@ -1,8 +1,5 @@
 import Game from "./Game.js";
 
-const game = new Game(
-    document.getElementById("buttons"),
-    document.getElementById("resources")
-);
+const game = new Game(document.getElementById("buttons"));
 
 game.run();

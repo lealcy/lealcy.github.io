@@ -15,7 +15,7 @@
             /*height: 100px;*/
             border: 1px outset;
             margin: 5px;
-            padding: 10px;
+            padding: 5px;
             background-color: rgb(240, 217, 143);
         }
 
@@ -41,7 +41,6 @@
         .cost {
             color: blue;
             font-size: xx-small;
-            padding-bottom: 5px;
             padding-top: 5px;
         }
 
@@ -76,5 +75,36 @@
             height: 10px;
             border: 0;
         }
+
+        .machine {
+            border: 1px inset;
+            padding: 5px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .machine .head {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+        }
+
+        .machine .quantity {
+            text-align: center;
+            width: 50%;
+        }
+
+        .head .quantity {
+            font-size: small;
+        }
+
+        .machine .name {
+            font-size: xx-small;
+        }
+
+        .machine .progress {
+            margin-top: 2px;
+        }
+
 
         .quantity {}
