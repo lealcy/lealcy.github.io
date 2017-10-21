@@ -31,6 +31,21 @@ const itemData = {
         productionTime: { burnerMiningDrill: 3571.4 },
     },
 
+    // Liquid
+    water: {
+        name: "Water",
+        image: "water",
+        products: { water: 1 },
+        productionTime: { waterPump: 25 }
+    },
+    steam: {
+        name: "Steam",
+        image: "steam",
+        cost: { water: 2 },
+        products: { steam: 2 },
+        productionTime: { boiler: 5 },
+    },
+
     // Intermediate Products
     stoneBrick: {
         name: "Stone Brick",
@@ -66,7 +81,7 @@ const itemData = {
         craftable: true,
         cost: { ironPlate: 2 },
         products: { ironGear: 1 },
-        productionTime: { assembler1: 500 },
+        productionTime: { assembler1: 750 },
     },
     copperCable: {
         name: "Copper Cable",
@@ -74,7 +89,7 @@ const itemData = {
         craftable: true,
         cost: { copperPlate: 1 },
         products: { copperCable: 1 },
-        productionTime: { assembler1: 500 },
+        productionTime: { assembler1: 750 },
     },
     eletronicCircuit: {
         name: "Eletronic Circuit",
@@ -82,7 +97,17 @@ const itemData = {
         craftable: true,
         cost: { copperCable: 3, ironPlate: 1 },
         products: { eletronicCircuit: 1 },
-        productionTime: { assembler1: 500 },
+        productionTime: { assembler1: 750 },
+    },
+
+    // Machinery
+    pipe: {
+        name: "Pipe",
+        image: "pipe",
+        craftable: true,
+        cost: { ironPlate: 1 },
+        productionTime: { assembler1: 750 },
+        products: { pipe: 1 },
     },
 
     // Machines
@@ -93,7 +118,7 @@ const itemData = {
         image: "stoneFurnace",
         consume: { coal: 0.08035 },
         products: { stoneFurnace: 1 },
-        productionTime: { assembler1: 500 },
+        productionTime: { assembler1: 750 },
     },
     burnerMiningDrill: {
         name: "Burner Mining Drill",
@@ -104,7 +129,7 @@ const itemData = {
         image: "burnerMiningDrill",
         category: "miner",
         products: { burnerMiningDrill: 1 },
-        productionTime: { assembler1: 500 },
+        productionTime: { assembler1: 750 },
     },
     assembler1: {
         name: "Assembler 1",
@@ -112,8 +137,43 @@ const itemData = {
         cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9 },
         image: "assembler1",
         products: { assembler1: 1 },
-        productionTime: { assembler1: 500 },
+        productionTime: { assembler1: 750 },
     },
+    assembler2: {
+        name: "Assembler 2",
+        craftable: true,
+        cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
+        image: "assembler2",
+        products: { assembler2: 1 },
+        productionTime: { assembler2: 750 },
+    },
+    waterPump: {
+        name: "Water Pump",
+        craftable: true,
+        cost: { eletronicCircuit: 2, ironGear: 1, pipe: 1 },
+        image: "waterPump",
+        products: { waterPump: 1 },
+        productionTime: { assembler2: 750 },
+    },
+    boiler: {
+        name: "Boiler",
+        craftable: true,
+        cost: { pipe: 4, stoneFurnace: 1 },
+        image: "boiler",
+        products: { boiler: 1 },
+        productionTime: { assembler1: 750 },
+        consume: { coal: 0.125 },
+    },
+    steamEngine: {
+        name: "Steam Engine",
+        image: "steamEngine",
+        craftable: true,
+        cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
+        products: { steamEngine: 1 },
+        consume: { steam: 1 },
+        productionTime: { assembler2: 750 },
+    }
+
 
 };
 
