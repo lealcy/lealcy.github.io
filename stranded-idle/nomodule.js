@@ -1,0 +1,1 @@
+document.body.innerHTML = "<h1>If you're seen this, you need to update your browser to play this game.</h1>";

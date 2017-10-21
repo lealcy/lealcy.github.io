@@ -33,6 +33,7 @@ export default class Game {
         const clonedEl = createFromTemplate("buttonTemplate");
         const buttonEl = clonedEl.querySelector(".item");
         buttonEl.id = item.id;
+        buttonEl.parentElement.className += item.craftable ? " craftable" : " nonCraftable";
         buttonEl.querySelector(".name").innerText = item.name;
         buttonEl.querySelector(".image").src = `images/${item.image}.png`;
         if (item.cost.size) {

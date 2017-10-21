@@ -10,23 +10,22 @@
 </head>
 
 <body>
-    <h1 id="nomodule">
-        If you're seen this, you need to update your browser to play this game.
-    </h1>
     <div id="buttons"></div>
 
     <template id="buttonTemplate">
-        <div class="item">
-            <div class="itemContent">
-                <div class="imageContainer">
-                    <img class="image" src="images/coal.png">
+        <div class="button">
+            <div class="item">
+                <div class="itemContent">
+                    <div class="imageContainer">
+                        <img class="image" src="images/coal.png">
+                    </div>
+                    <div class="quantity">0</div>
+                    <div class="name">Template Button</div>
+                    <div class="cost"></div>
+                    <div class="produce"></div>
+                    <div class="consume"></div>
+                    <div class="machines"></div>
                 </div>
-                <div class="quantity">0</div>
-                <div class="name">Template Button</div>
-                <div class="cost"></div>
-                <div class="produce"></div>
-                <div class="consume"></div>
-                <div class="machines"></div>
             </div>
         </div>
     </template>
@@ -47,7 +46,7 @@
             <progress class="progress" value="0"></progress>
         </div>
     </template>
-
+    <script nomodule src="nomodule.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 
