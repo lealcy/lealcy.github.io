@@ -105,7 +105,7 @@ export default class Game {
             const machine = items.get(machineId);
             const mClonedEl = createFromTemplate("machineTemplate");
             const machineEl = mClonedEl.querySelector(".machine");
-            machineEl.id = `m_${machineId}`;
+            machineEl.id = `${item.id}_${machineId}`;
             machineEl.querySelector(".image").src = `images/${machine.image}.png`;
             machineEl.querySelector(".name").innerText = machine.name;
 
@@ -174,7 +174,7 @@ export default class Game {
         itemEl.querySelector(".quantity").innerText = quantity;
         item.productionTime.forEach((data, machineId) => {
             //const machine = items.get(machineId);
-            const machineEl = document.getElementById(`m_${machineId}`);
+            const machineEl = document.getElementById(`${item.id}_${machineId}`);
             machineEl.querySelector(".quantity").innerText = data.quantity;
             let progress = 0;
             if (data.productionTime) {

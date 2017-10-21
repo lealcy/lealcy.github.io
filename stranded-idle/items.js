@@ -16,16 +16,18 @@ const itemData = {
         /*    producedBy: { burnerMiningDrill: 2721, eletricMiningDrill: 1538.4 },*/
         products: { stone: 1 },
     },
-    /*  iron: {
-          name: "Iron Ore",
-          craftable: true,
-          canBeMined: true,
-      },
-      copper: {
-          name: "Copper Ore",
-          craftable: true,
-          canBeMined: true,
-      },*/
+    iron: {
+        name: "Iron Ore",
+        craftable: true,
+        products: { iron: 1 },
+        image: "iron",
+    },
+    copper: {
+        name: "Copper Ore",
+        craftable: true,
+        products: { copper: 1 },
+        image: "copper",
+    },
 
     // Intermediate Products
     stoneBrick: {
@@ -35,9 +37,13 @@ const itemData = {
         productionTime: { stoneFurnace: 3571.4, },
         products: { stoneBrick: 1 }
     },
-    /*   ironPlate: {
-           name: "Iron Plate",
-       },
+    ironPlate: {
+        name: "Iron Plate",
+        image: "ironPlate",
+        products: { ironPlate: 1 },
+        cost: { iron: 1 },
+        productionTime: { stoneFurnace: 3571.4, },
+    },/*
        copperPlate: {
            name: "Copper Plate",
        },
