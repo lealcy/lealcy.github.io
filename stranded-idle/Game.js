@@ -1,5 +1,5 @@
 import { items } from "./items.js";
-import { createFromTemplate } from "./helpers.js";
+import { createFromTemplate, shortNumber } from "./helpers.js";
 
 export default class Game {
     constructor(buttonsEl) {
@@ -104,7 +104,7 @@ export default class Game {
 
     updateButton(item) {
         const itemEl = document.getElementById(item.id);
-        const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : item.quantity | 0;
+        const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         itemEl.querySelector(".quantity").innerText = quantity;
         item.productionTime.forEach((data, machineId) => {
             //const machine = items.get(machineId);
@@ -112,7 +112,7 @@ export default class Game {
             if (items.get(machineId).quantity) {
                 machineEl.style.display = "flex";
             }
-            machineEl.querySelector(".quantity").innerText = data.quantity;
+            machineEl.querySelector(".quantity").innerText = shortNumber(data.quantity);
             let progress = 0;
             if (data.productionTime) {
                 progress = data.elapsedTime / data.productionTime;
