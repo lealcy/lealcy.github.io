@@ -1,1 +1,1 @@
-document.body.innerHTML = "<h1>If you're seen this, you need to update your browser to play this game.</h1>";
+document.body.innerHTML = '<h1>This game use features that just only beginning to be implemented on browsers natively at this time. Check for compatibility at <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/import#Browser_compatibility">this link</a>.</h1>';

@@ -145,7 +145,7 @@ const itemData = {
         image: "burnerMiningDrill",
         category: "miner",
         products: { burnerMiningDrill: 1 },
-        productionTime: { assembler1: 750 },
+        productionTime: { assembler2: 750 },
     },
     assembler1: {
         name: "Assembler 1",
@@ -154,7 +154,7 @@ const itemData = {
         image: "assembler1",
         cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9 },
         products: { assembler1: 1 },
-        productionTime: { assembler1: 750 },
+        productionTime: { assembler2: 750 },
     },
     assembler2: {
         name: "Assembler 2",

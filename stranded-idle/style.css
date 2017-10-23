@@ -76,13 +76,23 @@
 
         .item > .cost {
             display: flex;
+            flex-wrap: wrap;
             justify-content: center; 
             grid-area: cost;
+            margin-bottom: 5px;
         }
 
         .item > .cost > div {
             color: rgb(65, 128, 180);
-            font-size: xx-small;
+            font-size: x-small;
+            margin-left: 5px;
+        }
+
+        .item > .cost > div > img {
+            height: 2em;
+            width: 2em;
+            vertical-align: sub;
+            margin-left: 2px;
         }
 
         .item > .machines {

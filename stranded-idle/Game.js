@@ -16,22 +16,23 @@ export default class Game {
         const frameTime = timestamp - this.lastTimestamp;
         this.lastTimestamp = timestamp;
 
-        items.forEach((item, id) => {
-            item.produce(frameTime);
-            if (!item.enabled && item.canCraft() && (item.craftable || item.hasMachinery())) {
-                this.createButton(item);
-                item.enable();
+        for (const [id, item] of items) {
+            if (!item.visible && item.preRequisites()) {
+                this.createItem(item);
+                item.visible = true;
             }
 
-            if (item.enabled) {
-                this.updateButton(item);
+            if (item.visible) {
+                item.produce(frameTime);
+                this.updateItem(item);
             }
-        });
+        }
     }
 
-    createButton(item) {
+    createItem(item) {
         const itemEl = createFromTemplate("itemTemplate");
         itemEl.id = item.id;
+        itemEl.style.opacity = 0.3;
         itemEl.className += item.craftable ? " craftable" : " nonCraftable";
         const imageEl = itemEl.querySelector(".image");
         imageEl.src = `images/${item.image}.png`;
@@ -49,7 +50,7 @@ export default class Game {
         if (item.cost.size) {
             for (const [id, quantity] of item.cost) {
                 const newEl = document.createElement("div");
-                newEl.innerHTML = `${quantity} ${items.get(id).name}`;
+                newEl.innerHTML = `${quantity}x<img src="images/${items.get(id).image}.png">`;
                 costEl.appendChild(newEl);
             }
         } else {
@@ -98,8 +99,14 @@ export default class Game {
         }
     }
 
-    updateButton(item) {
+    updateItem(item) {
         const itemEl = document.getElementById(item.id);
+        if (!item.active) {
+            if ((item.craftable && item.canCraft()) || (!item.craftable && item.hasMachinery() && item.canCraft())) {
+                item.active = true;
+                itemEl.style.opacity = 1.0;
+            }
+        }
         const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         itemEl.querySelector(".quantity").innerText = quantity;
 

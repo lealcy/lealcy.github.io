@@ -4,7 +4,8 @@ export default class Item {
     constructor(id, data) {
         this.id = id;
         this.quantity = 0;
-        this._enabled = false;
+        this.visible = false;
+        this.active = false;
         this.name = data.name;
         this.description = data.description;
         this.craftable = data.craftable || false;
@@ -41,12 +42,27 @@ export default class Item {
 
     }
 
-    get enabled() {
-        return this._enabled;
+    preRequisites() {
+        if (this.craftable && this.canCraft()) {
+            return true;
+        }
+        if (this.craftable && this.costResourcesActiveAndProduced()) {
+            return true;
+        }
+        if (!this.craftable && this.hasMachinery()) {
+            return true;
+        }
+        return false;
     }
 
-    enable() {
-        this._enabled = true;
+    costResourcesActiveAndProduced() {
+        for (const [id, quantiy] of this.cost) {
+            const item = items.get(id);
+            if (!item.active || !item.quantity) {
+                return false;
+            }
+        }
+        return !!this.cost.size;
     }
 
     canCraft() {
