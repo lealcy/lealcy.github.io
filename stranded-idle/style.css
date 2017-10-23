@@ -2,154 +2,189 @@
             user-select: none;
             cursor: default;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-
+            background-color: rgb(247, 239, 225);
         }
 
-        #buttons {
+        #items {
             display: flex;
             flex-wrap: wrap;
         }
 
-        .button {
+        .item {
+            display: grid;
+            grid-template-areas : "image name"
+                                  "image quantity"
+                                  "description description"
+                                  "cost cost"
+                                  "machines machines";
+            grid-template-columns: min-content 1fr;
             margin: 5px;
-        }
-
-        .button {
-            width: 70px;
-            height: 100%;
+            border: 1px solid tan;
             padding: 5px;
-            border: 1px solid;
-        }
-
-        .nonCraftable {
             background-color: rgb(247, 237, 207);
         }
 
-        .craftable {
+        .item > .image {
+            grid-area: image;
+            margin-right: 5px;
+            padding: 5px;
+            border: 1px solid tan;
+            background-color: rgb(245, 228, 176);
+        }
+
+        .craftable > .image {
+            border: 1px solid white;
+            border-right-color: tan;
+            border-bottom-color: tan;
             background-color: rgb(240, 217, 143);
         }
 
-        .craftable:hover {
-            border: 1px outset;
+        .craftable > .image:hover {
             background-color: rgb(250, 216, 114);
         }
 
-        .craftable:active {
-            border: 1px inset;
+        .craftable > .image:active {
+            border: 1px solid tan;
+            border-right-color: white;
+            border-bottom-color: white;
             background-color: rgb(255, 239, 191);
         }
 
-        .itemContent {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            text-align: center;
-
-            width: 100%;
-        }
-
-        .name {
+        .item > .name {
+            grid-area: name;
             font-size: x-small;
-            margin-top: 5px;
-            margin-bottom: 5px;
         }
 
-        .imageContainer {
-            height: 40px;
+        .item > .quantity {
+            grid-area: quantity;
+            font-size: small;
+            background-color: rgb(253, 248, 231);
+            text-align: right;
+            padding-right: 4px;
+            
         }
 
-        .cost {
-            color: blue;
+        .item > .description {
+            grid-area: description;
+            margin: 5px;
+            margin-top: 7px;
+            margin-bottom: 7px;
             font-size: xx-small;
-            padding-top: 5px;
+            font-style: italic;
+            text-align: center;
         }
 
-        .consume {
-            color: red;
-            font-size: xx-small;
-            padding-bottom: 5px;
+        .item > .cost {
+            display: flex;
+            justify-content: center; 
+            grid-area: cost;
         }
 
-        .produce {
-            color: green;
-            font-size: xx-small;
-            padding-bottom: 5px;
-        }
-
-        .time {
+        .item > .cost > div {
+            color: rgb(65, 128, 180);
             font-size: xx-small;
         }
 
-        .time>span {
-            height: 10px;
-            vertical-align: middle;
+        .item > .machines {
+            display: flex;
+            grid-area: machines;
+            border: 1px solid tan;
+            border-right-color: white;
+            border-bottom-color: white;
+            background-color: rgb(252, 246, 230);
         }
 
-        .time>img {
+        .machine {
+            border: 1px solid white;
+            background-color: rgb(255, 233, 215);
+            padding: 5px;
+            text-align: center;
+            border-right-color: tan;
+            border-bottom-color: tan;
+        }
+
+        .machine > .head {
+            display: grid;
+            grid-template-areas:    "image consume"
+                                    "image progress"
+                                    "image produceTime";
+            grid-template-columns: min-content 1fr;
+        }
+
+        .machine > .head > .image {
+            grid-area: image;
             margin-right: 5px;
-            vertical-align: middle;
+            padding: 5px;
         }
 
-        .progress {
+        .machine > .head > .consume {
+            grid-area: consume;
+            display: flex;
+            justify-content: center; 
+            margin-bottom: 6px;
+        }
+
+        .machine > .head > .consume > div {
+            color: rgb(180, 65, 65);
+            font-size: xx-small;
+        }
+
+        .machine > .head > .progress {
             width: 100%;
             height: 10px;
             border: 0;
         }
 
-        .machine {
-            border: 1px solid;
-            background-color: rgb(252, 211, 178);
-            padding: 5px;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .machine:hover {
-            border: 1px outset;
-            background-color: rgb(247, 187, 148);
-        }
-
-        .machine:active {
-            border: 1px inset;
-            background-color: rgb(255, 215, 188);
-        }
-
-        .machine .head {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-        }
-
-        .machine .quantityBox {
-            text-align: center;
-            width: 50%;
-            margin-left: 3px;
-        }
-
-        .head .quantityBox {
-            font-size: small;
-        }
-
-        .machine .name {
+        .machine > .head > .produceTime {
+            grid-area: produceTime;
             font-size: xx-small;
+            vertical-align: middle;
         }
 
-        .machine .progress {
-            margin-top: 2px;
+        .machine > .head > .produceTime > * {
+            vertical-align: middle;
         }
 
-        .machine .sell {
-            font-size: 0.7em;
-            border: 1px outset;
-            color: red;
-            margin-top: 2px;
+        .quantitySpinner {
+            display: flex;
+            font-size: xx-small;
+            vertical-align: center;
+            justify-content: center;
+            margin-top: 5px;
         }
 
-        .sell:active {
-            border: 1px inset;
+        .quantitySpinner > .button {
+            flex-grow: 1;
+            border: 1px solid white;
+            border-right-color: tan;
+            border-bottom-color: tan;
+            vertical-align: center;
+            margin: auto;
+            padding: 4px;
+            width: 15px;
+            background-color: rgb(253, 222, 196);
         }
 
+        .quantitySpinner > .button:hover {
+            background-color: rgb(255, 198, 151);
+        }
 
+        .quantitySpinner > .button:active {
+            border: 1px solid tan;
+            border-right-color: white;
+            border-bottom-color: white;
+            background-color: rgb(255, 240, 227);
+        }
 
-
-        .quantity {}
+        .quantitySpinner > .quantity {
+            flex-grow: 3;
+            border: 0;
+            font-size: small;
+            background-color: rgb(252, 246, 230);
+            margin-left: 4px;
+            margin-right: 4px;
+            min-width: 2em;
+            text-align: right;
+            padding-right: 4px;
+        }
+        

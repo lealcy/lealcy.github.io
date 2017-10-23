@@ -10,23 +10,16 @@
 </head>
 
 <body>
-    <div id="buttons"></div>
+    <div id="items"></div>
 
-    <template id="buttonTemplate">
-        <div class="button">
-            <div class="item">
-                <div class="itemContent">
-                    <div class="imageContainer">
-                        <img class="image" src="images/coal.png">
-                    </div>
-                    <div class="quantity">0</div>
-                    <div class="name">Template Button</div>
-                    <div class="cost"></div>
-                    <div class="produce"></div>
-                    <div class="consume"></div>
-                    <div class="machines"></div>
-                </div>
-            </div>
+    <template id="itemTemplate">
+        <div class="item">
+            <img class="image" src="images/coal.png">
+            <div class="name">Name</div>
+            <div class="quantity">0</div>
+            <div class="description">Description goes here.</div>
+            <div class="cost"></div>
+            <div class="machines"></div>
         </div>
     </template>
 
@@ -34,16 +27,20 @@
         <div class="machine">
             <div class="head">
                 <img class="image" src="images/coal.png">
-                <div class="quantityBox">
-                    <div class="quantity">0</div>
-                    <div class="sell">-1</div>
+                <div class="consume"></div>
+                <progress class="progress" value="0"></progress>
+                <div class="produceTime">
+                    <img src="images/chronometer.png">
+                    <span class="time">0</span>
                 </div>
             </div>
-            <div class="name">Template Button</div>
-            <div class="consume"></div>
-            <div class="produce"></div>
-            <div class="time"></div>
-            <progress class="progress" value="0"></progress>
+            <div class="quantitySpinner">
+                <div class="removeAll button">-all</div>
+                <div class="remove1 button">-1</div>
+                <div class="quantity">0</div>
+                <div class="add1 button">+1</div>
+                <div class="addAll button">+all</div>
+            </div>
         </div>
     </template>
     <script nomodule src="nomodule.js"></script>

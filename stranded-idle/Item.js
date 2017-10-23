@@ -6,6 +6,7 @@ export default class Item {
         this.quantity = 0;
         this._enabled = false;
         this.name = data.name;
+        this.description = data.description;
         this.craftable = data.craftable || false;
         this.image = data.image;
         this.productionFactor = data.productionFactor || 1;
@@ -83,10 +84,26 @@ export default class Item {
         }
     }
 
+    addAllMachines(machine) {
+        if (machine.quantity) {
+            const quantity = machine.quantity;
+            machine.quantity = 0;
+            this.productionTime.get(machine.id).quantity += quantity;
+        }
+    }
+
     removeMachine(machine) {
-        if (this.productionTime.get(machine.id).quantity >= 1) {
+        if (this.productionTime.get(machine.id).quantity) {
             this.productionTime.get(machine.id).quantity--;
             machine.quantity++;
+        }
+    }
+
+    removeAllMachines(machine) {
+        if (this.productionTime.get(machine.id).quantity) {
+            const quantity = this.productionTime.get(machine.id).quantity;
+            this.productionTime.get(machine.id).quantity = 0;
+            machine.quantity += quantity;
         }
     }
 

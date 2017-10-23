@@ -1,5 +1,5 @@
 export function createFromTemplate(templateId) {
-    return document.getElementById(templateId).content.cloneNode(true);
+    return document.importNode(document.getElementById(templateId).content, true).firstElementChild;
 }
 
 export function shortNumber(value) {
