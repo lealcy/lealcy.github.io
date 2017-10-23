@@ -1,6 +1,21 @@
 import Item from "./Item.js";
 
 const itemData = {
+    // Debug
+    giftOfTheGods: {
+        name: "Gift of the Gods",
+        craftable: true,
+        description: "For debug purposes.",
+        image: "electricity",
+        products: {
+            coal: 10000, iron: 10000, copper: 10000, stone: 10000,
+            ironPlate: 10000, copperPlate: 10000, copperCable: 10000,
+            ironGear: 10000, pipe: 10000, stoneFurnace: 10000,
+            electronicCircuit: 10000, burnerMiningDrill: 10000, assembler1: 10000,
+            assembler2: 10000, waterPump: 10000, boiler: 10000, steamEngine: 10000,
+        },
+    },
+
     // Resources
     coal: {
         name: "Coal",
@@ -41,7 +56,7 @@ const itemData = {
         image: "electricity",
         description: "Power machines.",
         products: { electricity: 1 },
-        productionTime: { steamEngine: 50 },
+        productionTime: { steamEngine: 13 },
     },
 
     // Liquids
@@ -49,8 +64,8 @@ const itemData = {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
         image: "water",
-        products: { water: 1 },
-        productionTime: { waterPump: 250 }
+        products: { water: 120 },
+        productionTime: { waterPump: 100 }
     },
 
     // Gases
@@ -58,9 +73,9 @@ const itemData = {
         name: "Steam",
         description: "If you liked it, then you should have put a Steam Engine on it.",
         image: "steam",
-        cost: { water: 2 },
-        products: { steam: 2 },
-        productionTime: { boiler: 50 },
+        cost: { water: 6 },
+        products: { steam: 6 },
+        productionTime: { boiler: 100 },
     },
 
     // Intermediate Products
@@ -114,13 +129,13 @@ const itemData = {
         products: { copperCable: 1 },
         productionTime: { assembler1: 750 },
     },
-    eletronicCircuit: {
-        name: "Eletronic Circuit",
+    electronicCircuit: {
+        name: "Electronic Circuit",
         description: "Primary ingredient in automation.",
-        image: "eletronicCircuit",
+        image: "electronicCircuit",
         craftable: true,
         cost: { copperCable: 3, ironPlate: 1 },
-        products: { eletronicCircuit: 1 },
+        products: { electronicCircuit: 1 },
         productionTime: { assembler1: 750 },
     },
 
@@ -164,7 +179,7 @@ const itemData = {
         craftable: true,
         image: "assembler1",
         consume: { electricity: 70 },
-        cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9 },
+        cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9 },
         products: { assembler1: 1 },
         productionTime: { assembler2: 750 },
     },
@@ -172,7 +187,7 @@ const itemData = {
         name: "Assembler 2",
         description: "Craft items that use three or four ingredients of distinct types.",
         craftable: true,
-        cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
+        cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
         image: "assembler2",
         consume: { electricity: 100 },
         products: { assembler2: 1 },
@@ -182,7 +197,7 @@ const itemData = {
         name: "Water Pump",
         description: "Pumps water from the ground.",
         craftable: true,
-        cost: { eletronicCircuit: 2, ironGear: 1, pipe: 1 },
+        cost: { electronicCircuit: 2, ironGear: 1, pipe: 1 },
         image: "waterPump",
         products: { waterPump: 1 },
         productionTime: { assembler2: 750 },
@@ -204,7 +219,7 @@ const itemData = {
         craftable: true,
         cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
         products: { steamEngine: 1 },
-        consume: { steam: 1 },
+        consume: { steam: 6 },
         productionTime: { assembler2: 750 },
     }
 

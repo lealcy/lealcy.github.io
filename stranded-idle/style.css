@@ -18,11 +18,16 @@
                                   "cost cost"
                                   "machines machines";
             grid-template-columns: min-content 1fr;
+            grid-template-rows: min-content min-content min-content;
             margin: 5px;
             border: 1px solid tan;
             padding: 5px;
             background-color: rgb(247, 237, 207);
         }
+
+        /*.item > * {
+            border: 1px solid red;
+        }*/
 
         .item > .image {
             grid-area: image;
@@ -53,6 +58,7 @@
         .item > .name {
             grid-area: name;
             font-size: x-small;
+            word-break: break-all;
         }
 
         .item > .quantity {
