@@ -35,7 +35,16 @@ const itemData = {
         productionTime: { burnerMiningDrill: 3571.4 },
     },
 
-    // Liquid
+    // Electricity
+    electricity: {
+        name: "Electricity",
+        image: "electricity",
+        description: "Power machines.",
+        products: { electricity: 1 },
+        productionTime: { steamEngine: 50 },
+    },
+
+    // Liquids
     water: {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
@@ -43,6 +52,8 @@ const itemData = {
         products: { water: 1 },
         productionTime: { waterPump: 250 }
     },
+
+    // Gases
     steam: {
         name: "Steam",
         description: "If you liked it, then you should have put a Steam Engine on it.",
@@ -79,7 +90,7 @@ const itemData = {
     },
     steelPlate: {
         name: "Steel Plate",
-        description: "From Eletric Furnaces to Nuclear Power.",
+        description: "From Electric Furnaces to Nuclear Power.",
         image: "steelPlate",
         products: { steelPlate: 1 },
         cost: { ironPlate: 5 },
@@ -96,7 +107,7 @@ const itemData = {
     },
     copperCable: {
         name: "Copper Cable",
-        description: "Required in eletric components.",
+        description: "Required in electric components.",
         image: "copperCable",
         craftable: true,
         cost: { copperPlate: 1 },
@@ -152,16 +163,18 @@ const itemData = {
         description: "Produce items that require up to two different ingredients.",
         craftable: true,
         image: "assembler1",
+        consume: { electricity: 70 },
         cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9 },
         products: { assembler1: 1 },
         productionTime: { assembler2: 750 },
     },
     assembler2: {
         name: "Assembler 2",
-        description: "Craft items tha use three or four ingredients of distinct types.",
+        description: "Craft items that use three or four ingredients of distinct types.",
         craftable: true,
         cost: { eletronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
         image: "assembler2",
+        consume: { electricity: 100 },
         products: { assembler2: 1 },
         productionTime: { assembler2: 750 },
     },
@@ -186,7 +199,7 @@ const itemData = {
     },
     steamEngine: {
         name: "Steam Engine",
-        description: "Generates Eletricity.",
+        description: "Generates Electricity.",
         image: "steamEngine",
         craftable: true,
         cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
