@@ -49,8 +49,11 @@ export default class Game {
         const costEl = itemEl.querySelector(".cost");
         if (item.cost.size) {
             for (const [id, quantity] of item.cost) {
+                const resource = items.get(id);
                 const newEl = document.createElement("div");
-                newEl.innerHTML = `${quantity}x<img src="images/${items.get(id).image}.png">`;
+                newEl.id = `cost_${item.id}_${id}`;
+                newEl.style.color = resource.quantity < quantity ? "red" : "blue";
+                newEl.innerHTML = `${quantity}x<img src="images/${resource.image}.png">`;
                 costEl.appendChild(newEl);
             }
         } else {
@@ -63,7 +66,7 @@ export default class Game {
         for (const [id, data] of item.productionTime) {
             const machineEl = createFromTemplate("machineTemplate");
             const machine = items.get(id);
-            machineEl.id = `${item.id}_${id}`;
+            machineEl.id = `productionTime_${item.id}_${id}`;
             machineEl.querySelector(".image").src = `images/${machine.image}.png`;
             machineEl.querySelector(".time").innerText = `${data.productionTime / 1000} sec.`;
 
@@ -86,8 +89,10 @@ export default class Game {
 
             const consumeEl = machineEl.querySelector(".consume");
             for (const [id, quantity] of machine.consume) {
+                const consumeItem = items.get(id);
                 const newEl = document.createElement("div");
-                newEl.innerText = `-${quantity} ${items.get(id).name}`;
+                newEl.id = `consume_${item.id}_${id}`;
+                newEl.innerText = `-${quantity} ${consumeItem.name}`;
                 consumeEl.appendChild(newEl);
             }
 
@@ -110,12 +115,19 @@ export default class Game {
         const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         itemEl.querySelector(".quantity").innerText = quantity;
 
+        for (const [id, quantity] of item.cost) {
+            const resourceEl = document.getElementById(`cost_${item.id}_${id}`);
+            resourceEl.style.color = items.get(id).quantity < quantity ? "red" : "blue";
+        }
+
         for (const [id, data] of item.productionTime) {
             const machine = items.get(id);
-            const machineEl = document.getElementById(`${item.id}_${id}`);
+            const machineEl = document.getElementById(`productionTime_${item.id}_${id}`);
+
             if (machine.quantity) {
                 machineEl.style.opacity = 1.0;
             }
+
             machineEl.querySelector(".quantity").innerText = shortNumber(data.quantity);
             let progress = 0;
             if (data.productionTime) {
