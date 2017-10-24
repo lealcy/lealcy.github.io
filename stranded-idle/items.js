@@ -5,7 +5,7 @@ const itemData = {
     giftOfTheGods: {
         name: "Gift of the Gods",
         craftable: true,
-        description: "For debug purposes.",
+        description: "For debugging purposes.",
         image: "electricity",
         products: {
             coal: 10000, iron: 10000, copper: 10000, stone: 10000,
