@@ -65,7 +65,7 @@ const itemData = {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
         image: "water",
-        products: { water: 20 },
+        products: { water: 40 },
         productionTime: { waterPump: 100 }
     },
     petroleum: {
@@ -81,8 +81,8 @@ const itemData = {
         name: "Steam",
         description: "If you liked it, then you should have put a Steam Engine on it.",
         image: "steam",
-        cost: { water: 1 },
-        products: { steam: 1 },
+        cost: { water: 2 },
+        products: { steam: 2 },
         productionTime: { boiler: 100 },
     },
 
