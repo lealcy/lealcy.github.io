@@ -56,8 +56,8 @@ const itemData = {
         name: "Electricity",
         image: "electricity",
         description: "Power machines.",
-        products: { electricity: 1 },
-        productionTime: { steamEngine: 13 },
+        products: { electricity: 10 },
+        productionTime: { steamEngine: 100 },
     },
 
     // Liquids
@@ -65,7 +65,7 @@ const itemData = {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
         image: "water",
-        products: { water: 120 },
+        products: { water: 20 },
         productionTime: { waterPump: 100 }
     },
     petroleum: {
@@ -81,8 +81,8 @@ const itemData = {
         name: "Steam",
         description: "If you liked it, then you should have put a Steam Engine on it.",
         image: "steam",
-        cost: { water: 6 },
-        products: { steam: 6 },
+        cost: { water: 1 },
+        products: { steam: 1 },
         productionTime: { boiler: 100 },
     },
 
@@ -227,7 +227,7 @@ const itemData = {
         craftable: true,
         cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
         products: { steamEngine: 1 },
-        consume: { steam: 6 },
+        consume: { steam: 1 },
         productionTime: { assembler2: 750 },
     },
     electricMiner: {
