@@ -11,8 +11,9 @@ const itemData = {
             coal: 10000, iron: 10000, copper: 10000, stone: 10000,
             ironPlate: 10000, copperPlate: 10000, copperCable: 10000,
             ironGear: 10000, pipe: 10000, stoneFurnace: 10000,
-            electronicCircuit: 10000, burnerMiningDrill: 10000, assembler1: 10000,
+            electronicCircuit: 10000, burnerMiner: 10000, assembler1: 10000,
             assembler2: 10000, waterPump: 10000, boiler: 10000, steamEngine: 10000,
+            electricMiner: 10000,
         },
     },
 
@@ -22,7 +23,7 @@ const itemData = {
         description: "Power machines and produce energy.",
         image: "coal",
         craftable: true,
-        productionTime: { burnerMiningDrill: 3571.4 },
+        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
         products: { coal: 1 },
     },
     stone: {
@@ -30,7 +31,7 @@ const itemData = {
         description: "Craft furnaces and bricks.",
         image: "stone",
         craftable: true,
-        productionTime: { burnerMiningDrill: 2721 },
+        productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
         products: { stone: 1 },
     },
     iron: {
@@ -39,7 +40,7 @@ const itemData = {
         description: "Melt it into plates.",
         products: { iron: 1 },
         image: "iron",
-        productionTime: { burnerMiningDrill: 3571.4 },
+        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
     },
     copper: {
         name: "Copper Ore",
@@ -47,7 +48,7 @@ const itemData = {
         craftable: true,
         products: { copper: 1 },
         image: "copper",
-        productionTime: { burnerMiningDrill: 3571.4 },
+        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
     },
 
     // Electricity
@@ -161,8 +162,8 @@ const itemData = {
         products: { stoneFurnace: 1 },
         productionTime: { assembler1: 750 },
     },
-    burnerMiningDrill: {
-        name: "Burner Mining Drill",
+    burnerMiner: {
+        name: "Burner Miner",
         description: "Disregard taps, adquire resource.",
         image: "burnerMiningDrill",
         craftable: true,
@@ -170,7 +171,7 @@ const itemData = {
         consume: { coal: 0.14285 },
         image: "burnerMiningDrill",
         category: "miner",
-        products: { burnerMiningDrill: 1 },
+        products: { burnerMiner: 1 },
         productionTime: { assembler2: 750 },
     },
     assembler1: {
@@ -221,9 +222,17 @@ const itemData = {
         products: { steamEngine: 1 },
         consume: { steam: 6 },
         productionTime: { assembler2: 750 },
-    }
-
-
+    },
+    electricMiner: {
+        name: "Electric Miner",
+        description: "Automatic resource extractor",
+        image: "eletricity",
+        craftable: true,
+        cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
+        products: { electrictMiner: 1 },
+        consume: { electricity: 90 },
+        productionTime: { assembler2: 750 },
+    },
 };
 
 export const items = new Map;
