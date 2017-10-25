@@ -68,6 +68,13 @@ const itemData = {
         products: { water: 120 },
         productionTime: { waterPump: 100 }
     },
+    petroleum: {
+        name: "Petroleum",
+        description: "Black gold.",
+        image: "electricity",
+        products: { petroleum: 54 },
+        productionTime: { oilPump: 1000 },
+    },
 
     // Gases
     steam: {
@@ -225,11 +232,21 @@ const itemData = {
     },
     electricMiner: {
         name: "Electric Miner",
-        description: "Automatic resource extractor",
+        description: "Automatic resource extractor.",
         image: "electricity",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
         products: { electrictMiner: 1 },
+        consume: { electricity: 90 },
+        productionTime: { assembler2: 750 },
+    },
+    oilPump: {
+        name: "oilPump",
+        description: "Pumps oil from the ground.",
+        image: "electricity",
+        craftable: true,
+        cost: { electrictCircuit: 5, ironGear: 10, pipe: 10, },
+        products: { oilPump: 1 },
         consume: { electricity: 90 },
         productionTime: { assembler2: 750 },
     },
