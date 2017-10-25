@@ -226,7 +226,7 @@ const itemData = {
     electricMiner: {
         name: "Electric Miner",
         description: "Automatic resource extractor",
-        image: "eletricity",
+        image: "electricity",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
         products: { electrictMiner: 1 },
