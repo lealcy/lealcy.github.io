@@ -236,7 +236,7 @@ const itemData = {
         image: "electricity",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
-        products: { electrictMiner: 1 },
+        products: { electricMiner: 1 },
         consume: { electricity: 90 },
         productionTime: { assembler2: 750 },
     },
