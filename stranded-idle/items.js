@@ -245,7 +245,7 @@ const itemData = {
         description: "Pumps oil from the ground.",
         image: "electricity",
         craftable: true,
-        cost: { electricCircuit: 5, ironGear: 10, pipe: 10, },
+        cost: { electronicCircuit: 5, ironGear: 10, pipe: 10, },
         products: { oilPump: 1 },
         consume: { electricity: 90 },
         productionTime: { assembler2: 750 },
