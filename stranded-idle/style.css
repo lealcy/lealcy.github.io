@@ -5,6 +5,37 @@
             background-color: rgb(247, 239, 225);
         }
 
+        #resources {
+            display: flex;
+            flex-wrap: wrap;
+            width: fit-content;
+            margin: 5px 5px 10px 5px;
+            border: 1px solid tan;
+            padding: 5px 5px 0 5px;
+            background-color: rgb(247, 237, 207);
+        }
+
+        .resource {
+            display: flex;
+            margin-right: 30px;
+            margin-bottom: 5px;
+
+            /*border: 1px solid tan;
+            background-color: rgb(245, 228, 176);*/
+        }
+
+        .resource > .image {
+            /*margin-right: px;*/
+            vertical-align: middle;
+            padding: 5px;
+            /*border: 1px solid tan;
+            background-color: rgb(245, 228, 176);*/
+        }
+
+        .resource > .quantity {
+            margin: auto;
+        }
+
         #items {
             display: flex;
             flex-wrap: wrap;

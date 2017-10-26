@@ -30,6 +30,19 @@ export default class Game {
     }
 
     createItem(item) {
+        const resourceEl = createFromTemplate("resourceTemplate");
+        resourceEl.id = `res_${item.id}`;
+        //resourceEl.className += item.craftable ? " craftable" : " nonCraftable";
+        const resImageEl = resourceEl.querySelector(".image");
+        resImageEl.src = `images/${item.image}.png`;
+        if (item.craftable) {
+            resImageEl.addEventListener("click", e => {
+                e.stopPropagation();
+                item.handcraft();
+            });
+        }
+        document.getElementById("resources").appendChild(resourceEl);
+
         const itemEl = createFromTemplate("itemTemplate");
         itemEl.id = item.id;
         itemEl.style.opacity = 0.3;
@@ -40,7 +53,7 @@ export default class Game {
             imageEl.addEventListener("click", e => {
                 e.stopPropagation();
                 item.handcraft();
-            })
+            });
         }
 
         itemEl.querySelector(".name").innerText = item.name;
@@ -105,6 +118,7 @@ export default class Game {
     }
 
     updateItem(item) {
+        const resourceEl = document.getElementById(`res_${item.id}`);
         const itemEl = document.getElementById(item.id);
         if (!item.active) {
             if ((item.craftable && item.canCraft()) || (!item.craftable && item.hasMachinery() && item.canCraft())) {
@@ -114,6 +128,7 @@ export default class Game {
         }
         const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         itemEl.querySelector(".quantity").innerText = quantity;
+        resourceEl.querySelector(".quantity").innerText = quantity;
 
         for (const [id, quantity] of item.cost) {
             const resourceEl = document.getElementById(`cost_${item.id}_${id}`);
