@@ -88,7 +88,7 @@ const itemData = {
 
     // Intermediate Products
     stoneBrick: {
-        name: "Stone Brick",
+        name: "Brick",
         description: "Good heat insulator.",
         image: "stoneBrick",
         cost: { stone: 2 },
@@ -96,7 +96,7 @@ const itemData = {
         products: { stoneBrick: 1 }
     },
     ironPlate: {
-        name: "Iron Plate",
+        name: "Iron Bar",
         description: "You'll need a lot of it.",
         image: "ironPlate",
         products: { ironPlate: 1 },
@@ -104,7 +104,7 @@ const itemData = {
         productionTime: { stoneFurnace: 3571.4, },
     },
     copperPlate: {
-        name: "Copper Plate",
+        name: "Copper Bar",
         description: "You will never get enough of it later.",
         image: "copperPlate",
         products: { copperPlate: 1 },
@@ -112,7 +112,7 @@ const itemData = {
         productionTime: { stoneFurnace: 3571.4, },
     },
     steelPlate: {
-        name: "Steel Plate",
+        name: "Steel Bar",
         description: "From Electric Furnaces to Nuclear Power.",
         image: "steelPlate",
         products: { steelPlate: 1 },
@@ -120,7 +120,7 @@ const itemData = {
         productionTime: { stoneFurnace: 17543.8, },
     },
     ironGear: {
-        name: "Iron Gear",
+        name: "Gear Wheel",
         description: "If it have moving parts, you'll need it.",
         image: "ironGear",
         craftable: true,
@@ -129,7 +129,7 @@ const itemData = {
         productionTime: { assembler1: 750 },
     },
     copperCable: {
-        name: "Copper Cable",
+        name: "Cable",
         description: "Required in electric components.",
         image: "copperCable",
         craftable: true,
@@ -138,7 +138,7 @@ const itemData = {
         productionTime: { assembler1: 750 },
     },
     electronicCircuit: {
-        name: "Electronic Circuit",
+        name: "Circuit Board",
         description: "Primary ingredient in automation.",
         image: "electronicCircuit",
         craftable: true,
@@ -160,7 +160,7 @@ const itemData = {
 
     // Machines
     stoneFurnace: {
-        name: "Stone Furnace",
+        name: "Stone Foundry",
         description: "Smelt things in other things, cosumes coal.",
         image: "stoneFurnace",
         craftable: true,
@@ -170,7 +170,7 @@ const itemData = {
         productionTime: { assembler1: 750 },
     },
     burnerMiner: {
-        name: "Burner Miner",
+        name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
         image: "burnerMiningDrill",
         craftable: true,
@@ -221,7 +221,7 @@ const itemData = {
         consume: { coal: 0.125 },
     },
     steamEngine: {
-        name: "Steam Engine",
+        name: "Steam Generator",
         description: "Generates Electricity.",
         image: "steamEngine",
         craftable: true,
@@ -231,9 +231,9 @@ const itemData = {
         productionTime: { assembler2: 750 },
     },
     electricMiner: {
-        name: "Electric Miner",
+        name: "Electric Mining Drill",
         description: "Automatic resource extractor.",
-        image: "electricity",
+        image: "electricMiner",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
         products: { electricMiner: 1 },
@@ -241,9 +241,9 @@ const itemData = {
         productionTime: { assembler2: 750 },
     },
     oilPump: {
-        name: "oilPump",
+        name: "Oil Pump",
         description: "Pumps oil from the ground.",
-        image: "electricity",
+        image: "oilPump",
         craftable: true,
         cost: { electronicCircuit: 5, ironGear: 10, pipe: 10, },
         products: { oilPump: 1 },

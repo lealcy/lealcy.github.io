@@ -25,7 +25,7 @@
         }
 
         .resource > .image {
-            /*margin-right: px;*/
+            margin-right: 5px;
             vertical-align: middle;
             padding: 5px;
             /*border: 1px solid tan;
@@ -68,18 +68,21 @@
             background-color: rgb(245, 228, 176);
         }
 
-        .craftable > .image {
+        .item.craftable > .image {
             border: 1px solid white;
             border-right-color: tan;
             border-bottom-color: tan;
             background-color: rgb(240, 217, 143);
         }
 
-        .craftable > .image:hover {
+        .item.craftable > .image:hover {
+            border: 1px solid white;
+            border-right-color: tan;
+            border-bottom-color: tan;
             background-color: rgb(250, 216, 114);
         }
 
-        .craftable > .image:active {
+        .item.craftable > .image:active {
             border: 1px solid tan;
             border-right-color: white;
             border-bottom-color: white;

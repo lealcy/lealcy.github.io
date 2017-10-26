@@ -32,7 +32,7 @@ export default class Game {
     createItem(item) {
         const resourceEl = createFromTemplate("resourceTemplate");
         resourceEl.id = `res_${item.id}`;
-        //resourceEl.className += item.craftable ? " craftable" : " nonCraftable";
+        resourceEl.className += item.craftable ? " craftable" : " nonCraftable";
         const resImageEl = resourceEl.querySelector(".image");
         resImageEl.src = `images/${item.image}.png`;
         if (item.craftable) {
@@ -40,6 +40,8 @@ export default class Game {
                 e.stopPropagation();
                 item.handcraft();
             });
+        } else {
+            resImageEl.style.opacity = 0.5;
         }
         document.getElementById("resources").appendChild(resourceEl);
 
