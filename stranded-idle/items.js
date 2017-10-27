@@ -3,18 +3,11 @@ import Item from "./Item.js";
 const itemData = {
     // Debug
     giftOfTheGods: {
-        name: "Gift of the Gods",
+        name: "Gift Of The Gods",
         craftable: true,
         description: "For debugging purposes.",
-        image: "electricity",
-        products: {
-            coal: 10000, iron: 10000, copper: 10000, stone: 10000,
-            ironPlate: 10000, copperPlate: 10000, copperCable: 10000,
-            ironGear: 10000, pipe: 10000, stoneFurnace: 10000,
-            electronicCircuit: 10000, burnerMiner: 10000, assembler1: 10000,
-            assembler2: 10000, waterPump: 10000, boiler: 10000, steamEngine: 10000,
-            electricMiner: 10000,
-        },
+        image: "giftOfTheGods",
+        products: {},
     },
 
     // Resources
@@ -71,7 +64,7 @@ const itemData = {
     petroleum: {
         name: "Petroleum",
         description: "Black gold.",
-        image: "electricity",
+        image: "petroleum",
         products: { petroleum: 54 },
         productionTime: { oilPump: 1000 },
     },
@@ -256,4 +249,11 @@ export const items = new Map;
 
 for (const item in itemData) {
     items.set(item, new Item(item, itemData[item]));
+}
+
+for (const [id, data] of items) {
+    if (id === "giftOfTheGods") {
+        continue;
+    }
+    items.get("giftOfTheGods").products.set(id, 10000);
 }
