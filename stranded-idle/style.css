@@ -6,7 +6,9 @@ body {
 }
 
 #itemBarTabs {
+    position: relative;
     display: flex;
+    z-index: 1;
 }
 
 .tabName {
@@ -18,6 +20,7 @@ body {
     padding-right: 10px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
 }
 
 .tabName[data-animate="true"] {
@@ -36,16 +39,20 @@ body {
 }
 
 .tabContent {
+    position: relative;
+    z-index: 2;
     display: flex;
     flex-wrap: wrap;
     width: fit-content;
     margin: 0 5px 10px 0;
-    padding: 5px 5px 0 5px;
+    padding: 5px 5px 0 10px;
     background-color: #f7bb60;
     width: 90%;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
+    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+
 }
 
 .resource {

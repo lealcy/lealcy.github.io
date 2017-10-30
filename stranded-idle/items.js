@@ -100,7 +100,7 @@ const itemData = {
         name: "Iron Bar",
         description: "You'll need a lot of it.",
         image: "ironPlate",
-        Category: "intermediateProducts"
+        category: "intermediateProducts"
     },/*
     copperPlate: {
         name: "Copper Bar",
