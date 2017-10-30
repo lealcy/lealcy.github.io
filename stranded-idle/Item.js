@@ -11,6 +11,7 @@ export default class Item {
         this.craftable = data.craftable || false;
         this.image = data.image;
         this.productionFactor = data.productionFactor || 1;
+        this.type = data.type || "none";
 
         this.cost = new Map;
         if (data.cost !== undefined) {
@@ -85,9 +86,10 @@ export default class Item {
             this.cost.forEach((quantity, id) => {
                 items.get(id).quantity -= quantity;
             });
-            this.products.forEach((quantity, id) => {
+            this.quantity++;
+            /*this.products.forEach((quantity, id) => {
                 items.get(id).quantity += quantity;
-            });
+            });*/
             return true;
         }
         return false;

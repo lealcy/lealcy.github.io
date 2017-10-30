@@ -43,7 +43,12 @@ export default class Game {
         } else {
             resImageEl.style.opacity = 0.5;
         }
+        resourceEl.querySelector(".name").innerText = item.name;
         document.getElementById("resources").appendChild(resourceEl);
+
+        if (item.type === "resource") {
+            return;
+        }
 
         const itemEl = createFromTemplate("itemTemplate");
         itemEl.id = item.id;
@@ -122,19 +127,22 @@ export default class Game {
     updateItem(item) {
         const resourceEl = document.getElementById(`res_${item.id}`);
         const itemEl = document.getElementById(item.id);
+        const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
+        resourceEl.querySelector(".quantity").innerText = quantity;
+        if (item.type === "resource") {
+            return;
+        }
         if (!item.active) {
             if ((item.craftable && item.canCraft()) || (!item.craftable && item.hasMachinery() && item.canCraft())) {
                 item.active = true;
                 itemEl.style.opacity = 1.0;
             }
         }
-        const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         itemEl.querySelector(".quantity").innerText = quantity;
-        resourceEl.querySelector(".quantity").innerText = quantity;
 
         for (const [id, quantity] of item.cost) {
-            const resourceEl = document.getElementById(`cost_${item.id}_${id}`);
-            resourceEl.style.color = items.get(id).quantity < quantity ? "red" : "blue";
+            const costEl = document.getElementById(`cost_${item.id}_${id}`);
+            costEl.style.color = items.get(id).quantity < quantity ? "red" : "blue";
         }
 
         for (const [id, data] of item.productionTime) {

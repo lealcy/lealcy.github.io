@@ -16,18 +16,34 @@
         }
 
         .resource {
-            display: flex;
+            display: grid;
+            grid-template-areas: "image quantity"
+                                "name name";
             margin-right: 30px;
             margin-bottom: 5px;
-        }
-
-        .resource > .image {
-            margin-right: 5px;
-            vertical-align: middle;
             padding: 5px;
         }
 
+        .resource:hover > .name {
+            display: block;
+            font-size: x-small;
+            word-break: break-all;
+        }
+
+        .resource > .image {
+            grid-area: image;
+            margin-right: 5px;
+            vertical-align: middle;
+        }
+
         .resource > .quantity {
+            grid-area: quantity;
+            /*margin: auto;*/
+        }
+
+        .resource > .name {
+            grid-area: name;
+            display: none;
             margin: auto;
         }
 
@@ -46,24 +62,25 @@
             grid-template-columns: min-content 1fr;
             grid-template-rows: min-content min-content min-content;
             margin: 5px;
-            border: 1px solid tan;
+            border: 1px solid rgb(247, 237, 207);
             padding: 5px;
             background-color: rgb(247, 237, 207);
+        }
+
+        .item:hover {
+            border: 1px solid tan;
         }
 
         .item > .image {
             grid-area: image;
             margin-right: 5px;
             padding: 5px;
-            border: 1px solid tan;
-            background-color: rgb(245, 228, 176);
+            opacity: 0.5;
         }
 
         .item.craftable > .image {
-            border: 1px solid white;
-            border-right-color: tan;
-            border-bottom-color: tan;
-            background-color: rgb(240, 217, 143);
+            border: 1px solid rgb(247, 237, 207);
+            opacity: 1.0;
         }
 
         .item.craftable > .image:hover {

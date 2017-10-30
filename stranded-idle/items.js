@@ -2,57 +2,61 @@ import Item from "./Item.js";
 
 const itemData = {
     // Debug
-    giftOfTheGods: {
+    /*giftOfTheGods: {
         name: "Gift Of The Gods",
         craftable: true,
         description: "For debugging purposes.",
         image: "giftOfTheGods",
-        products: {},
-    },
+        type: "resource",
+    },*/
 
     // Resources
     coal: {
         name: "Coal",
-        description: "Power machines and produce energy.",
+        description: "Power machines and produce power.",
         image: "coal",
         craftable: true,
-        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
-        products: { coal: 1 },
+        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        //products: { coal: 1 },
+        type: "resource",
     },
     stone: {
         name: "Stone",
         description: "Craft furnaces and bricks.",
         image: "stone",
         craftable: true,
-        productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
-        products: { stone: 1 },
+        //productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
+        //products: { stone: 1 },
+        type: "resource",
     },
     iron: {
         name: "Iron Ore",
         craftable: true,
         description: "Melt it into plates.",
-        products: { iron: 1 },
+        //products: { iron: 1 },
         image: "iron",
-        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        type: "resource",
     },
     copper: {
         name: "Copper Ore",
         description: "Melt it into plates.",
         craftable: true,
-        products: { copper: 1 },
+        //products: { copper: 1 },
         image: "copper",
-        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        type: "resource",
     },
 
     // Electricity
-    electricity: {
+    /*electricity: {
         name: "Electricity",
         image: "electricity",
         description: "Power machines.",
         products: { electricity: 10 },
         productionTime: { steamEngine: 100 },
     },
-
+ 
     // Liquids
     water: {
         name: "Water",
@@ -68,7 +72,7 @@ const itemData = {
         products: { petroleum: 54 },
         productionTime: { oilPump: 1000 },
     },
-
+ 
     // Gases
     steam: {
         name: "Steam",
@@ -78,7 +82,7 @@ const itemData = {
         products: { steam: 2 },
         productionTime: { boiler: 100 },
     },
-
+ 
     // Intermediate Products
     stoneBrick: {
         name: "Brick",
@@ -139,7 +143,7 @@ const itemData = {
         products: { electronicCircuit: 1 },
         productionTime: { assembler1: 750 },
     },
-
+ 
     // Machinery
     pipe: {
         name: "Pipe",
@@ -150,18 +154,18 @@ const itemData = {
         productionTime: { assembler1: 750 },
         products: { pipe: 1 },
     },
-
+ 
     // Machines
-    stoneFurnace: {
-        name: "Stone Foundry",
+    */stoneFurnace: {
+        name: "Foundry",
         description: "Smelt things in other things, cosumes coal.",
         image: "stoneFurnace",
         craftable: true,
         cost: { stone: 5 },
         consume: { coal: 0.08035 },
-        products: { stoneFurnace: 1 },
-        productionTime: { assembler1: 750 },
-    },
+        //products: { stoneFurnace: 1 },
+        //productionTime: { assembler1: 750 },
+    },/*
     burnerMiner: {
         name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
@@ -242,7 +246,7 @@ const itemData = {
         products: { oilPump: 1 },
         consume: { electricity: 90 },
         productionTime: { assembler2: 750 },
-    },
+    },*/
 };
 
 export const items = new Map;
@@ -251,9 +255,9 @@ for (const item in itemData) {
     items.set(item, new Item(item, itemData[item]));
 }
 
-for (const [id, data] of items) {
+/*for (const [id, data] of items) {
     if (id === "giftOfTheGods") {
         continue;
     }
     items.get("giftOfTheGods").products.set(id, 10000);
-}
+}*/
