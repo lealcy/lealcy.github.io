@@ -21,20 +21,20 @@ export default class Game {
         for (const [id, item] of items) {
             this.itemBar.update(item);
 
-            if (!item.visible && item.preRequisites()) {
+            /*if (!item.visible && item.canCraft()) {
                 this.createItem(item);
                 item.visible = true;
             }
 
             if (item.visible) {
-                item.produce(frameTime);
-                this.updateItem(item);
-            }
+                //item.produce(frameTime);
+                //this.updateItem(item);
+            }*/
         }
     }
 
     createItem(item) {
-        /*const resourceEl = createFromTemplate("resourceTemplate");
+        const resourceEl = createFromTemplate("resourceTemplate");
         resourceEl.id = `res_${item.id}`;
         resourceEl.className += item.craftable ? " craftable" : " nonCraftable";
         const resImageEl = resourceEl.querySelector(".image");
@@ -87,7 +87,7 @@ export default class Game {
         document.getElementById("items").appendChild(itemEl);
 
         const machinesEl = itemEl.querySelector(".machines");
-        for (const [id, data] of item.productionTime) {
+        /*for (const [id, data] of item.productionTime) {
             const machineEl = createFromTemplate("machineTemplate");
             const machine = items.get(id);
             machineEl.id = `productionTime_${item.id}_${id}`;
@@ -129,7 +129,7 @@ export default class Game {
     }
 
     updateItem(item) {
-        /*const resourceEl = document.getElementById(`res_${item.id}`);
+        const resourceEl = document.getElementById(`res_${item.id}`);
         const itemEl = document.getElementById(item.id);
         const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         resourceEl.querySelector(".quantity").innerText = quantity;
@@ -149,7 +149,7 @@ export default class Game {
             costEl.style.color = items.get(id).quantity < quantity ? "red" : "blue";
         }
 
-        for (const [id, data] of item.productionTime) {
+        /*for (const [id, data] of item.productionTime) {
             const machine = items.get(id);
             const machineEl = document.getElementById(`productionTime_${item.id}_${id}`);
 

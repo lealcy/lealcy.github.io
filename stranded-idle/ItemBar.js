@@ -47,7 +47,9 @@ export default class ItemBar {
                 const itemEl = createFromTemplate("resourceTemplate");
                 itemEl.id = `tabItem_${item.id}`;
                 itemEl.className += " tabItem " + (item.craftable ? "craftable" : "nonCraftable");
-                itemEl.style.display = "none";
+                if (!item.visible) {
+                    itemEl.style.display = "none";
+                }
                 const itemImageEl = itemEl.querySelector(".image");
                 itemImageEl.src = `images/${item.image}.png`;
                 if (item.craftable) {
@@ -71,15 +73,13 @@ export default class ItemBar {
     update(item) {
         const itemEl = document.getElementById(`tabItem_${item.id}`);
 
-        if (!item.active) {
-            if ((item.craftable && item.canCraft()) || (!item.craftable && item.hasMachinery() && item.canCraft())) {
-                item.active = true;
-                itemEl.style.display = "grid";
-                const tabNameEl = document.getElementById(`tab_${item.category}`);
-                tabNameEl.style.display = "block";
-                tabNameEl.dataset.animate = true;
-                //itemEl.style.opacity = 1.0;
-            }
+        if (!item.active && item.craftable && item.canCraft()) {
+            item.active = true;
+            itemEl.style.display = "grid";
+            const tabNameEl = document.getElementById(`tab_${item.category}`);
+            tabNameEl.style.display = "block";
+            tabNameEl.dataset.animate = true;
+            //itemEl.style.opacity = 1.0;
         }
 
         itemEl.querySelector(".quantity").innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);

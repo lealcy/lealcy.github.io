@@ -16,20 +16,20 @@ const itemData = {
         description: "Power machines and produce power.",
         image: "coal",
         craftable: true,
+        visisble: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
         //products: { coal: 1 },
-        category: "Resources",
-        type: "resource",
+        category: "resources",
     },
     stone: {
         name: "Stone",
         description: "Craft furnaces and bricks.",
         image: "stone",
         craftable: true,
+        visisble: true,
         //productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
         //products: { stone: 1 },
-        category: "Resources",
-        type: "resource",
+        category: "resources",
     },
     iron: {
         name: "Iron Ore",
@@ -37,9 +37,9 @@ const itemData = {
         description: "Melt it into plates.",
         //products: { iron: 1 },
         image: "iron",
+        visisble: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
-        category: "Resources",
-        type: "resource",
+        category: "resources",
     },
     copper: {
         name: "Copper Ore",
@@ -47,9 +47,9 @@ const itemData = {
         craftable: true,
         //products: { copper: 1 },
         image: "copper",
+        visisble: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
-        category: "Resources",
-        type: "resource",
+        category: "resources",
     },
 
     // Electricity
@@ -95,15 +95,13 @@ const itemData = {
         cost: { stone: 2 },
         productionTime: { stoneFurnace: 3571.4, },
         products: { stoneBrick: 1 }
-    },
+    },*/
     ironPlate: {
         name: "Iron Bar",
         description: "You'll need a lot of it.",
         image: "ironPlate",
-        products: { ironPlate: 1 },
-        cost: { iron: 1 },
-        productionTime: { stoneFurnace: 3571.4, },
-    },
+        Category: "intermediateProducts"
+    },/*
     copperPlate: {
         name: "Copper Bar",
         description: "You will never get enough of it later.",
@@ -167,7 +165,19 @@ const itemData = {
         craftable: true,
         cost: { stone: 5 },
         consume: { coal: 0.08035 },
-        category: "Machines",
+        category: "machines",
+        production: {
+            ironPlate: {
+                consume: {
+                    iron: 1,
+                    coal: 0.08,
+                },
+                produce: {
+                    ironPlate: 1,
+                },
+                time: 3571.4,
+            }
+        }
         //products: { stoneFurnace: 1 },
         //productionTime: { assembler1: 750 },
     },/*
