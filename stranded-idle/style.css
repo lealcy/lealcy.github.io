@@ -1,53 +1,86 @@
-        body {
-            user-select: none;
-            cursor: default;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: rgb(247, 239, 225);
-        }
+body {
+    user-select: none;
+    cursor: default;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(247, 239, 225);
+}
 
-        #resources {
-            display: flex;
-            flex-wrap: wrap;
-            width: fit-content;
-            margin: 5px 5px 10px 5px;
-            border: 1px solid tan;
-            padding: 5px 5px 0 5px;
-            background-color: rgb(247, 237, 207);
-        }
+#itemBarTabs {
+    display: flex;
+}
 
-        .resource {
-            display: grid;
-            grid-template-areas: "image quantity"
-                                "name name";
-            margin-right: 30px;
-            margin-bottom: 5px;
-            padding: 5px;
-        }
+.tabName {
+    background-color: rgb(255, 236, 179);
+    font-size: small;
+    margin-right: 5px;
+    padding: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
 
-        .resource:hover > .name {
-            display: block;
-            font-size: x-small;
-            word-break: break-all;
-        }
+.tabName[data-animate="true"] {
+    animation: tabBlink 0.2s;
+    animation-iteration-count: 5;
+}
 
-        .resource > .image {
-            grid-area: image;
-            margin-right: 5px;
-            vertical-align: middle;
-        }
+@keyframes tabBlink {
+    50% { opacity: 0; }
+}
 
-        .resource > .quantity {
-            grid-area: quantity;
-            /*margin: auto;*/
-        }
 
-        .resource > .name {
-            grid-area: name;
-            display: none;
-            margin: auto;
-        }
+.tabName[data-selected="true"] {
+    background-color: #f7bb60;
+    font-weight: bold;
+}
 
-        #items {
+.tabContent {
+    display: flex;
+    flex-wrap: wrap;
+    width: fit-content;
+    margin: 0 5px 10px 0;
+    padding: 5px 5px 0 5px;
+    background-color: #f7bb60;
+    width: 90%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.resource {
+    display: grid;
+    grid-template-areas: 
+        "image quantity"
+        "name name";
+    margin-right: 30px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
+
+/*.resource:hover > .name {
+    display: block;
+}*/
+
+.resource > .image {
+    grid-area: image;
+    margin-right: 5px;
+}
+
+.resource > .quantity {
+    grid-area: quantity;
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.resource > .name {
+    grid-area: name;
+    /*display: none;*/
+    margin-top: 5px;
+    font-size: x-small;
+    word-break: break-all;
+    text-align: center;
+}
+
+        /*#items {
             display: flex;
             flex-wrap: wrap;
         }
@@ -244,5 +277,5 @@
             min-width: 2em;
             text-align: right;
             padding-right: 4px;
-        }
+        }*/
         

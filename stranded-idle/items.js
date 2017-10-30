@@ -18,6 +18,7 @@ const itemData = {
         craftable: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
         //products: { coal: 1 },
+        category: "Resources",
         type: "resource",
     },
     stone: {
@@ -27,6 +28,7 @@ const itemData = {
         craftable: true,
         //productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
         //products: { stone: 1 },
+        category: "Resources",
         type: "resource",
     },
     iron: {
@@ -36,6 +38,7 @@ const itemData = {
         //products: { iron: 1 },
         image: "iron",
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        category: "Resources",
         type: "resource",
     },
     copper: {
@@ -45,6 +48,7 @@ const itemData = {
         //products: { copper: 1 },
         image: "copper",
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        category: "Resources",
         type: "resource",
     },
 
@@ -163,6 +167,7 @@ const itemData = {
         craftable: true,
         cost: { stone: 5 },
         consume: { coal: 0.08035 },
+        category: "Machines",
         //products: { stoneFurnace: 1 },
         //productionTime: { assembler1: 750 },
     },/*

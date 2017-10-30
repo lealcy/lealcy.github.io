@@ -12,6 +12,7 @@ export default class Item {
         this.image = data.image;
         this.productionFactor = data.productionFactor || 1;
         this.type = data.type || "none";
+        this.category = data.category || "none";
 
         this.cost = new Map;
         if (data.cost !== undefined) {

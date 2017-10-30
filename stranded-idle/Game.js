@@ -1,10 +1,12 @@
 import { items } from "./items.js";
 import { createFromTemplate, shortNumber } from "./helpers.js";
+import ItemBar from "./ItemBar.js";
 
 export default class Game {
     constructor(buttonsEl) {
         this.buttonsEl = buttonsEl;
         this.lastTimestamp = 0;
+        this.itemBar = new ItemBar(document.getElementById("itemBar"), items);
     }
 
     run() {
@@ -17,6 +19,8 @@ export default class Game {
         this.lastTimestamp = timestamp;
 
         for (const [id, item] of items) {
+            this.itemBar.update(item);
+
             if (!item.visible && item.preRequisites()) {
                 this.createItem(item);
                 item.visible = true;
@@ -30,7 +34,7 @@ export default class Game {
     }
 
     createItem(item) {
-        const resourceEl = createFromTemplate("resourceTemplate");
+        /*const resourceEl = createFromTemplate("resourceTemplate");
         resourceEl.id = `res_${item.id}`;
         resourceEl.className += item.craftable ? " craftable" : " nonCraftable";
         const resImageEl = resourceEl.querySelector(".image");
@@ -121,11 +125,11 @@ export default class Game {
             }
 
             machinesEl.appendChild(machineEl);
-        }
+        }*/
     }
 
     updateItem(item) {
-        const resourceEl = document.getElementById(`res_${item.id}`);
+        /*const resourceEl = document.getElementById(`res_${item.id}`);
         const itemEl = document.getElementById(item.id);
         const quantity = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
         resourceEl.querySelector(".quantity").innerText = quantity;
@@ -159,6 +163,6 @@ export default class Game {
                 progress = data.elapsedTime / data.productionTime;
             }
             machineEl.querySelector(".progress").value = progress;
-        }
+        }*/
     }
 }
