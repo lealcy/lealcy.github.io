@@ -52,7 +52,6 @@ body {
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
     box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
-
 }
 
 .resource {
@@ -89,202 +88,128 @@ body {
     text-align: center;
 }
 
-        #items {
-            display: flex;
-            flex-wrap: wrap;
-        }
+.machine {
+    width: fit-content;
+    margin: 0 5px 10px 0;
+    padding: 5px 5px  10px;
+    background-color: #f7bb60;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+}
 
-        .item {
-            display: grid;
-            grid-template-areas : "image name"
-                                  "image quantity"
-                                  "description description"
-                                  "cost cost"
-                                  "machines machines";
-            grid-template-columns: min-content 1fr;
-            grid-template-rows: min-content min-content min-content;
-            margin: 5px;
-            border: 1px solid rgb(247, 237, 207);
-            padding: 5px;
-            background-color: rgb(247, 237, 207);
-        }
+.machine > .display {
+    display: flex;
+}
 
-        .item:hover {
-            border: 1px solid tan;
-        }
+/*.machine * {
+    border: 1px solid red;
+}*/
 
-        .item > .image {
-            grid-area: image;
-            margin-right: 5px;
-            padding: 5px;
-            opacity: 0.5;
-        }
+.machine > .display > .image {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-left: 5px;
+    padding-right: 10px;
+    border-right: 1px solid grey;
+    margin-right: 10px;
+}
 
-        .item.craftable > .image {
-            border: 1px solid rgb(247, 237, 207);
-            opacity: 1.0;
-        }
+.machine > .display > .arrow {
+    padding: 0 10px 0 10px;
+}
 
-        .item.craftable > .image:hover {
-            border: 1px solid white;
-            border-right-color: tan;
-            border-bottom-color: tan;
-            background-color: rgb(250, 216, 114);
-        }
+.machine > .display > .consume, .machine > .display > .produce {
+    display: flex;
+    font-size: xx-small;
+    margin: 0 10px 0 10px;
+}
 
-        .item.craftable > .image:active {
-            border: 1px solid tan;
-            border-right-color: white;
-            border-bottom-color: white;
-            background-color: rgb(255, 239, 191);
-        }
+.machine > .display > .consume > *, .machine > .display > .produce > * {
+    text-align: center;
+    margin-right: 10px;
+}
 
-        .item > .name {
-            grid-area: name;
-            font-size: x-small;
-            word-break: break-all;
-        }
+.machine > .work {
+    display: flex;
+    margin-top: 5px;
+}
 
-        .item > .quantity {
-            grid-area: quantity;
-            font-size: small;
-            background-color: rgb(253, 248, 231);
-            text-align: right;
-            padding-right: 4px;
-            
-        }
+.machine > .work > * {
+    vertical-align: middle;
+}
 
-        .item > .description {
-            grid-area: description;
-            margin: 5px;
-            margin-top: 7px;
-            margin-bottom: 7px;
-            font-size: xx-small;
-            font-style: italic;
-            text-align: center;
-        }
+.machine > .work > .produceTime {
+    font-size: xx-small;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 5px;
+}
 
-        .item > .cost {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; 
-            grid-area: cost;
-            margin-bottom: 5px;
-        }
+.machine > .work > .produceTime > * {
+    vertical-align: middle;
+}
 
-        .item > .cost > div {
-            color: rgb(65, 128, 180);
-            font-size: x-small;
-            margin-left: 5px;
-        }
 
-        .item > .cost > div > img {
-            height: 2em;
-            width: 2em;
-            vertical-align: sub;
-            margin-left: 2px;
-        }
+.machine > .work > .progress {
+    border: 0;
+    flex-grow: 1;
+}
 
-        .item > .machines {
-            display: flex;
-            grid-area: machines;
-            border: 1px solid tan;
-            border-right-color: white;
-            border-bottom-color: white;
-            background-color: rgb(252, 246, 230);
-        }
+.machine > .quantitySpinner {
+    grid-area: spinner;
+    display: flex;
+    font-size: xx-small;
+    vertical-align: center;
+    justify-content: center;
+    margin-top: 5px;
+    height: 10px;
 
-        .machine {
-            border: 1px solid white;
-            background-color: rgb(255, 233, 215);
-            padding: 5px;
-            text-align: center;
-            border-right-color: tan;
-            border-bottom-color: tan;
-        }
+}
 
-        .machine > .head {
-            display: grid;
-            grid-template-areas:    "image consume"
-                                    "image progress"
-                                    "image produceTime";
-            grid-template-columns: min-content 1fr;
-        }
+.machine > .quantitySpinner > .left {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
 
-        .machine > .head > .image {
-            grid-area: image;
-            margin-right: 5px;
-            padding: 5px;
-        }
+.machine > .quantitySpinner > .right {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
 
-        .machine > .head > .consume {
-            grid-area: consume;
-            display: flex;
-            justify-content: center; 
-            margin-bottom: 6px;
-        }
+.machine > .quantitySpinner > .button {
+    flex-grow: 1;
+    border: 1px solid white;
+    border-right-color: tan;
+    border-bottom-color: tan;
+    vertical-align: center;
+    margin: auto;
+    padding: 0 4px 0 4px;
+    
 
-        .machine > .head > .consume > div {
-            color: rgb(180, 65, 65);
-            font-size: xx-small;
-        }
+    min-width: 15px;
+    background-color: rgb(253, 222, 196);
+}
 
-        .machine > .head > .progress {
-            width: 100%;
-            height: 10px;
-            border: 0;
-        }
+.machine > .quantitySpinner > .button:hover {
+    background-color: rgb(255, 198, 151);
+}
 
-        .machine > .head > .produceTime {
-            grid-area: produceTime;
-            font-size: xx-small;
-            vertical-align: middle;
-        }
+.machine > .quantitySpinner > .button:active {
+    border: 1px solid tan;
+    border-right-color: white;
+    border-bottom-color: white;
+    background-color: rgb(255, 240, 227);
+}
 
-        .machine > .head > .produceTime > * {
-            vertical-align: middle;
-        }
+.machine > .quantitySpinner > .quantity {
+    border: 0;
+    font-size: 10px;
+    background-color: rgb(252, 246, 230);
+    min-width: 2em;
+    text-align: right;
+    padding-right: 4px;
+    height: 13px;
 
-        .quantitySpinner {
-            display: flex;
-            font-size: xx-small;
-            vertical-align: center;
-            justify-content: center;
-            margin-top: 5px;
-        }
-
-        .quantitySpinner > .button {
-            flex-grow: 1;
-            border: 1px solid white;
-            border-right-color: tan;
-            border-bottom-color: tan;
-            vertical-align: center;
-            margin: auto;
-            padding: 4px;
-            width: 15px;
-            background-color: rgb(253, 222, 196);
-        }
-
-        .quantitySpinner > .button:hover {
-            background-color: rgb(255, 198, 151);
-        }
-
-        .quantitySpinner > .button:active {
-            border: 1px solid tan;
-            border-right-color: white;
-            border-bottom-color: white;
-            background-color: rgb(255, 240, 227);
-        }
-
-        .quantitySpinner > .quantity {
-            flex-grow: 3;
-            border: 0;
-            font-size: small;
-            background-color: rgb(252, 246, 230);
-            margin-left: 4px;
-            margin-right: 4px;
-            min-width: 2em;
-            text-align: right;
-            padding-right: 4px;
-        }
+}
         
