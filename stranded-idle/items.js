@@ -101,15 +101,13 @@ const itemData = {
         description: "You'll need a lot of it.",
         image: "ironPlate",
         category: "intermediateProducts"
-    },/*
+    },
     copperPlate: {
         name: "Copper Bar",
         description: "You will never get enough of it later.",
         image: "copperPlate",
-        products: { copperPlate: 1 },
-        cost: { copper: 1 },
-        productionTime: { stoneFurnace: 3571.4, },
-    },
+        category: "intermediateProducts",
+    },/*
     steelPlate: {
         name: "Steel Bar",
         description: "From Electric Furnaces to Nuclear Power.",
@@ -176,7 +174,17 @@ const itemData = {
                     ironPlate: 1,
                 },
                 time: 3571.4,
-            }
+            },
+            copperPlate: {
+                consume: {
+                    copper: 2,
+                    coal: 0.08,
+                },
+                produce: {
+                    copperPlate: 1
+                },
+                time: 3571.4,
+            },
         }
         //products: { stoneFurnace: 1 },
         //productionTime: { assembler1: 750 },

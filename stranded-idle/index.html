@@ -12,50 +12,7 @@
 
 <body>
     <div id="itemBar"></div>
-    <div id="machines">
-        <div class="machine">
-            <div class="display">
-                <div class="image">
-                    <img src="images/stoneFurnace.png">
-                </div>
-                <div class="consume">
-                    <div class="item">
-                        <img class="image" src="images/coal.png">
-                        <div class="quantity">x0.08</div>
-                    </div>
-                    <div class="item">
-                        <img class="image" src="images/iron.png">
-                        <div class="quantity">x1</div>
-                    </div>
-                </div>
-                <img class="arrow" src="images/arrow.png">
-                <div class="produce">
-                    <div class="item">
-                        <img class="image" src="images/ironPlate.png">
-                        <div class="quantity">x1</div>
-                    </div>
-                </div>
-            </div>
-            <div class="work">
-                <div class="produceTime">
-                    <img src="images/chronometer.png">
-                    <span class="time">0</span>
-                </div>
-                <progress class="progress" value="0"></progress>
-            </div>
-            <div class="quantitySpinner">
-                <div class="removeAll button left">-all</div>
-                <div class="remove100 button">-100</div>
-                <div class="remove10 button">-10</div>
-                <div class="remove1 button">-1</div>
-                <div class="quantity">0</div>
-                <div class="add1 button">+1</div>
-                <div class="add10 button">+10</div>
-                <div class="add100 button">+100</div>
-                <div class="addAll button right">+all</div>
-            </div>
-        </div>
-    </div>
+    <div id="machines"></div>
     <div id="items"></div>
 
     <template id="resourceTemplate">
@@ -78,6 +35,41 @@
     </template>
 
     <template id="machineTemplate">
+        <div class="machine">
+            <div class="display">
+                <div class="image">
+                    <img src="images/stoneFurnace.png">
+                </div>
+                <div class="consume"></div>
+                <img class="arrow" src="images/arrow.png">
+                <div class="produce"></div>
+            </div>
+            <div class="work">
+                <div class="produceTime">
+                    <img src="images/chronometer.png">
+                    <span class="time">0</span>
+                </div>
+                <progress class="progress" value="0"></progress>
+            </div>
+            <div class="quantitySpinner">
+                <div class="removeAll button left">-all</div>
+                <div class="remove100 button">-100</div>
+                <div class="remove10 button">-10</div>
+                <div class="remove1 button">-1</div>
+                <div class="quantity">0</div>
+                <div class="add1 button">+1</div>
+                <div class="add10 button">+10</div>
+                <div class="add100 button">+100</div>
+                <div class="addAll button right">+all</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="machineItemTemplate">
+        <div class="item">
+            <img class="image" src="images/coal.png">
+            <div class="quantity">x0.08</div>
+        </div>
     </template>
 
     <!--<template id="machineTemplate">

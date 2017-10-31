@@ -88,9 +88,13 @@ body {
     text-align: center;
 }
 
+#machines {
+    display: flex;
+}
+
 .machine {
     width: fit-content;
-    margin: 0 5px 10px 0;
+    margin: 0 10px 10px 0;
     padding: 5px 5px  10px;
     background-color: #f7bb60;
     border-radius: 5px;
@@ -185,6 +189,7 @@ body {
     vertical-align: center;
     margin: auto;
     padding: 0 4px 0 4px;
+    text-align: center;
     
 
     min-width: 15px;
