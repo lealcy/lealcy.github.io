@@ -7,16 +7,23 @@ export default class MachineContainer {
         this.containerEl = containerEl;
         for (const [itemId, item] of items) {
             if (item.production.size) {
+                const id = `machine_${itemId}`;
+                const machineEl = createFromTemplate("machineTemplate");
+                machineEl.id = id;
+                const resourceEl = createFromTemplate("resourceTemplate");
+                resourceEl.querySelector(".image").src = `images/${item.image}.png`;
+                resourceEl.querySelector(".name").innerText = item.name;
+                machineEl.querySelector(".display").appendChild(resourceEl);
+                const productionLinesEl = machineEl.querySelector(".productionLines");
                 for (const [machineId, machineData] of item.production) {
-                    const id = `machine_${itemId}_${machineId}`;
-                    const machineEl = createFromTemplate("machineTemplate");
-                    machineEl.id = id;
-                    machineEl.querySelector(".display > .image > img").src = `images/${item.image}.png`;
-                    this.populateItems(machineEl.querySelector(".display > .consume"), machineData.consume);
-                    this.populateItems(machineEl.querySelector(".display > .produce"), machineData.produce);
-                    machineEl.querySelector(".work > .produceTime > .time").innerText = `${machineData.time / 1000}s`;
-                    containerEl.appendChild(machineEl);
+                    const productionLineEl = createFromTemplate("machineProductionLine");
+                    productionLineEl.id = `${id}_${machineId}`;
+                    this.populateItems(productionLineEl.querySelector(".consume"), machineData.consume);
+                    this.populateItems(productionLineEl.querySelector(".produce"), machineData.produce);
+                    productionLineEl.querySelector(".work > .produceTime > .time").innerText = `${machineData.time / 1000}s`;
+                    productionLinesEl.appendChild(productionLineEl);
                 }
+                containerEl.appendChild(machineEl);
             }
         }
     }

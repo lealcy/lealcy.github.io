@@ -43,11 +43,10 @@ body {
     z-index: 2;
     display: flex;
     flex-wrap: wrap;
-    width: fit-content;
     margin: 0 5px 10px 0;
     padding: 5px 5px 0 10px;
     background-color: #f7bb60;
-    width: 90%;
+    min-width: 90%;
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
     border-top-right-radius: 5px;
@@ -101,66 +100,72 @@ body {
     box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
 }
 
-.machine > .display {
-    display: flex;
+.machine > .display > * {
+    width: fit-content;
 }
 
-/*.machine * {
+/*.machine > * {
     border: 1px solid red;
 }*/
 
 .machine > .display > .image {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin-left: 5px;
-    padding-right: 10px;
-    border-right: 1px solid grey;
-    margin-right: 10px;
 }
 
-.machine > .display > .arrow {
+.machine > .productionLines > .productionLine {
+    border-top: 1px solid grey;
+    margin-top: 10px;
+    padding-top: 10px;
+}
+
+.machine .productionLines .productionLine > .process {
+    display: flex;
+}
+
+.machine > .productionLines > .productionLine > .process > .arrow {
     padding: 0 10px 0 10px;
 }
 
-.machine > .display > .consume, .machine > .display > .produce {
+.machine > .productionLines > .productionLine > .process > .consume, 
+.machine > .productionLines > .productionLine > .process > .produce {
     display: flex;
     font-size: xx-small;
     margin: 0 10px 0 10px;
 }
 
-.machine > .display > .consume > *, .machine > .display > .produce > * {
+.machine > .productionLines > .productionLine > .process > .consume > *, 
+.machine > .productionLines > .productionLine > .process > .produce > * {
     text-align: center;
     margin-right: 10px;
 }
 
-.machine > .work {
+.machine > .productionLines > .productionLine > .work {
     display: flex;
     margin-top: 5px;
 }
 
-.machine > .work > * {
+.machine > .productionLines > .productionLine > .work > * {
     vertical-align: middle;
 }
 
-.machine > .work > .produceTime {
+.machine > .productionLines > .productionLine > .work > .produceTime {
     font-size: xx-small;
     vertical-align: middle;
     text-align: center;
     margin-right: 5px;
 }
 
-.machine > .work > .produceTime > * {
+.machine > .productionLines > .productionLine > .work > .produceTime > * {
     vertical-align: middle;
 }
 
 
-.machine > .work > .progress {
+.machine > .productionLines > .productionLine > .work > .progress {
     border: 0;
     flex-grow: 1;
 }
 
-.machine > .quantitySpinner {
+.machine > .productionLines > .productionLine > .quantitySpinner {
     grid-area: spinner;
     display: flex;
     font-size: xx-small;
@@ -171,17 +176,17 @@ body {
 
 }
 
-.machine > .quantitySpinner > .left {
+.machine > .productionLines > .productionLine > .quantitySpinner > .left {
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
 }
 
-.machine > .quantitySpinner > .right {
+.machine > .productionLines > .productionLine > .quantitySpinner > .right {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
 
-.machine > .quantitySpinner > .button {
+.machine > .productionLines > .productionLine > .quantitySpinner > .button {
     flex-grow: 1;
     border: 1px solid white;
     border-right-color: tan;
@@ -196,18 +201,18 @@ body {
     background-color: rgb(253, 222, 196);
 }
 
-.machine > .quantitySpinner > .button:hover {
+.machine > .productionLines > .productionLine > .quantitySpinner > .button:hover {
     background-color: rgb(255, 198, 151);
 }
 
-.machine > .quantitySpinner > .button:active {
+.machine > .productionLines > .productionLine > .quantitySpinner > .button:active {
     border: 1px solid tan;
     border-right-color: white;
     border-bottom-color: white;
     background-color: rgb(255, 240, 227);
 }
 
-.machine > .quantitySpinner > .quantity {
+.machine > .productionLines > .productionLine > .quantitySpinner > .quantity {
     border: 0;
     font-size: 10px;
     background-color: rgb(252, 246, 230);
