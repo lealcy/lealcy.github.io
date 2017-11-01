@@ -85,8 +85,8 @@ const itemData = {
         cost: { water: 2 },
         products: { steam: 2 },
         productionTime: { boiler: 100 },
-    },
- 
+    },*/
+
     // Intermediate Products
     stoneBrick: {
         name: "Brick",
@@ -95,7 +95,7 @@ const itemData = {
         cost: { stone: 2 },
         productionTime: { stoneFurnace: 3571.4, },
         products: { stoneBrick: 1 }
-    },*/
+    },
     ironPlate: {
         name: "Iron Bar",
         description: "You'll need a lot of it.",
@@ -107,15 +107,13 @@ const itemData = {
         description: "You will never get enough of it later.",
         image: "copperPlate",
         category: "intermediateProducts",
-    },/*
+    },
     steelPlate: {
         name: "Steel Bar",
         description: "From Electric Furnaces to Nuclear Power.",
         image: "steelPlate",
-        products: { steelPlate: 1 },
-        cost: { ironPlate: 5 },
-        productionTime: { stoneFurnace: 17543.8, },
-    },
+        category: "intermediateProducts",
+    },/*
     ironGear: {
         name: "Gear Wheel",
         description: "If it have moving parts, you'll need it.",
@@ -165,6 +163,16 @@ const itemData = {
         consume: { coal: 0.08035 },
         category: "machines",
         production: {
+            stoneBrick: {
+                consume: {
+                    stone: 2,
+                    coal: 0.08,
+                },
+                produce: {
+                    stoneBrick: 1,
+                },
+                time: 3500,
+            },
             ironPlate: {
                 consume: {
                     iron: 1,
@@ -173,7 +181,7 @@ const itemData = {
                 produce: {
                     ironPlate: 1,
                 },
-                time: 3571.4,
+                time: 3500,
             },
             copperPlate: {
                 consume: {
@@ -183,7 +191,17 @@ const itemData = {
                 produce: {
                     copperPlate: 1
                 },
-                time: 3571.4,
+                time: 3500,
+            },
+            steelPlate: {
+                consume: {
+                    ironPlate: 5,
+                    coal: 0.4,
+                },
+                produce: {
+                    steelPlate: 1,
+                },
+                time: 17500,
             },
         }
         //products: { stoneFurnace: 1 },
