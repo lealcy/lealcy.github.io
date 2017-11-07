@@ -9,7 +9,6 @@ const itemData = {
         craftable: true,
         visisble: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
-        //products: { coal: 1 },
         category: "resources",
     },
     stone: {
@@ -19,14 +18,12 @@ const itemData = {
         craftable: true,
         visisble: true,
         //productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
-        //products: { stone: 1 },
         category: "resources",
     },
     iron: {
         name: "Iron Ore",
         craftable: true,
         description: "Melt it into plates.",
-        //products: { iron: 1 },
         image: "iron",
         visisble: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
@@ -36,7 +33,6 @@ const itemData = {
         name: "Copper Ore",
         description: "Melt it into plates.",
         craftable: true,
-        //products: { copper: 1 },
         image: "copper",
         visisble: true,
         //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
@@ -105,54 +101,54 @@ const itemData = {
         description: "From Electric Furnaces to Nuclear Power.",
         image: "steelPlate",
         category: "intermediateProducts",
-    },/*
+    },
     ironGear: {
         name: "Gear Wheel",
         description: "If it have moving parts, you'll need it.",
         image: "ironGear",
+        category: "intermediateProducts",
         craftable: true,
         cost: { ironPlate: 2 },
-        products: { ironGear: 1 },
-        productionTime: { assembler1: 750 },
+        //productionTime: { assembler1: 750 },
     },
     copperCable: {
         name: "Cable",
         description: "Required in electric components.",
         image: "copperCable",
+        category: "intermediateProducts",
         craftable: true,
         cost: { copperPlate: 1 },
-        products: { copperCable: 1 },
-        productionTime: { assembler1: 750 },
+        //productionTime: { assembler1: 750 },
     },
     electronicCircuit: {
         name: "Circuit Board",
         description: "Primary ingredient in automation.",
         image: "electronicCircuit",
+        category: "intermediateProducts",
         craftable: true,
         cost: { copperCable: 3, ironPlate: 1 },
-        products: { electronicCircuit: 1 },
-        productionTime: { assembler1: 750 },
+        //productionTime: { assembler1: 750 },
     },
- 
+
     // Machinery
     pipe: {
         name: "Pipe",
         description: "Contain liquids and gases.",
         image: "pipe",
+        category: "machinery",
         craftable: true,
         cost: { ironPlate: 1 },
-        productionTime: { assembler1: 750 },
-        products: { pipe: 1 },
+        //productionTime: { assembler1: 750 },
+
     },
- 
+
     // Machines
-    */stoneFurnace: {
+    stoneFurnace: {
         name: "Foundry",
         description: "Smelt things in other things, cosumes coal.",
         image: "stoneFurnace",
         craftable: true,
         cost: { stone: 5 },
-        consume: { coal: 0.08035 },
         category: "machines",
         production: {
             stoneBrick: {
@@ -196,31 +192,125 @@ const itemData = {
                 time: 17500,
             },
         }
-        //products: { stoneFurnace: 1 },
         //productionTime: { assembler1: 750 },
-    },/*
+    },
     burnerMiner: {
         name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
         image: "burnerMiningDrill",
+        category: "machines",
         craftable: true,
         cost: { ironGear: 3, ironPlate: 3, stoneFurnace: 1 },
-        consume: { coal: 0.14285 },
-        image: "burnerMiningDrill",
-        category: "miner",
-        products: { burnerMiner: 1 },
-        productionTime: { assembler2: 750 },
+        production: {
+            coal: {
+                consume: {
+                    coal: 0.14,
+                },
+                produce: {
+                    coal: 1,
+                },
+                time: 3500,
+            },
+            iron: {
+                consume: {
+                    coal: 0.14,
+                },
+                produce: {
+                    iron: 1,
+                },
+                time: 3500,
+            },
+            copper: {
+                consume: {
+                    coal: 0.14,
+                },
+                produce: {
+                    copper: 1,
+                },
+                time: 3500,
+            },
+            stone: {
+                consume: {
+                    coal: 0.14,
+                },
+                produce: {
+                    stone: 1,
+                },
+                time: 2700,
+            },
+
+        }
+        //productionTime: { assembler2: 750 },
     },
     assembler1: {
-        name: "Assembler 1",
+        name: "Basic Assembler",
         description: "Produce items that require up to two different ingredients.",
+        category: "machines",
         craftable: true,
         image: "assembler1",
-        consume: { electricity: 70 },
+        //consume: { electricity: 70 },
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9 },
-        products: { assembler1: 1 },
-        productionTime: { assembler2: 750 },
-    },
+        production: {
+            ironGear: {
+                consume: {
+                    ironPlate: 2,
+                },
+                produce: {
+                    ironGear: 1
+                },
+                time: 750,
+            },
+            copperCable: {
+                consume: {
+                    copperPlate: 1,
+                },
+                produce: {
+                    copperCable: 1,
+                },
+                time: 750,
+            },
+            electronicCircuit: {
+                consume: {
+                    copperCable: 3,
+                    ironPlate: 1,
+                },
+                produce: {
+                    electronicCircuit: 1
+                },
+                time: 750,
+            },
+            pipe: {
+                consume: {
+                    ironPlate: 1,
+                },
+                produce: {
+                    pipe: 1
+                },
+                time: 750,
+            },
+            stoneFurnace: {
+                consume: {
+                    stone: 5,
+                },
+                produce: {
+                    stoneFurnace: 1,
+                },
+                time: 750,
+            },
+            /*burnerMiner: {
+                consume: {
+                    ironGear: 3,
+                    ironPlate: 3,
+                    stoneFurnace: 1,
+                },
+                produce: {
+                    burnerMiner: 1,
+                },
+                time: 750,
+            },*/
+        }
+        //productionTime: { assembler2: 750 },
+    },/*
     assembler2: {
         name: "Assembler 2",
         description: "Craft items that use three or four ingredients of distinct types.",
@@ -230,56 +320,58 @@ const itemData = {
         consume: { electricity: 100 },
         products: { assembler2: 1 },
         productionTime: { assembler2: 750 },
-    },
+    },*/
     waterPump: {
         name: "Water Pump",
         description: "Pumps water from the ground.",
+        category: "machines",
         craftable: true,
         cost: { electronicCircuit: 2, ironGear: 1, pipe: 1 },
         image: "waterPump",
-        products: { waterPump: 1 },
-        productionTime: { assembler2: 750 },
+        //products: { waterPump: 1 },
+        //productionTime: { assembler2: 750 },
     },
     boiler: {
         name: "Boiler",
         description: "Turns Water to Steam, burns Coal.",
+        category: "machines",
         craftable: true,
         cost: { pipe: 4, stoneFurnace: 1 },
         image: "boiler",
-        products: { boiler: 1 },
-        productionTime: { assembler1: 750 },
-        consume: { coal: 0.125 },
+        //productionTime: { assembler1: 750 },
+        //consume: { coal: 0.125 },
     },
     steamEngine: {
         name: "Steam Generator",
         description: "Generates Electricity.",
         image: "steamEngine",
+        category: "machines",
         craftable: true,
         cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
-        products: { steamEngine: 1 },
-        consume: { steam: 1 },
-        productionTime: { assembler2: 750 },
+        //consume: { steam: 1 },
+        //productionTime: { assembler2: 750 },
     },
     electricMiner: {
         name: "Electric Mining Drill",
         description: "Automatic resource extractor.",
         image: "electricMiner",
+        category: "machines",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
-        products: { electricMiner: 1 },
-        consume: { electricity: 90 },
-        productionTime: { assembler2: 750 },
+        //consume: { electricity: 90 },
+        //productionTime: { assembler2: 750 },
     },
     oilPump: {
         name: "Oil Pump",
         description: "Pumps oil from the ground.",
         image: "oilPump",
+        category: "machines",
         craftable: true,
         cost: { electronicCircuit: 5, ironGear: 10, pipe: 10, },
-        products: { oilPump: 1 },
-        consume: { electricity: 90 },
-        productionTime: { assembler2: 750 },
-    },*/
+        //products: { oilPump: 1 },
+        //consume: { electricity: 90 },
+        //productionTime: { assembler2: 750 },
+    },
 };
 
 export const items = new Map;

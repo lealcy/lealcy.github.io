@@ -1,4 +1,5 @@
 import { createFromTemplate, shortNumber } from "./helpers.js";
+import { categories } from "./categories.js";
 
 export default class ItemBar {
     constructor(containerEl, items) {
@@ -22,7 +23,7 @@ export default class ItemBar {
             tabEl.id = `tab_${category}`;
             tabEl.className = "tabName";
             tabEl.style.display = "none";
-            tabEl.innerText = category;
+            tabEl.innerText = categories[category];
             tabEl.dataset.selected = checked;
             tabEl.addEventListener("click", e => {
                 Array.from(document.getElementsByClassName("tabName")).forEach(element => {
@@ -73,15 +74,16 @@ export default class ItemBar {
     update(item) {
         const itemEl = document.getElementById(`tabItem_${item.id}`);
 
-        if (!item.active && (item.craftable && item.canCraft()) || item.quantity) {
+        if (!item.active && ((item.craftable && item.canCraft()) || item.quantity)) {
             item.active = true;
             itemEl.style.display = "grid";
             const tabNameEl = document.getElementById(`tab_${item.category}`);
             tabNameEl.style.display = "block";
-            tabNameEl.dataset.animate = true;
+            tabNameEl.className = tabNameEl.className.replace(" blink", "");
+            setTimeout(() => tabNameEl.className += " blink", 1);
             //itemEl.style.opacity = 1.0;
         }
 
-        itemEl.querySelector(".quantity").innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber(item.quantity | 0);
+        itemEl.querySelector(".quantity").innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse) | 0);
     }
 }

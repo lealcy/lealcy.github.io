@@ -23,12 +23,12 @@ body {
     box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
 }
 
-.tabName[data-animate="true"] {
-    animation: tabBlink 0.2s;
+.blink {
+    animation: blink 0.2s;
     animation-iteration-count: 5;
 }
 
-@keyframes tabBlink {
+@keyframes blink {
     50% { opacity: 0; }
 }
 

@@ -5,6 +5,7 @@ export default class Item {
     constructor(id, data) {
         this.id = id;
         this.quantity = 0;
+        this.inUse = 0;
         this.visible = data.visible || false;
         this.active = false;
         this.name = data.name;
@@ -61,6 +62,7 @@ export default class Item {
         quantity = this.quantity > quantity ? quantity : this.quantity;
         this.quantity -= quantity;
         this.production.get(itemId).quantity += quantity;
+        this.inUse += quantity;
     }
 
     removeMachine(itemId, quantity) {
@@ -71,6 +73,7 @@ export default class Item {
         quantity = item.quantity > quantity ? quantity : item.quantity;
         item.quantity -= quantity;
         this.quantity += quantity;
+        this.inUse -= quantity;
     }
 
     produce(frameTime) {

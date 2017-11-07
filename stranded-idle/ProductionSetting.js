@@ -9,6 +9,7 @@ export default class ProductionSetting {
         this.quantity = 0;
         this.elapsedTime = 0;
         this.state = WAITING;
+        this.currentProduction = 0;
 
         this.consume = new Map;
         for (const itemId in data.consume) {
@@ -22,24 +23,38 @@ export default class ProductionSetting {
 
     }
 
+    canProduce() {
+        for (const [id, quantity] of this.consume) {
+            if (items.get(id).quantity < quantity) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     update(frameTime) {
         if (!this.quantity) {
             return;
         }
         if (this.state === WAITING) {
-            for (const [id, quantity] of this.consume) {
-                if (items.get(id).quantity < quantity) {
-                    return;
+            this.currentProduction = 0;
+            for (let i = 0; i < this.quantity; i++) {
+                if (this.canProduce()) {
+                    for (const [id, quantity] of this.consume) {
+                        items.get(id).quantity -= quantity
+                    }
+                    this.currentProduction++;
+                } else {
+                    break;
                 }
             }
-            for (const [id, quantity] of this.consume) {
-                items.get(id).quantity -= quantity;
+            if (this.currentProduction) {
+                this.state = WORKING;
             }
-            this.state = WORKING;
         } else if (this.state === WORKING) {
             if (this.elapsedTime >= this.time) {
                 for (const [id, quantity] of this.produce) {
-                    items.get(id).quantity += quantity;
+                    items.get(id).quantity += quantity * this.currentProduction;
                 }
                 this.elapsedTime = 0;
                 this.state = WAITING;

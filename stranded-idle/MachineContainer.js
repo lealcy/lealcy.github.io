@@ -76,7 +76,7 @@ export default class MachineContainer {
             if (machine.item.quantity) {
                 machine.element.style.display = "block";
             }
-            machine.quantityEl.innerText = machine.item.quantity;
+            machine.quantityEl.innerText = `${machine.item.quantity} / ${machine.item.quantity + machine.item.inUse}`;
             for (const [productionId, production] of machine.production) {
                 const machineSetting = machine.item.production.get(productionId);
                 if (machineSetting.resourcesActive()) {
