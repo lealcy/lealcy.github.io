@@ -21,18 +21,11 @@ export default class Game {
         this.lastTimestamp = timestamp;
 
         for (const [id, item] of items) {
+            item.produce(frameTime);
             this.itemBar.update(item);
-
-            /*if (!item.visible && item.canCraft()) {
-                this.createItem(item);
-                item.visible = true;
-            }
-
-            if (item.visible) {
-                //item.produce(frameTime);
-                //this.updateItem(item);
-            }*/
         }
+
+        this.machines.update(frameTime);
     }
 
     createItem(item) {

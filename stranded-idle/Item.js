@@ -54,6 +54,31 @@ export default class Item {
         return false;
     }
 
+    addMachine(itemId, quantity) {
+        if (!this.quantity) {
+            return;
+        }
+        quantity = this.quantity > quantity ? quantity : this.quantity;
+        this.quantity -= quantity;
+        this.production.get(itemId).quantity += quantity;
+    }
+
+    removeMachine(itemId, quantity) {
+        const item = this.production.get(itemId);
+        if (!item.quantity) {
+            return;
+        }
+        quantity = item.quantity > quantity ? quantity : item.quantity;
+        item.quantity -= quantity;
+        this.quantity += quantity;
+    }
+
+    produce(frameTime) {
+        for (const [id, item] of this.production) {
+            item.update(frameTime);
+        }
+    }
+
     /*    addMachine(machine) {
             if (machine.quantity >= 1) {
                 machine.quantity--;

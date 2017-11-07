@@ -94,7 +94,8 @@ const itemData = {
         image: "stoneBrick",
         cost: { stone: 2 },
         productionTime: { stoneFurnace: 3571.4, },
-        products: { stoneBrick: 1 }
+        products: { stoneBrick: 1 },
+        category: "intermediateProducts",
     },
     ironPlate: {
         name: "Iron Bar",
