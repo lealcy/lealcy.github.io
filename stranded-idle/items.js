@@ -1,15 +1,6 @@
 import Item from "./Item.js";
 
 const itemData = {
-    // Debug
-    /*giftOfTheGods: {
-        name: "Gift Of The Gods",
-        craftable: true,
-        description: "For debugging purposes.",
-        image: "giftOfTheGods",
-        type: "resource",
-    },*/
-
     // Resources
     coal: {
         name: "Coal",
