@@ -49,4 +49,13 @@ export default class ProductionSetting {
         }
 
     }
+
+    resourcesActive() {
+        for (const [id, quantity] of this.consume) {
+            if (!items.get(id).active) {
+                return false;
+            }
+            return true;
+        }
+    }
 }

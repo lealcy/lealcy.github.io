@@ -11,6 +11,7 @@ export default class MachineContainer {
                 machine.item = item;
                 machine.element = createFromTemplate("machineTemplate");
                 machine.element.id = `machine_${itemId}`;
+                machine.element.style.display = "none";
                 const resourceEl = createFromTemplate("resourceTemplate");
                 machine.quantityEl = resourceEl.querySelector(".quantity");
                 resourceEl.querySelector(".image").src = `images/${item.image}.png`;
@@ -23,6 +24,7 @@ export default class MachineContainer {
                     production.item = items.get(machineId);
                     production.element = createFromTemplate("machineProductionLine");
                     production.element.id = `${machine.element.id}_${machineId}`;
+                    production.element.style.display = "none";
                     production.progressEl = production.element.querySelector(".progress");
                     production.quantityEl = production.element.querySelector(".quantity");
                     this.populateItems(production.element.querySelector(".consume"), machineData.consume);
@@ -71,9 +73,15 @@ export default class MachineContainer {
 
     update(frameTime) {
         for (const [machineId, machine] of this.machines) {
+            if (machine.item.quantity) {
+                machine.element.style.display = "block";
+            }
             machine.quantityEl.innerText = machine.item.quantity;
             for (const [productionId, production] of machine.production) {
                 const machineSetting = machine.item.production.get(productionId);
+                if (machineSetting.resourcesActive()) {
+                    production.element.style.display = "block";
+                }
                 production.quantityEl.innerText = machineSetting.quantity;
                 production.progressEl.value = machineSetting.time ? machineSetting.elapsedTime / machineSetting.time : 1.0;
             }
