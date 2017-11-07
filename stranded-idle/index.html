@@ -6,17 +6,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Stranded Idle</title>
+    <link rel="icon" type="image/png" href="favicon.png">
     <link href="style.css" rel="stylesheet">
 </head>
 
 <body>
-    <div id="resources"></div>
+    <h1>Stranded Idle</h1>
+    <h3>This game is prototype and is in constant development. What you see is not the end product. I'm just publishing this
+        here for those interested in follow the development progress. If you like to comment on it, please do so
+        <a href="https://www.reddit.com/r/incremental_games/comments/77tefk/hi_i_just_started_developing_this_mini_game_and_i/?ref=share&ref_source=link"
+            target="_blank">here</a>.</h3>
+    <div id="itemBar"></div>
+    <div id="machines"></div>
     <div id="items"></div>
 
     <template id="resourceTemplate">
         <div class="resource">
             <img class="image" src="images/electricity.png">
             <div class="quantity">0</div>
+            <div class="name">Resource Name</div>
         </div>
     </template>
 
@@ -32,6 +40,48 @@
     </template>
 
     <template id="machineTemplate">
+        <div class="machine">
+            <div class="display"></div>
+            <div class="productionLines"></div>
+        </div>
+    </template>
+
+    <template id="machineProductionLine">
+        <div class="productionLine">
+            <div class="process">
+                <div class="consume"></div>
+                <img class="arrow" src="images/arrow.png">
+                <div class="produce"></div>
+            </div>
+            <div class="work">
+                <div class="produceTime">
+                    <img src="images/chronometer.png">
+                    <span class="time">0</span>
+                </div>
+                <progress class="progress" value="0"></progress>
+            </div>
+            <div class="quantitySpinner">
+                <div class="removeAll button left">-all</div>
+                <div class="remove100 button">-100</div>
+                <div class="remove10 button">-10</div>
+                <div class="remove1 button">-1</div>
+                <div class="quantity">0</div>
+                <div class="add1 button">+1</div>
+                <div class="add10 button">+10</div>
+                <div class="add100 button">+100</div>
+                <div class="addAll button right">+all</div>
+            </div>
+        </div>
+    </template>
+
+    <template id="machineItemTemplate">
+        <div class="item">
+            <img class="image" src="images/coal.png">
+            <div class="quantity">x0.08</div>
+        </div>
+    </template>
+
+    <!--<template id="machineTemplate">
         <div class="machine">
             <div class="head">
                 <img class="image" src="images/coal.png">
@@ -50,7 +100,8 @@
                 <div class="addAll button">+all</div>
             </div>
         </div>
-    </template>
+    </template> -->
+
     <script nomodule src="nomodule.js"></script>
     <script type="module" src="main.js"></script>
 </body>

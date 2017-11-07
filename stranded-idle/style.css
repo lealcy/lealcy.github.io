@@ -1,231 +1,225 @@
-        body {
-            user-select: none;
-            cursor: default;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: rgb(247, 239, 225);
-        }
+body {
+    user-select: none;
+    cursor: default;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: rgb(247, 239, 225);
+}
 
-        #resources {
-            display: flex;
-            flex-wrap: wrap;
-            width: fit-content;
-            margin: 5px 5px 10px 5px;
-            border: 1px solid tan;
-            padding: 5px 5px 0 5px;
-            background-color: rgb(247, 237, 207);
-        }
+#itemBarTabs {
+    position: relative;
+    display: flex;
+    z-index: 1;
+}
 
-        .resource {
-            display: flex;
-            margin-right: 30px;
-            margin-bottom: 5px;
-        }
+.tabName {
+    background-color: rgb(255, 236, 179);
+    font-size: small;
+    margin-right: 5px;
+    padding: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+}
 
-        .resource > .image {
-            margin-right: 5px;
-            vertical-align: middle;
-            padding: 5px;
-        }
+.tabName[data-animate="true"] {
+    animation: tabBlink 0.2s;
+    animation-iteration-count: 5;
+}
 
-        .resource > .quantity {
-            margin: auto;
-        }
+@keyframes tabBlink {
+    50% { opacity: 0; }
+}
 
-        #items {
-            display: flex;
-            flex-wrap: wrap;
-        }
 
-        .item {
-            display: grid;
-            grid-template-areas : "image name"
-                                  "image quantity"
-                                  "description description"
-                                  "cost cost"
-                                  "machines machines";
-            grid-template-columns: min-content 1fr;
-            grid-template-rows: min-content min-content min-content;
-            margin: 5px;
-            border: 1px solid tan;
-            padding: 5px;
-            background-color: rgb(247, 237, 207);
-        }
+.tabName[data-selected="true"] {
+    background-color: #f7bb60;
+    font-weight: bold;
+}
 
-        .item > .image {
-            grid-area: image;
-            margin-right: 5px;
-            padding: 5px;
-            border: 1px solid tan;
-            background-color: rgb(245, 228, 176);
-        }
+.tabContent {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 5px 10px 0;
+    padding: 5px 5px 0 10px;
+    background-color: #f7bb60;
+    min-width: 90%;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    border-top-right-radius: 5px;
+    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+}
 
-        .item.craftable > .image {
-            border: 1px solid white;
-            border-right-color: tan;
-            border-bottom-color: tan;
-            background-color: rgb(240, 217, 143);
-        }
+.resource {
+    display: grid;
+    grid-template-areas: 
+        "image quantity"
+        "name name";
+    margin-right: 30px;
+    margin-bottom: 5px;
+    padding: 5px;
+}
 
-        .item.craftable > .image:hover {
-            border: 1px solid white;
-            border-right-color: tan;
-            border-bottom-color: tan;
-            background-color: rgb(250, 216, 114);
-        }
+/*.resource:hover > .name {
+    display: block;
+}*/
 
-        .item.craftable > .image:active {
-            border: 1px solid tan;
-            border-right-color: white;
-            border-bottom-color: white;
-            background-color: rgb(255, 239, 191);
-        }
+.resource > .image {
+    grid-area: image;
+    margin-right: 5px;
+}
 
-        .item > .name {
-            grid-area: name;
-            font-size: x-small;
-            word-break: break-all;
-        }
+.resource > .quantity {
+    grid-area: quantity;
+    margin-top: auto;
+    margin-bottom: auto;
+}
 
-        .item > .quantity {
-            grid-area: quantity;
-            font-size: small;
-            background-color: rgb(253, 248, 231);
-            text-align: right;
-            padding-right: 4px;
-            
-        }
+.resource > .name {
+    grid-area: name;
+    /*display: none;*/
+    margin-top: 5px;
+    font-size: x-small;
+    word-break: break-all;
+    text-align: center;
+}
 
-        .item > .description {
-            grid-area: description;
-            margin: 5px;
-            margin-top: 7px;
-            margin-bottom: 7px;
-            font-size: xx-small;
-            font-style: italic;
-            text-align: center;
-        }
+#machines {
+    display: flex;
+}
 
-        .item > .cost {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center; 
-            grid-area: cost;
-            margin-bottom: 5px;
-        }
+.machine {
+    width: fit-content;
+    margin: 0 10px 10px 0;
+    padding: 5px 5px  10px;
+    background-color: #f7bb60;
+    border-radius: 5px;
+    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+}
 
-        .item > .cost > div {
-            color: rgb(65, 128, 180);
-            font-size: x-small;
-            margin-left: 5px;
-        }
+.machine > .display > * {
+    width: fit-content;
+}
 
-        .item > .cost > div > img {
-            height: 2em;
-            width: 2em;
-            vertical-align: sub;
-            margin-left: 2px;
-        }
+/*.machine > * {
+    border: 1px solid red;
+}*/
 
-        .item > .machines {
-            display: flex;
-            grid-area: machines;
-            border: 1px solid tan;
-            border-right-color: white;
-            border-bottom-color: white;
-            background-color: rgb(252, 246, 230);
-        }
+.machine > .display > .image {
+    margin-left: 5px;
+}
 
-        .machine {
-            border: 1px solid white;
-            background-color: rgb(255, 233, 215);
-            padding: 5px;
-            text-align: center;
-            border-right-color: tan;
-            border-bottom-color: tan;
-        }
+.machine > .productionLines > .productionLine {
+    border-top: 1px solid grey;
+    margin-top: 10px;
+    padding-top: 10px;
+}
 
-        .machine > .head {
-            display: grid;
-            grid-template-areas:    "image consume"
-                                    "image progress"
-                                    "image produceTime";
-            grid-template-columns: min-content 1fr;
-        }
+.machine .productionLines .productionLine > .process {
+    display: flex;
+}
 
-        .machine > .head > .image {
-            grid-area: image;
-            margin-right: 5px;
-            padding: 5px;
-        }
+.machine > .productionLines > .productionLine > .process > .arrow {
+    padding: 0 10px 0 10px;
+}
 
-        .machine > .head > .consume {
-            grid-area: consume;
-            display: flex;
-            justify-content: center; 
-            margin-bottom: 6px;
-        }
+.machine > .productionLines > .productionLine > .process > .consume, 
+.machine > .productionLines > .productionLine > .process > .produce {
+    display: flex;
+    font-size: xx-small;
+    margin: 0 10px 0 10px;
+}
 
-        .machine > .head > .consume > div {
-            color: rgb(180, 65, 65);
-            font-size: xx-small;
-        }
+.machine > .productionLines > .productionLine > .process > .consume > *, 
+.machine > .productionLines > .productionLine > .process > .produce > * {
+    text-align: center;
+    margin-right: 10px;
+}
 
-        .machine > .head > .progress {
-            width: 100%;
-            height: 10px;
-            border: 0;
-        }
+.machine > .productionLines > .productionLine > .work {
+    display: flex;
+    margin-top: 5px;
+}
 
-        .machine > .head > .produceTime {
-            grid-area: produceTime;
-            font-size: xx-small;
-            vertical-align: middle;
-        }
+.machine > .productionLines > .productionLine > .work > * {
+    vertical-align: middle;
+}
 
-        .machine > .head > .produceTime > * {
-            vertical-align: middle;
-        }
+.machine > .productionLines > .productionLine > .work > .produceTime {
+    font-size: xx-small;
+    vertical-align: middle;
+    text-align: center;
+    margin-right: 5px;
+}
 
-        .quantitySpinner {
-            display: flex;
-            font-size: xx-small;
-            vertical-align: center;
-            justify-content: center;
-            margin-top: 5px;
-        }
+.machine > .productionLines > .productionLine > .work > .produceTime > * {
+    vertical-align: middle;
+}
 
-        .quantitySpinner > .button {
-            flex-grow: 1;
-            border: 1px solid white;
-            border-right-color: tan;
-            border-bottom-color: tan;
-            vertical-align: center;
-            margin: auto;
-            padding: 4px;
-            width: 15px;
-            background-color: rgb(253, 222, 196);
-        }
 
-        .quantitySpinner > .button:hover {
-            background-color: rgb(255, 198, 151);
-        }
+.machine > .productionLines > .productionLine > .work > .progress {
+    border: 0;
+    flex-grow: 1;
+}
 
-        .quantitySpinner > .button:active {
-            border: 1px solid tan;
-            border-right-color: white;
-            border-bottom-color: white;
-            background-color: rgb(255, 240, 227);
-        }
+.machine > .productionLines > .productionLine > .quantitySpinner {
+    grid-area: spinner;
+    display: flex;
+    font-size: xx-small;
+    vertical-align: center;
+    justify-content: center;
+    margin-top: 5px;
+    height: 10px;
 
-        .quantitySpinner > .quantity {
-            flex-grow: 3;
-            border: 0;
-            font-size: small;
-            background-color: rgb(252, 246, 230);
-            margin-left: 4px;
-            margin-right: 4px;
-            min-width: 2em;
-            text-align: right;
-            padding-right: 4px;
-        }
+}
+
+.machine > .productionLines > .productionLine > .quantitySpinner > .left {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.machine > .productionLines > .productionLine > .quantitySpinner > .right {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.machine > .productionLines > .productionLine > .quantitySpinner > .button {
+    flex-grow: 1;
+    border: 1px solid white;
+    border-right-color: tan;
+    border-bottom-color: tan;
+    vertical-align: center;
+    margin: auto;
+    padding: 0 4px 0 4px;
+    text-align: center;
+    
+
+    min-width: 15px;
+    background-color: rgb(253, 222, 196);
+}
+
+.machine > .productionLines > .productionLine > .quantitySpinner > .button:hover {
+    background-color: rgb(255, 198, 151);
+}
+
+.machine > .productionLines > .productionLine > .quantitySpinner > .button:active {
+    border: 1px solid tan;
+    border-right-color: white;
+    border-bottom-color: white;
+    background-color: rgb(255, 240, 227);
+}
+
+.machine > .productionLines > .productionLine > .quantitySpinner > .quantity {
+    border: 0;
+    font-size: 10px;
+    background-color: rgb(252, 246, 230);
+    min-width: 2em;
+    text-align: right;
+    padding-right: 4px;
+    height: 13px;
+
+}
         

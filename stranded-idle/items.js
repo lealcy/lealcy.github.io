@@ -2,57 +2,65 @@ import Item from "./Item.js";
 
 const itemData = {
     // Debug
-    giftOfTheGods: {
+    /*giftOfTheGods: {
         name: "Gift Of The Gods",
         craftable: true,
         description: "For debugging purposes.",
         image: "giftOfTheGods",
-        products: {},
-    },
+        type: "resource",
+    },*/
 
     // Resources
     coal: {
         name: "Coal",
-        description: "Power machines and produce energy.",
+        description: "Power machines and produce power.",
         image: "coal",
         craftable: true,
-        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
-        products: { coal: 1 },
+        visisble: true,
+        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        //products: { coal: 1 },
+        category: "resources",
     },
     stone: {
         name: "Stone",
         description: "Craft furnaces and bricks.",
         image: "stone",
         craftable: true,
-        productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
-        products: { stone: 1 },
+        visisble: true,
+        //productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
+        //products: { stone: 1 },
+        category: "resources",
     },
     iron: {
         name: "Iron Ore",
         craftable: true,
         description: "Melt it into plates.",
-        products: { iron: 1 },
+        //products: { iron: 1 },
         image: "iron",
-        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        visisble: true,
+        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        category: "resources",
     },
     copper: {
         name: "Copper Ore",
         description: "Melt it into plates.",
         craftable: true,
-        products: { copper: 1 },
+        //products: { copper: 1 },
         image: "copper",
-        productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        visisble: true,
+        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
+        category: "resources",
     },
 
     // Electricity
-    electricity: {
+    /*electricity: {
         name: "Electricity",
         image: "electricity",
         description: "Power machines.",
         products: { electricity: 10 },
         productionTime: { steamEngine: 100 },
     },
-
+ 
     // Liquids
     water: {
         name: "Water",
@@ -68,7 +76,7 @@ const itemData = {
         products: { petroleum: 54 },
         productionTime: { oilPump: 1000 },
     },
-
+ 
     // Gases
     steam: {
         name: "Steam",
@@ -77,7 +85,7 @@ const itemData = {
         cost: { water: 2 },
         products: { steam: 2 },
         productionTime: { boiler: 100 },
-    },
+    },*/
 
     // Intermediate Products
     stoneBrick: {
@@ -86,32 +94,27 @@ const itemData = {
         image: "stoneBrick",
         cost: { stone: 2 },
         productionTime: { stoneFurnace: 3571.4, },
-        products: { stoneBrick: 1 }
+        products: { stoneBrick: 1 },
+        category: "intermediateProducts",
     },
     ironPlate: {
         name: "Iron Bar",
         description: "You'll need a lot of it.",
         image: "ironPlate",
-        products: { ironPlate: 1 },
-        cost: { iron: 1 },
-        productionTime: { stoneFurnace: 3571.4, },
+        category: "intermediateProducts"
     },
     copperPlate: {
         name: "Copper Bar",
         description: "You will never get enough of it later.",
         image: "copperPlate",
-        products: { copperPlate: 1 },
-        cost: { copper: 1 },
-        productionTime: { stoneFurnace: 3571.4, },
+        category: "intermediateProducts",
     },
     steelPlate: {
         name: "Steel Bar",
         description: "From Electric Furnaces to Nuclear Power.",
         image: "steelPlate",
-        products: { steelPlate: 1 },
-        cost: { ironPlate: 5 },
-        productionTime: { stoneFurnace: 17543.8, },
-    },
+        category: "intermediateProducts",
+    },/*
     ironGear: {
         name: "Gear Wheel",
         description: "If it have moving parts, you'll need it.",
@@ -139,7 +142,7 @@ const itemData = {
         products: { electronicCircuit: 1 },
         productionTime: { assembler1: 750 },
     },
-
+ 
     // Machinery
     pipe: {
         name: "Pipe",
@@ -150,18 +153,61 @@ const itemData = {
         productionTime: { assembler1: 750 },
         products: { pipe: 1 },
     },
-
+ 
     // Machines
-    stoneFurnace: {
-        name: "Stone Foundry",
+    */stoneFurnace: {
+        name: "Foundry",
         description: "Smelt things in other things, cosumes coal.",
         image: "stoneFurnace",
         craftable: true,
         cost: { stone: 5 },
         consume: { coal: 0.08035 },
-        products: { stoneFurnace: 1 },
-        productionTime: { assembler1: 750 },
-    },
+        category: "machines",
+        production: {
+            stoneBrick: {
+                consume: {
+                    stone: 2,
+                    coal: 0.08,
+                },
+                produce: {
+                    stoneBrick: 1,
+                },
+                time: 3500,
+            },
+            ironPlate: {
+                consume: {
+                    iron: 1,
+                    coal: 0.08,
+                },
+                produce: {
+                    ironPlate: 1,
+                },
+                time: 3500,
+            },
+            copperPlate: {
+                consume: {
+                    copper: 2,
+                    coal: 0.08,
+                },
+                produce: {
+                    copperPlate: 1
+                },
+                time: 3500,
+            },
+            steelPlate: {
+                consume: {
+                    ironPlate: 5,
+                    coal: 0.4,
+                },
+                produce: {
+                    steelPlate: 1,
+                },
+                time: 17500,
+            },
+        }
+        //products: { stoneFurnace: 1 },
+        //productionTime: { assembler1: 750 },
+    },/*
     burnerMiner: {
         name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
@@ -242,7 +288,7 @@ const itemData = {
         products: { oilPump: 1 },
         consume: { electricity: 90 },
         productionTime: { assembler2: 750 },
-    },
+    },*/
 };
 
 export const items = new Map;
@@ -251,9 +297,9 @@ for (const item in itemData) {
     items.set(item, new Item(item, itemData[item]));
 }
 
-for (const [id, data] of items) {
+/*for (const [id, data] of items) {
     if (id === "giftOfTheGods") {
         continue;
     }
     items.get("giftOfTheGods").products.set(id, 10000);
-}
+}*/
