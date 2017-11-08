@@ -587,6 +587,7 @@ const itemData = {
         name: "chemical Plant",
         description: "Environment friendly.",
         craftable: true,
+        image: "chemicalPlant",
         cost: { electronicCircuit: 5, ironGear: 5, pipe: 5, steelPlate: 5 },
         production: {
             plastic: {
