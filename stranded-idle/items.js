@@ -379,10 +379,3 @@ export const items = new Map;
 for (const item in itemData) {
     items.set(item, new Item(item, itemData[item]));
 }
-
-/*for (const [id, data] of items) {
-    if (id === "giftOfTheGods") {
-        continue;
-    }
-    items.get("giftOfTheGods").products.set(id, 10000);
-}*/

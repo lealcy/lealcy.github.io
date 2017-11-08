@@ -32,35 +32,59 @@ export default class MachineContainer {
                     production.element.querySelector(".work > .produceTime > .time").innerText = `${machineData.time / 1000}s`;
                     production.element.querySelector(".removeAll").addEventListener(
                         "click",
-                        e => machine.item.removeMachine(machineId, machine.item.production.get(machineId).quantity)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.removeMachine(machineId, machine.item.production.get(machineId).quantity);
+                        }
                     );
                     production.element.querySelector(".remove100").addEventListener(
                         "click",
-                        e => machine.item.removeMachine(machineId, 100)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.removeMachine(machineId, 100);
+                        }
                     );
                     production.element.querySelector(".remove10").addEventListener(
                         "click",
-                        e => machine.item.removeMachine(machineId, 10)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.removeMachine(machineId, 10);
+                        }
                     );
                     production.element.querySelector(".remove1").addEventListener(
                         "click",
-                        e => machine.item.removeMachine(machineId, 1)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.removeMachine(machineId, 1);
+                        }
                     );
                     production.element.querySelector(".add1").addEventListener(
                         "click",
-                        e => machine.item.addMachine(machineId, 1)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.addMachine(machineId, 1);
+                        }
                     );
                     production.element.querySelector(".add10").addEventListener(
                         "click",
-                        e => machine.item.addMachine(machineId, 10)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.addMachine(machineId, 10);
+                        }
                     );
                     production.element.querySelector(".add100").addEventListener(
                         "click",
-                        e => machine.item.addMachine(machineId, 100)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.addMachine(machineId, 100);
+                        }
                     );
                     production.element.querySelector(".addAll").addEventListener(
                         "click",
-                        e => machine.item.addMachine(machineId, machine.item.quantity)
+                        e => {
+                            e.stopPropagation();
+                            machine.item.addMachine(machineId, machine.item.quantity);
+                        }
                     );
                     productionLinesEl.appendChild(production.element);
                     machine.production.set(machineId, production);
