@@ -56,6 +56,18 @@ const itemData = {
         image: "petroleum",
         category: "fluids",
     },
+    heavyOil: {
+        name: "Heavy Oil",
+        description: "Usable oil.",
+        image: "petroleum",
+        category: "fluids",
+    },
+    lightOil: {
+        name: "Light Oil",
+        description: "Usable oil.",
+        image: "petroleum",
+        category: "fluids",
+    },
 
     // Gases
     steam: {
@@ -64,6 +76,13 @@ const itemData = {
         image: "steam",
         category: "fluids",
     },
+    naturalGas: {
+        name: "Natural Gas",
+        description: "Pass it.",
+        image: "petroleum",
+        category: "fluids",
+    },
+
 
     // Intermediate Products
     stoneBrick: {
@@ -402,9 +421,9 @@ const itemData = {
         production: {
             water: {
                 produce: {
-                    water: 40,
+                    water: 4,
                 },
-                time: 100,
+                time: 10,
             }
         }
     },
@@ -503,15 +522,33 @@ const itemData = {
         production: {
             petroleum: {
                 consume: {
-                    electricity: 450,
+                    electricity: 45,
                 },
                 produce: {
                     petroleum: 1,
                 },
-                time: 500,
+                time: 50,
             }
         },
     },
+    refinery: {
+        name: "Refinery",
+        description: "Convert petroleum in useful products",
+        craftable: true,
+        cost: { electronicCircuit: 10, ironGear: 10, pipe: 10, steelPlate: 15, stoneBrick: 10 },
+        production: {
+            consume: {
+                petroleum: 10,
+                electricity: 400,
+            },
+            produce: {
+                heavyOil: 3,
+                lightOil: 3,
+                naturalGas: 4,
+            },
+            time: 500,
+        }
+    }
 };
 
 export const items = new Map;
