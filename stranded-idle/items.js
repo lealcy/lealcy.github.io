@@ -59,13 +59,13 @@ const itemData = {
     heavyOil: {
         name: "Heavy Oil",
         description: "Usable oil.",
-        image: "petroleum",
+        image: "lightOil",
         category: "fluids",
     },
     lightOil: {
         name: "Light Oil",
         description: "Usable oil.",
-        image: "petroleum",
+        image: "heavyOil",
         category: "fluids",
     },
 
@@ -79,7 +79,7 @@ const itemData = {
     naturalGas: {
         name: "Natural Gas",
         description: "Pass it.",
-        image: "petroleum",
+        image: "naturalGas",
         category: "fluids",
     },
 
@@ -135,6 +135,12 @@ const itemData = {
         category: "intermediateProducts",
         craftable: true,
         cost: { copperCable: 3, ironPlate: 1 },
+    },
+    plastic: {
+        name: "Plastic",
+        description: "Your flexible friend.",
+        image: "plastic",
+        category: "intermediateProducts",
     },
 
     // Machinery
@@ -437,13 +443,13 @@ const itemData = {
         production: {
             steam: {
                 consume: {
-                    water: 2,
-                    coal: 0.125,
+                    water: 1,
+                    coal: 0.007,
                 },
                 produce: {
-                    steam: 2,
+                    steam: 1,
                 },
-                time: 100,
+                time: 50,
             }
         }
     },
@@ -535,18 +541,64 @@ const itemData = {
         name: "Refinery",
         description: "Convert petroleum in useful products",
         craftable: true,
+        image: "refinery",
         cost: { electronicCircuit: 10, ironGear: 10, pipe: 10, steelPlate: 15, stoneBrick: 10 },
         production: {
-            consume: {
-                petroleum: 10,
-                electricity: 400,
+            basicProcessing: {
+                consume: {
+                    petroleum: 10,
+                    electricity: 400,
+                },
+                produce: {
+                    heavyOil: 3,
+                    lightOil: 3,
+                    naturalGas: 4,
+                },
+                time: 500,
             },
-            produce: {
-                heavyOil: 3,
-                lightOil: 3,
-                naturalGas: 4,
+            advancedProcessing: {
+                consume: {
+                    petroleum: 100,
+                    water: 50,
+                },
+                produce: {
+                    heavyOil: 15,
+                    lightOil: 65,
+                    naturalGas: 80,
+                },
+                time: 5000,
             },
-            time: 500,
+            coalLiquifaction: {
+                consume: {
+                    coal: 10,
+                    heavyOil: 25,
+                    steam: 50,
+                },
+                produce: {
+                    heavyOil: 35,
+                    lightOil: 15,
+                    naturalGas: 20,
+                },
+                time: 5000,
+            }
+        }
+    },
+    chemicalPlant: {
+        name: "chemical Plant",
+        description: "Environment friendly.",
+        craftable: true,
+        cost: { electronicCircuit: 5, ironGear: 5, pipe: 5, steelPlate: 5 },
+        production: {
+            plastic: {
+                consume: {
+                    coal: 1,
+                    naturalGas: 20,
+                },
+                produce: {
+                    plastic: 2,
+                },
+                time: 1000,
+            }
         }
     }
 };
