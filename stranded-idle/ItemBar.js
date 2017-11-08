@@ -26,6 +26,7 @@ export default class ItemBar {
             tabEl.innerText = categories[category];
             tabEl.dataset.selected = checked;
             tabEl.addEventListener("click", e => {
+                e.stopPropagation();
                 Array.from(document.getElementsByClassName("tabName")).forEach(element => {
                     element.dataset.selected = false;
                 });
@@ -61,6 +62,19 @@ export default class ItemBar {
                 } else {
                     itemImageEl.style.opacity = 0.5;
                 }
+                if (item.cost.size) {
+                    const costEl = itemEl.querySelector(".cost");
+                    costEl.style.display = "flex";
+                    console.log(item.cost);
+                    for (const [id, quantity] of item.cost) {
+                        console.log(item.name, id, quantity);
+                        const costItem = items.get(id);
+                        const costItemEl = createFromTemplate("resourceCostItemTemplate");
+                        costItemEl.querySelector(".image").src = `images/${costItem.image}.png`;
+                        costItemEl.querySelector(".quantity").innerText = quantity;
+                        costEl.appendChild(costItemEl);
+                    }
+                }
                 itemEl.querySelector(".name").innerText = item.name;
                 tabContentEl.appendChild(itemEl);
             }
@@ -72,7 +86,8 @@ export default class ItemBar {
     }
 
     update(item) {
-        const itemEl = document.getElementById(`tabItem_${item.id}`);
+        const id = `tabItem_${item.id}`;
+        const itemEl = document.getElementById(id);
 
         if (!item.active && ((item.craftable && item.canCraft()) || item.quantity)) {
             item.active = true;
@@ -84,6 +99,6 @@ export default class ItemBar {
             //itemEl.style.opacity = 1.0;
         }
 
-        itemEl.querySelector(".quantity").innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse) | 0);
+        itemEl.querySelector(`#${id} > .quantity`).innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse) | 0);
     }
 }

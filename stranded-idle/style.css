@@ -57,6 +57,7 @@ body {
     display: grid;
     grid-template-areas: 
         "image quantity"
+        "cost cost"
         "name name";
     margin-right: 30px;
     margin-bottom: 5px;
@@ -72,6 +73,14 @@ body {
     margin-right: 5px;
 }
 
+.resource > .cost {
+    grid-area: cost;
+    justify-content: center;
+    display: none;
+    margin-top: 3px;
+
+}
+
 .resource > .quantity {
     grid-area: quantity;
     margin-top: auto;
@@ -81,11 +90,30 @@ body {
 .resource > .name {
     grid-area: name;
     /*display: none;*/
-    margin-top: 5px;
     font-size: x-small;
     word-break: break-all;
     text-align: center;
 }
+
+.resourceCostItem {
+    display: grid;
+    grid-template-areas:
+        "image quantity";
+    margin-right: 5px;
+}
+
+
+.resourceCostItem > .image {
+    grid-area: image;
+    height: 15px;
+    margin-right: 2px;
+}
+
+.resourceCostItem > .quantity {
+    grid-area: quantity;
+    font-size: 11px;
+}
+
 
 #machines {
     display: flex;
