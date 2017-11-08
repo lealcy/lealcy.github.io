@@ -40,39 +40,43 @@ const itemData = {
     },
 
     // Electricity
-    /*electricity: {
+    electricity: {
         name: "Electricity",
         image: "electricity",
         description: "Power machines.",
-        products: { electricity: 10 },
-        productionTime: { steamEngine: 100 },
+        category: "electricity",
+        //products: { electricity: 10 },
+        //productionTime: { steamEngine: 100 },
     },
- 
+
     // Liquids
     water: {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
         image: "water",
-        products: { water: 40 },
-        productionTime: { waterPump: 100 }
+        category: "liquids"
+        //products: { water: 40 },
+        //productionTime: { waterPump: 100 }
     },
     petroleum: {
         name: "Petroleum",
         description: "Black gold.",
         image: "petroleum",
-        products: { petroleum: 54 },
-        productionTime: { oilPump: 1000 },
+        category: "liquids",
+        //products: { petroleum: 54 },
+        //productionTime: { oilPump: 1000 },
     },
- 
+
     // Gases
     steam: {
         name: "Steam",
         description: "If you liked it, then you should have put a Steam Engine on it.",
         image: "steam",
-        cost: { water: 2 },
-        products: { steam: 2 },
-        productionTime: { boiler: 100 },
-    },*/
+        //cost: { water: 2 },
+        category: "gases",
+        //products: { steam: 2 },
+        //productionTime: { boiler: 100 },
+    },
 
     // Intermediate Products
     stoneBrick: {
@@ -109,7 +113,6 @@ const itemData = {
         category: "intermediateProducts",
         craftable: true,
         cost: { ironPlate: 2 },
-        //productionTime: { assembler1: 750 },
     },
     copperCable: {
         name: "Cable",
@@ -118,7 +121,6 @@ const itemData = {
         category: "intermediateProducts",
         craftable: true,
         cost: { copperPlate: 1 },
-        //productionTime: { assembler1: 750 },
     },
     electronicCircuit: {
         name: "Circuit Board",
@@ -127,7 +129,6 @@ const itemData = {
         category: "intermediateProducts",
         craftable: true,
         cost: { copperCable: 3, ironPlate: 1 },
-        //productionTime: { assembler1: 750 },
     },
 
     // Machinery
@@ -138,8 +139,6 @@ const itemData = {
         category: "machinery",
         craftable: true,
         cost: { ironPlate: 1 },
-        //productionTime: { assembler1: 750 },
-
     },
 
     // Machines
@@ -192,7 +191,6 @@ const itemData = {
                 time: 17500,
             },
         }
-        //productionTime: { assembler1: 750 },
     },
     burnerMiner: {
         name: "Burner Drill",
@@ -297,7 +295,38 @@ const itemData = {
                 },
                 time: 750,
             },
-            /*burnerMiner: {
+            boiler: {
+                consume: {
+                    pipe: 4,
+                    stoneFurnace: 1,
+                },
+                produce: {
+                    boiler: 1,
+                },
+                time: 750,
+            }
+        }
+    },
+    assembler2: {
+        name: "Assembler 2",
+        description: "Craft items that use three or four ingredients of distinct types.",
+        craftable: true,
+        cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
+        image: "assembler2",
+        category: "machines",
+        production: {
+            assembler1: {
+                consume: {
+                    electronicCircuit: 3,
+                    ironGear: 5,
+                    ironPlate: 9,
+                },
+                produce: {
+                    assembler1: 1,
+                },
+                time: 750,
+            },
+            burnerMiner: {
                 consume: {
                     ironGear: 3,
                     ironPlate: 3,
@@ -307,20 +336,66 @@ const itemData = {
                     burnerMiner: 1,
                 },
                 time: 750,
-            },*/
+            },
+            assembler2: {
+                consume: {
+                    electronicCircuit: 3,
+                    ironGear: 5,
+                    ironPlate: 9,
+                    assembler1: 1,
+                },
+                produce: {
+                    assembler2: 1,
+                },
+                time: 750,
+            },
+            waterPump: {
+                consume: {
+                    electronicCircuit: 2,
+                    ironGear: 1,
+                    pipe: 1,
+                },
+                produce: {
+                    waterPump: 1,
+                },
+                time: 750
+            },
+            steamEngine: {
+                consume: {
+                    ironGear: 8,
+                    ironPlate: 10,
+                    pipe: 5,
+                },
+                produce: {
+                    steamEngine: 1,
+                },
+                time: 750,
+            },
+            electricMiner: {
+                consume: {
+                    electronicCircuit: 3,
+                    ironGear: 5,
+                    ironPlate: 10,
+                },
+                produce: {
+                    electricMiner: 1,
+                },
+                time: 750,
+            },
+            oilPump: {
+                consume: {
+                    electronicCircuit: 5,
+                    ironGear: 10,
+                    pipe: 10,
+                },
+                produce: {
+                    oilPump: 1,
+                },
+                time: 750,
+            }
         }
-        //productionTime: { assembler2: 750 },
-    },/*
-    assembler2: {
-        name: "Assembler 2",
-        description: "Craft items that use three or four ingredients of distinct types.",
-        craftable: true,
-        cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
-        image: "assembler2",
-        consume: { electricity: 100 },
-        products: { assembler2: 1 },
-        productionTime: { assembler2: 750 },
-    },*/
+        //consume: { electricity: 100 },
+    },
     waterPump: {
         name: "Water Pump",
         description: "Pumps water from the ground.",
@@ -328,8 +403,14 @@ const itemData = {
         craftable: true,
         cost: { electronicCircuit: 2, ironGear: 1, pipe: 1 },
         image: "waterPump",
-        //products: { waterPump: 1 },
-        //productionTime: { assembler2: 750 },
+        production: {
+            water: {
+                produce: {
+                    water: 40,
+                },
+                time: 100,
+            }
+        }
     },
     boiler: {
         name: "Boiler",
@@ -338,8 +419,18 @@ const itemData = {
         craftable: true,
         cost: { pipe: 4, stoneFurnace: 1 },
         image: "boiler",
-        //productionTime: { assembler1: 750 },
-        //consume: { coal: 0.125 },
+        production: {
+            steam: {
+                consume: {
+                    water: 2,
+                    coal: 0.125,
+                },
+                produce: {
+                    steam: 2,
+                },
+                time: 100,
+            }
+        }
     },
     steamEngine: {
         name: "Steam Generator",
@@ -348,8 +439,17 @@ const itemData = {
         category: "machines",
         craftable: true,
         cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
-        //consume: { steam: 1 },
-        //productionTime: { assembler2: 750 },
+        production: {
+            electricity: {
+                consume: {
+                    steam: 1,
+                },
+                produce: {
+                    electricity: 100,
+                },
+                time: 100,
+            }
+        }
     },
     electricMiner: {
         name: "Electric Mining Drill",
@@ -359,7 +459,6 @@ const itemData = {
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
         //consume: { electricity: 90 },
-        //productionTime: { assembler2: 750 },
     },
     oilPump: {
         name: "Oil Pump",
@@ -368,9 +467,7 @@ const itemData = {
         category: "machines",
         craftable: true,
         cost: { electronicCircuit: 5, ironGear: 10, pipe: 10, },
-        //products: { oilPump: 1 },
         //consume: { electricity: 90 },
-        //productionTime: { assembler2: 750 },
     },
 };
 

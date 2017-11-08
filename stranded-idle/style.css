@@ -20,7 +20,7 @@ body {
     padding-right: 10px;
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+    box-shadow: 1px 0px 1px 0px rgba(74,65,33,0.63);
 }
 
 .blink {
@@ -64,10 +64,6 @@ body {
     padding: 5px;
 }
 
-/*.resource:hover > .name {
-    display: block;
-}*/
-
 .resource > .image {
     grid-area: image;
     margin-right: 5px;
@@ -89,7 +85,6 @@ body {
 
 .resource > .name {
     grid-area: name;
-    /*display: none;*/
     font-size: x-small;
     word-break: break-all;
     text-align: center;
@@ -117,10 +112,12 @@ body {
 
 #machines {
     display: flex;
+    flex-wrap: wrap;
 }
 
 .machine {
-    width: fit-content;
+    /*width: fit-content;*/
+    height: fit-content;
     margin: 0 10px 10px 0;
     padding: 5px 5px  10px;
     background-color: #f7bb60;

@@ -65,9 +65,7 @@ export default class ItemBar {
                 if (item.cost.size) {
                     const costEl = itemEl.querySelector(".cost");
                     costEl.style.display = "flex";
-                    console.log(item.cost);
                     for (const [id, quantity] of item.cost) {
-                        console.log(item.name, id, quantity);
                         const costItem = items.get(id);
                         const costItemEl = createFromTemplate("resourceCostItemTemplate");
                         costItemEl.querySelector(".image").src = `images/${costItem.image}.png`;

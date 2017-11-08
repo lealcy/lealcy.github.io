@@ -70,7 +70,7 @@ export default class ProductionSetting {
             if (!items.get(id).active) {
                 return false;
             }
-            return true;
         }
+        return true;
     }
 }
