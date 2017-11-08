@@ -6,4 +6,8 @@ export const categories = {
     electricity: "Electricity",
     liquids: "Liquids",
     gases: "Gases",
+    smelting: "Smelting",
+    mining: "Mining",
+    extraction: "Extraction",
+    fluids: "Fluids",
 };

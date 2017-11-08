@@ -34,6 +34,8 @@ export default class ProductionSetting {
 
     update(frameTime) {
         if (!this.quantity) {
+            this.state = WAITING;
+            this.elapsedTime = 0;
             return;
         }
         if (this.state === WAITING) {
@@ -53,6 +55,9 @@ export default class ProductionSetting {
             }
         } else if (this.state === WORKING) {
             if (this.elapsedTime >= this.time) {
+                if (this.currentProduction > this.quantity) {
+                    this.currentProduction = this.quantity;
+                }
                 for (const [id, quantity] of this.produce) {
                     items.get(id).quantity += quantity * this.currentProduction;
                 }

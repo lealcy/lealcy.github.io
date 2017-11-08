@@ -8,7 +8,6 @@ const itemData = {
         image: "coal",
         craftable: true,
         visisble: true,
-        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
         category: "resources",
     },
     stone: {
@@ -17,7 +16,6 @@ const itemData = {
         image: "stone",
         craftable: true,
         visisble: true,
-        //productionTime: { burnerMiner: 2721, electricMiner: 1538.4, },
         category: "resources",
     },
     iron: {
@@ -26,7 +24,6 @@ const itemData = {
         description: "Melt it into plates.",
         image: "iron",
         visisble: true,
-        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
         category: "resources",
     },
     copper: {
@@ -35,7 +32,6 @@ const itemData = {
         craftable: true,
         image: "copper",
         visisble: true,
-        //productionTime: { burnerMiner: 3571.4, electricMiner: 1904.7, },
         category: "resources",
     },
 
@@ -45,8 +41,6 @@ const itemData = {
         image: "electricity",
         description: "Power machines.",
         category: "electricity",
-        //products: { electricity: 10 },
-        //productionTime: { steamEngine: 100 },
     },
 
     // Liquids
@@ -54,17 +48,13 @@ const itemData = {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
         image: "water",
-        category: "liquids"
-        //products: { water: 40 },
-        //productionTime: { waterPump: 100 }
+        category: "fluids"
     },
     petroleum: {
         name: "Petroleum",
         description: "Black gold.",
         image: "petroleum",
-        category: "liquids",
-        //products: { petroleum: 54 },
-        //productionTime: { oilPump: 1000 },
+        category: "fluids",
     },
 
     // Gases
@@ -72,10 +62,7 @@ const itemData = {
         name: "Steam",
         description: "If you liked it, then you should have put a Steam Engine on it.",
         image: "steam",
-        //cost: { water: 2 },
-        category: "gases",
-        //products: { steam: 2 },
-        //productionTime: { boiler: 100 },
+        category: "fluids",
     },
 
     // Intermediate Products
@@ -136,7 +123,7 @@ const itemData = {
         name: "Pipe",
         description: "Contain liquids and gases.",
         image: "pipe",
-        category: "machinery",
+        category: "intermediateProducts",
         craftable: true,
         cost: { ironPlate: 1 },
     },
@@ -148,7 +135,7 @@ const itemData = {
         image: "stoneFurnace",
         craftable: true,
         cost: { stone: 5 },
-        category: "machines",
+        category: "smelting",
         production: {
             stoneBrick: {
                 consume: {
@@ -196,7 +183,7 @@ const itemData = {
         name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
         image: "burnerMiningDrill",
-        category: "machines",
+        category: "mining",
         craftable: true,
         cost: { ironGear: 3, ironPlate: 3, stoneFurnace: 1 },
         production: {
@@ -236,9 +223,7 @@ const itemData = {
                 },
                 time: 2700,
             },
-
         }
-        //productionTime: { assembler2: 750 },
     },
     assembler1: {
         name: "Basic Assembler",
@@ -246,11 +231,11 @@ const itemData = {
         category: "machines",
         craftable: true,
         image: "assembler1",
-        //consume: { electricity: 70 },
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9 },
         production: {
             ironGear: {
                 consume: {
+                    electricity: 500,
                     ironPlate: 2,
                 },
                 produce: {
@@ -260,6 +245,7 @@ const itemData = {
             },
             copperCable: {
                 consume: {
+                    electricity: 500,
                     copperPlate: 1,
                 },
                 produce: {
@@ -269,6 +255,7 @@ const itemData = {
             },
             electronicCircuit: {
                 consume: {
+                    electricity: 500,
                     copperCable: 3,
                     ironPlate: 1,
                 },
@@ -279,6 +266,7 @@ const itemData = {
             },
             pipe: {
                 consume: {
+                    electricity: 500,
                     ironPlate: 1,
                 },
                 produce: {
@@ -288,6 +276,7 @@ const itemData = {
             },
             stoneFurnace: {
                 consume: {
+                    electricity: 500,
                     stone: 5,
                 },
                 produce: {
@@ -297,6 +286,7 @@ const itemData = {
             },
             boiler: {
                 consume: {
+                    electricity: 500,
                     pipe: 4,
                     stoneFurnace: 1,
                 },
@@ -317,6 +307,7 @@ const itemData = {
         production: {
             assembler1: {
                 consume: {
+                    electricity: 750,
                     electronicCircuit: 3,
                     ironGear: 5,
                     ironPlate: 9,
@@ -328,6 +319,7 @@ const itemData = {
             },
             burnerMiner: {
                 consume: {
+                    electricity: 750,
                     ironGear: 3,
                     ironPlate: 3,
                     stoneFurnace: 1,
@@ -339,6 +331,7 @@ const itemData = {
             },
             assembler2: {
                 consume: {
+                    electricity: 750,
                     electronicCircuit: 3,
                     ironGear: 5,
                     ironPlate: 9,
@@ -351,6 +344,7 @@ const itemData = {
             },
             waterPump: {
                 consume: {
+                    electricity: 750,
                     electronicCircuit: 2,
                     ironGear: 1,
                     pipe: 1,
@@ -362,6 +356,7 @@ const itemData = {
             },
             steamEngine: {
                 consume: {
+                    electricity: 750,
                     ironGear: 8,
                     ironPlate: 10,
                     pipe: 5,
@@ -373,6 +368,7 @@ const itemData = {
             },
             electricMiner: {
                 consume: {
+                    electricity: 750,
                     electronicCircuit: 3,
                     ironGear: 5,
                     ironPlate: 10,
@@ -384,6 +380,7 @@ const itemData = {
             },
             oilPump: {
                 consume: {
+                    electricity: 750,
                     electronicCircuit: 5,
                     ironGear: 10,
                     pipe: 10,
@@ -394,12 +391,11 @@ const itemData = {
                 time: 750,
             }
         }
-        //consume: { electricity: 100 },
     },
     waterPump: {
         name: "Water Pump",
         description: "Pumps water from the ground.",
-        category: "machines",
+        category: "extraction",
         craftable: true,
         cost: { electronicCircuit: 2, ironGear: 1, pipe: 1 },
         image: "waterPump",
@@ -455,19 +451,66 @@ const itemData = {
         name: "Electric Mining Drill",
         description: "Automatic resource extractor.",
         image: "electricMiner",
-        category: "machines",
+        category: "mining",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
-        //consume: { electricity: 90 },
+        production: {
+            coal: {
+                consume: {
+                    electricity: 900,
+                },
+                produce: {
+                    coal: 1,
+                },
+                time: 1000,
+            },
+            iron: {
+                consume: {
+                    electricity: 900,
+                },
+                produce: {
+                    iron: 1,
+                },
+                time: 1000,
+            },
+            copper: {
+                consume: {
+                    electricity: 900,
+                },
+                produce: {
+                    copper: 1,
+                },
+                time: 1000,
+            },
+            stone: {
+                consume: {
+                    electricity: 720,
+                },
+                produce: {
+                    stone: 1,
+                },
+                time: 800,
+            },
+        }
     },
     oilPump: {
         name: "Oil Pump",
         description: "Pumps oil from the ground.",
         image: "oilPump",
-        category: "machines",
+        category: "extraction",
         craftable: true,
         cost: { electronicCircuit: 5, ironGear: 10, pipe: 10, },
-        //consume: { electricity: 90 },
+        production: {
+            petroleum: {
+                consume: {
+                    electricity: 450,
+                },
+                produce: {
+                    petroleum: 1,
+                },
+                time: 500,
+            }
+        },
     },
 };
 
