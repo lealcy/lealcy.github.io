@@ -479,6 +479,18 @@ const itemData = {
                     microprocessor: 1,
                 },
                 time: 1600,
+            },
+            steamTurbine: {
+                consume: {
+                    electricity: 1500,
+                    ironGear: 50,
+                    copperPlate: 50,
+                    pipe: 20,
+                },
+                produce: {
+                    steamTurbine: 1,
+                },
+                time: 24000,
             }
         }
     },
@@ -550,7 +562,7 @@ const itemData = {
         name: "Steam Generator",
         description: "Generates Electricity.",
         image: "steamEngine",
-        category: "machines",
+        category: "electricity",
         craftable: true,
         cost: { ironGear: 8, ironPlate: 10, pipe: 5 },
         production: {
@@ -560,6 +572,25 @@ const itemData = {
                 },
                 produce: {
                     electricity: 100,
+                },
+                time: 100,
+            }
+        }
+    },
+    steamTurbine: {
+        name: "Steam Turbine",
+        description: "Generates Electricity very well.",
+        image: "steamTurbine",
+        category: "electricity",
+        craftable: true,
+        cost: { ironGear: 50, copperPlate: 50, pipe: 20 },
+        production: {
+            electricity: {
+                consume: {
+                    steam: 18,
+                },
+                produce: {
+                    electricity: 2000,
                 },
                 time: 100,
             }
