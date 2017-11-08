@@ -10,4 +10,5 @@ export const categories = {
     mining: "Mining",
     extraction: "Extraction",
     fluids: "Fluids",
+    fabrication: "Fabrication",
 };

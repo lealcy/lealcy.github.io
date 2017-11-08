@@ -142,6 +142,29 @@ const itemData = {
         image: "plastic",
         category: "intermediateProducts",
     },
+    microprocessor: {
+        name: "Microprocessor",
+        description: "Better automation",
+        image: "microprocessor",
+        category: "intermediateProducts",
+        craftable: true,
+        cost: {
+            copperCable: 4,
+            electronicCircuit: 2,
+            plastic: 2,
+        }
+    },
+    processingModule: {
+        name: "Processing Module",
+        description: "Advanced.",
+        image: "processingModule",
+        category: "intermediateProducts",
+        craftable: true,
+        cost: {
+            microprocessor: 5,
+            electronicCircuit: 5,
+        }
+    },
 
     // Machinery
     pipe: {
@@ -251,9 +274,13 @@ const itemData = {
         }
     },
     assembler1: {
-        name: "Basic Assembler",
+        /*
+            Electricity: 500w per type of ingredient in cost;
+            Time: 325ms per quantity of ingredient in cost;
+        */
+        name: "Basic Fabricator",
         description: "Produce items that require up to two different ingredients.",
-        category: "machines",
+        category: "fabrication",
         craftable: true,
         image: "assembler1",
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9 },
@@ -276,18 +303,18 @@ const itemData = {
                 produce: {
                     copperCable: 1,
                 },
-                time: 750,
+                time: 325,
             },
             electronicCircuit: {
                 consume: {
-                    electricity: 500,
+                    electricity: 1000,
                     copperCable: 3,
                     ironPlate: 1,
                 },
                 produce: {
                     electronicCircuit: 1
                 },
-                time: 750,
+                time: 825,
             },
             pipe: {
                 consume: {
@@ -297,7 +324,7 @@ const itemData = {
                 produce: {
                     pipe: 1
                 },
-                time: 750,
+                time: 325,
             },
             stoneFurnace: {
                 consume: {
@@ -307,32 +334,58 @@ const itemData = {
                 produce: {
                     stoneFurnace: 1,
                 },
-                time: 750,
+                time: 1625,
             },
             boiler: {
                 consume: {
-                    electricity: 500,
+                    electricity: 1000,
                     pipe: 4,
                     stoneFurnace: 1,
                 },
                 produce: {
                     boiler: 1,
                 },
-                time: 750,
-            }
-        }
+                time: 1625,
+            },
+            processingModule: {
+                consume: {
+                    electricity: 1000,
+                    microprocessor: 5,
+                    electronicCircuit: 5,
+                },
+                produce: {
+                    processingModule: 1,
+                },
+                time: 3250,
+            },
+            assembler3: {
+                consume: {
+                    electricity: 1000,
+                    assembler2: 2,
+                    processingModule: 4,
+                },
+                produce: {
+                    assembler3: 1,
+                },
+                time: 1950,
+            },
+        },
     },
     assembler2: {
-        name: "Assembler 2",
+        /*
+            Electricity: 500w per type of ingredient in cost;
+            Time: 200ms per quantity of ingredient in cost;
+        */
+        name: "Extended Fabricator",
         description: "Craft items that use three or four ingredients of distinct types.",
         craftable: true,
         cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 9, assembler1: 1 },
         image: "assembler2",
-        category: "machines",
+        category: "fabrication",
         production: {
             assembler1: {
                 consume: {
-                    electricity: 750,
+                    electricity: 1500,
                     electronicCircuit: 3,
                     ironGear: 5,
                     ironPlate: 9,
@@ -340,11 +393,11 @@ const itemData = {
                 produce: {
                     assembler1: 1,
                 },
-                time: 750,
+                time: 3000,
             },
             burnerMiner: {
                 consume: {
-                    electricity: 750,
+                    electricity: 1500,
                     ironGear: 3,
                     ironPlate: 3,
                     stoneFurnace: 1,
@@ -352,11 +405,11 @@ const itemData = {
                 produce: {
                     burnerMiner: 1,
                 },
-                time: 750,
+                time: 1400,
             },
             assembler2: {
                 consume: {
-                    electricity: 750,
+                    electricity: 2000,
                     electronicCircuit: 3,
                     ironGear: 5,
                     ironPlate: 9,
@@ -365,11 +418,11 @@ const itemData = {
                 produce: {
                     assembler2: 1,
                 },
-                time: 750,
+                time: 3600,
             },
             waterPump: {
                 consume: {
-                    electricity: 750,
+                    electricity: 1500,
                     electronicCircuit: 2,
                     ironGear: 1,
                     pipe: 1,
@@ -377,11 +430,11 @@ const itemData = {
                 produce: {
                     waterPump: 1,
                 },
-                time: 750
+                time: 800,
             },
             steamEngine: {
                 consume: {
-                    electricity: 750,
+                    electricity: 1500,
                     ironGear: 8,
                     ironPlate: 10,
                     pipe: 5,
@@ -389,11 +442,11 @@ const itemData = {
                 produce: {
                     steamEngine: 1,
                 },
-                time: 750,
+                time: 4600,
             },
             electricMiner: {
                 consume: {
-                    electricity: 750,
+                    electricity: 1500,
                     electronicCircuit: 3,
                     ironGear: 5,
                     ironPlate: 10,
@@ -401,11 +454,11 @@ const itemData = {
                 produce: {
                     electricMiner: 1,
                 },
-                time: 750,
+                time: 3600,
             },
             oilPump: {
                 consume: {
-                    electricity: 750,
+                    electricity: 1500,
                     electronicCircuit: 5,
                     ironGear: 10,
                     pipe: 10,
@@ -413,7 +466,47 @@ const itemData = {
                 produce: {
                     oilPump: 1,
                 },
-                time: 750,
+                time: 5000,
+            },
+            microprocessor: {
+                consume: {
+                    electricity: 1500,
+                    copperCable: 4,
+                    electronicCircuit: 2,
+                    plastic: 2,
+                },
+                produce: {
+                    microprocessor: 1,
+                },
+                time: 1600,
+            }
+        }
+    },
+    assembler3: {
+        /*
+            Electricity: 500w per type of ingredient in cost;
+            Time: 150ms per quantity of ingredient in cost;
+        */
+        name: "Advanced Fabricator",
+        description: "Produce items with five to six different ingredients.",
+        category: "fabrication",
+        image: "assembler3",
+        craftable: true,
+        cost: { assembler2: 2, processingModule: 4 },
+        production: {
+            refinery: {
+                consume: {
+                    electricity: 2500,
+                    electronicCircuit: 10,
+                    ironGear: 10,
+                    pipe: 10,
+                    steelPlate: 15,
+                    stoneBrick: 10,
+                },
+                produce: {
+                    refinery: 1,
+                },
+                time: 8250,
             }
         }
     },
