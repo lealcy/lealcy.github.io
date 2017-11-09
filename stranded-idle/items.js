@@ -252,6 +252,12 @@ const itemData = {
         image: "spacecraftModule",
         category: "spacefaring",
     },
+    battery: {
+        name: "Battery",
+        description: "Retain energy.",
+        image: "battery",
+        category: "intermediateProducts",
+    },
 
     // Machinery
     pipe: {
@@ -1105,6 +1111,18 @@ const itemData = {
                     lubricant: 1,
                 },
                 time: 100,
+            },
+            battery: {
+                consume: {
+                    electricity: 1000,
+                    copperPlate: 1,
+                    ironPlate: 1,
+                    sulfuricAcid: 20,
+                },
+                produce: {
+                    battery: 1,
+                },
+                time: 1000,
             },
         },
     },
