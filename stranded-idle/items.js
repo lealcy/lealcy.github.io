@@ -195,6 +195,17 @@ const itemData = {
         image: "sulfur",
         category: "intermediateProducts",
     },
+    flightComputer: {
+        name: "Flight Computer",
+        description: "Controls Spacecraft.",
+        image: "flightComputer",
+        craftable: true,
+        cost: {
+            processingUnit: 1,
+            acceleratorModule: 1,
+        },
+    },
+
 
     // Machinery
     pipe: {
@@ -509,6 +520,17 @@ const itemData = {
                     steelFurnace: 1,
                 },
                 time: 5200,
+            },
+            flightComputer: {
+                consume: {
+                    processingUnit: 1,
+                    acceleratorModule: 1,
+                    electricity: 1000,
+                },
+                produce: {
+                    flightComputer: 1,
+                },
+                time: 650,
             }
         },
     },
@@ -668,8 +690,8 @@ const itemData = {
                     processingUnit: 1,
                 },
                 time: 5400,
-            }
-        }
+            },
+        },
     },
     assembler3: {
         /*
