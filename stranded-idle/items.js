@@ -277,6 +277,56 @@ const itemData = {
             },
         }
     },
+    electricFurnace: {
+        name: "Electric Foundry",
+        description: "Smelt things in other things faster, cosumes electricity.",
+        image: "electricFurnace",
+        craftable: true,
+        cost: { microprocessor: 5, steelPlate: 10, stoneBrick: 10 },
+        category: "smelting",
+        production: {
+            stoneBrick: {
+                consume: {
+                    stone: 2,
+                    electricity: 3150,
+                },
+                produce: {
+                    stoneBrick: 1,
+                },
+                time: 1750,
+            },
+            ironPlate: {
+                consume: {
+                    iron: 1,
+                    electricity: 3150,
+                },
+                produce: {
+                    ironPlate: 1,
+                },
+                time: 1750,
+            },
+            copperPlate: {
+                consume: {
+                    copper: 2,
+                    electricity: 3150,
+                },
+                produce: {
+                    copperPlate: 1
+                },
+                time: 1750,
+            },
+            steelPlate: {
+                consume: {
+                    ironPlate: 5,
+                    electricity: 15660,
+                },
+                produce: {
+                    steelPlate: 1,
+                },
+                time: 8700,
+            },
+        }
+    },
     burnerMiner: {
         name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
@@ -552,6 +602,18 @@ const itemData = {
                     steamTurbine: 1,
                 },
                 time: 24000,
+            },
+            electricFurnace: {
+                consume: {
+                    electricity: 1500,
+                    microprocessor: 5,
+                    steelPlate: 10,
+                    stoneBrick: 10,
+                },
+                produce: {
+                    electricFurnace: 1,
+                },
+                time: 5000,
             }
         }
     },
@@ -732,7 +794,7 @@ const itemData = {
             basicProcessing: {
                 consume: {
                     petroleum: 10,
-                    electricity: 400,
+                    electricity: 2000,
                 },
                 produce: {
                     heavyOil: 3,
@@ -745,6 +807,7 @@ const itemData = {
                 consume: {
                     petroleum: 100,
                     water: 50,
+                    electricity: 20000,
                 },
                 produce: {
                     heavyOil: 15,
@@ -758,6 +821,7 @@ const itemData = {
                     coal: 10,
                     heavyOil: 25,
                     steam: 50,
+                    electricity: 20000,
                 },
                 produce: {
                     heavyOil: 35,
@@ -779,6 +843,7 @@ const itemData = {
                 consume: {
                     coal: 1,
                     naturalGas: 20,
+                    electricity: 2000,
                 },
                 produce: {
                     plastic: 2,
