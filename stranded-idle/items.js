@@ -228,6 +228,12 @@ const itemData = {
         image: "concrete",
         category: "intermediateProducts",
     },
+    engine: {
+        name: "engine",
+        description: "Basic engine unit.",
+        image: "engine",
+        category: "intermediateProducts",
+    },
     /*    spacecraftModule: {
             name: "Spacecraft Module",
             description: "Important part of a healthful Spacecraft.",
@@ -740,6 +746,18 @@ const itemData = {
                     concrete: 1,
                 },
                 time: 21000,
+            },
+            engine: {
+                consume: {
+                    ironGear: 1,
+                    pipe: 2,
+                    steelPlate: 1,
+                    electricity: 1500,
+                },
+                produce: {
+                    engine: 1,
+                },
+                time: 800,
             },
         },
     },
