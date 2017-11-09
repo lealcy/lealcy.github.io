@@ -4,10 +4,10 @@ const itemData = {
     // Resources
     coal: {
         name: "Coal",
-        description: "Power machines and produce power.",
+        description: "Power machines.",
         image: "coal",
         craftable: true,
-        visisble: true,
+        visible: true,
         category: "resources",
     },
     stone: {
@@ -15,7 +15,7 @@ const itemData = {
         description: "Craft furnaces and bricks.",
         image: "stone",
         craftable: true,
-        visisble: true,
+        visible: true,
         category: "resources",
     },
     iron: {
@@ -23,7 +23,7 @@ const itemData = {
         craftable: true,
         description: "Melt it into plates.",
         image: "iron",
-        visisble: true,
+        visible: true,
         category: "resources",
     },
     copper: {
@@ -31,7 +31,13 @@ const itemData = {
         description: "Melt it into plates.",
         craftable: true,
         image: "copper",
-        visisble: true,
+        visible: true,
+        category: "resources",
+    },
+    solidFuel: {
+        name: "Solid Fuel",
+        description: "Requirement for space travel.",
+        image: "solidFuel",
         category: "resources",
     },
 
@@ -205,7 +211,6 @@ const itemData = {
             acceleratorModule: 1,
         },
     },
-
 
     // Machinery
     pipe: {
@@ -942,13 +947,43 @@ const itemData = {
                     ironPlate: 1,
                     sulfur: 5,
                     water: 100,
-                    electricity: 1000,
+                    electricity: 2000,
                 },
                 produce: {
                     sulfuricAcid: 50,
                 },
                 time: 1000,
-            }
+            },
+            solidFuel1: {
+                consume: {
+                    heavyOil: 20,
+                    electricity: 6000,
+                },
+                produce: {
+                    solidFuel: 1,
+                },
+                time: 3000,
+            },
+            solidFuel2: {
+                consume: {
+                    lightOil: 10,
+                    electricity: 6000,
+                },
+                produce: {
+                    solidFuel: 1,
+                },
+                time: 3000,
+            },
+            solidFuel3: {
+                consume: {
+                    naturalGas: 20,
+                    electricity: 6000,
+                },
+                produce: {
+                    solidFuel: 1,
+                },
+                time: 3000,
+            },
         },
     },
 };
