@@ -13,6 +13,7 @@ export default class Item {
         this.craftable = data.craftable || false;
         this.image = data.image;
         this.category = data.category || "none";
+        this.requirements = new Set(data.requirements || []);
 
         this.production = new Map;
         if (data.production !== undefined) {
@@ -27,6 +28,15 @@ export default class Item {
                 this.cost.set(itemId, data.cost[itemId]);
             }
         }
+    }
+
+    attendRequirements() {
+        for (const item of this.requirements) {
+            if (items.get(item).quantity) {
+                return true;
+            }
+        }
+        return false;
     }
 
     canCraft() {

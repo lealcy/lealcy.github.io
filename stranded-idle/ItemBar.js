@@ -87,7 +87,7 @@ export default class ItemBar {
         const id = `tabItem_${item.id}`;
         const itemEl = document.getElementById(id);
 
-        if (!item.active && ((item.craftable && item.canCraft()) || item.quantity)) {
+        if (!item.active && (((item.craftable && item.canCraft()) || item.quantity || item.attendRequirements()))) {
             item.active = true;
             itemEl.style.display = "grid";
             const tabNameEl = document.getElementById(`tab_${item.category}`);

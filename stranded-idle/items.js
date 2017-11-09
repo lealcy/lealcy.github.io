@@ -54,7 +54,7 @@ const itemData = {
         name: "Water",
         description: "Is a liquid, fishes pee on it.",
         image: "water",
-        category: "fluids"
+        category: "fluids",
     },
     petroleum: {
         name: "Petroleum",
@@ -159,23 +159,12 @@ const itemData = {
         description: "Better automation",
         image: "microprocessor",
         category: "intermediateProducts",
-        craftable: true,
-        cost: {
-            copperCable: 4,
-            electronicCircuit: 2,
-            plastic: 2,
-        }
     },
     acceleratorModule: {
         name: "Accelerator Module",
         description: "Advanced.",
         image: "acceleratorModule",
         category: "intermediateProducts",
-        craftable: true,
-        cost: {
-            microprocessor: 5,
-            electronicCircuit: 5,
-        }
     },
     processingUnit: {
         name: "Processing Unit",
@@ -188,12 +177,6 @@ const itemData = {
         description: "Required material to produce Spacecraft Structures.",
         image: "lowDensityPlate",
         category: "spacefaring",
-        craftable: true,
-        cost: {
-            copperPlate: 5,
-            plastic: 5,
-            steelPlate: 10,
-        },
     },
     sulfur: {
         name: "Sulfur",
@@ -206,21 +189,12 @@ const itemData = {
         description: "Controls Spacecraft.",
         image: "flightComputer",
         category: "spacefaring",
-        craftable: true,
-        cost: {
-            processingUnit: 1,
-            acceleratorModule: 1,
-        },
     },
     rocketFuel: {
         name: "Rocket Fuel",
         description: "Propulsion for your Spacecraft.",
         image: "rocketFuel",
         category: "spacefaring",
-        craftable: true,
-        cost: {
-            solidFuel: 10,
-        },
     },
     concrete: {
         name: "Concrete",
@@ -235,7 +209,7 @@ const itemData = {
         category: "intermediateProducts",
     },
     lubricant: {
-        name: "lubricant",
+        name: "Lubricant",
         description: "Reduce friction.",
         image: "lubricant",
         category: "fluids",
@@ -243,7 +217,7 @@ const itemData = {
     electricEngine: {
         name: "Electric Engine",
         description: "Convert electricity in movement.",
-        image: "electrictEngine",
+        image: "electricEngine",
         category: "intermediateProducts",
     },
     spacecraftModule: {
@@ -330,9 +304,11 @@ const itemData = {
         name: "Steel Foundry",
         description: "Smelt things in other things faster, cosumes coal.",
         image: "steelFurnace",
-        craftable: true,
-        cost: { steelPlate: 6, stoneBrick: 10 },
         category: "smelting",
+        cost: {
+            steelPlate: 6,
+            stoneBrick: 10,
+        },
         production: {
             stoneBrick: {
                 consume: {
@@ -380,9 +356,12 @@ const itemData = {
         name: "Electric Foundry",
         description: "Smelt things in other things faster, cosumes electricity.",
         image: "electricFurnace",
-        craftable: true,
-        cost: { microprocessor: 5, steelPlate: 10, stoneBrick: 10 },
         category: "smelting",
+        cost: {
+            microprocessor: 5,
+            steelPlate: 10,
+            stoneBrick: 10,
+        },
         production: {
             stoneBrick: {
                 consume: {
@@ -818,6 +797,19 @@ const itemData = {
                 },
                 time: 4000,
             },
+            chemicalPlant: {
+                consume: {
+                    electricity: 2000,
+                    electronicCircuit: 5,
+                    ironGear: 5,
+                    pipe: 5,
+                    steelPlate: 5,
+                },
+                produce: {
+                    chemicalPlant: 1
+                },
+                time: 4000,
+            }
         },
     },
     assembler3: {
@@ -829,8 +821,10 @@ const itemData = {
         description: "Produce items with five to six different ingredients.",
         category: "fabrication",
         image: "assembler3",
-        craftable: true,
-        cost: { assembler2: 2, acceleratorModule: 4 },
+        cost: {
+            assembler2: 2,
+            acceleratorModule: 4,
+        },
         production: {
             refinery: {
                 consume: {
@@ -921,8 +915,11 @@ const itemData = {
         description: "Generates Electricity very well.",
         image: "steamTurbine",
         category: "electricity",
-        craftable: true,
-        cost: { ironGear: 50, copperPlate: 50, pipe: 20 },
+        cost: {
+            ironGear: 50,
+            copperPlate: 50,
+            pipe: 20,
+        },
         production: {
             electricity: {
                 consume: {
@@ -940,8 +937,6 @@ const itemData = {
         description: "Automatic resource extractor.",
         image: "electricMiner",
         category: "mining",
-        craftable: true,
-        cost: { electronicCircuit: 3, ironGear: 5, ironPlate: 10, },
         production: {
             coal: {
                 consume: {
@@ -986,8 +981,6 @@ const itemData = {
         description: "Pumps oil from the ground.",
         image: "oilPump",
         category: "extraction",
-        craftable: true,
-        cost: { electronicCircuit: 5, ironGear: 10, pipe: 10, },
         production: {
             petroleum: {
                 consume: {
@@ -1003,9 +996,16 @@ const itemData = {
     refinery: {
         name: "Refinery",
         description: "Convert petroleum in useful products",
-        craftable: true,
         image: "refinery",
-        cost: { electronicCircuit: 10, ironGear: 10, pipe: 10, steelPlate: 15, stoneBrick: 10 },
+        category: "machines",
+        craftable: true,
+        cost: {
+            electronicCircuit: 10,
+            ironGear: 10,
+            pipe: 10,
+            steelPlate: 15,
+            stoneBrick: 10,
+        },
         production: {
             basicProcessing: {
                 consume: {
@@ -1051,8 +1051,8 @@ const itemData = {
     chemicalPlant: {
         name: "chemical Plant",
         description: "Environment friendly.",
-        craftable: true,
         image: "chemicalPlant",
+        category: "machines",
         cost: { electronicCircuit: 5, ironGear: 5, pipe: 5, steelPlate: 5 },
         production: {
             plastic: {
@@ -1148,6 +1148,13 @@ const itemData = {
         description: "Operation base of your escape.",
         image: "launchpad",
         category: "spacefaring",
+        cost: {
+            concrete: 1000,
+            electricEngine: 200,
+            pipe: 100,
+            processingUnit: 200,
+            steelPlate: 1000,
+        },
         production: {
             spacecraftModule: {
                 consume: {
@@ -1168,6 +1175,7 @@ const itemData = {
         description: "Avoid collisions.",
         image: "radar",
         category: "spacefaring",
+        cost: { electronicCircuit: 5, ironGear: 5, ironPlate: 5 },
     }
 };
 
