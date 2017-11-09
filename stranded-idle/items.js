@@ -227,6 +227,56 @@ const itemData = {
             },
         }
     },
+    steelFurnace: {
+        name: "Steel Foundry",
+        description: "Smelt things in other things faster, cosumes coal.",
+        image: "steelFurnace",
+        craftable: true,
+        cost: { steelPlate: 6, stoneBrick: 10 },
+        category: "smelting",
+        production: {
+            stoneBrick: {
+                consume: {
+                    stone: 2,
+                    coal: 0.04,
+                },
+                produce: {
+                    stoneBrick: 1,
+                },
+                time: 1750,
+            },
+            ironPlate: {
+                consume: {
+                    iron: 1,
+                    coal: 0.04,
+                },
+                produce: {
+                    ironPlate: 1,
+                },
+                time: 1750,
+            },
+            copperPlate: {
+                consume: {
+                    copper: 2,
+                    coal: 0.04,
+                },
+                produce: {
+                    copperPlate: 1
+                },
+                time: 1750,
+            },
+            steelPlate: {
+                consume: {
+                    ironPlate: 5,
+                    coal: 0.19,
+                },
+                produce: {
+                    steelPlate: 1,
+                },
+                time: 8700,
+            },
+        }
+    },
     burnerMiner: {
         name: "Burner Drill",
         description: "Disregard taps, adquire resource.",
@@ -369,6 +419,17 @@ const itemData = {
                 },
                 time: 1950,
             },
+            steelFurnace: {
+                consume: {
+                    electricity: 1000,
+                    steelPlate: 6,
+                    stoneBrick: 10,
+                },
+                produce: {
+                    steelFurnace: 1,
+                },
+                time: 5200,
+            }
         },
     },
     assembler2: {
@@ -704,8 +765,8 @@ const itemData = {
                     naturalGas: 20,
                 },
                 time: 5000,
-            }
-        }
+            },
+        },
     },
     chemicalPlant: {
         name: "chemical Plant",
@@ -723,9 +784,9 @@ const itemData = {
                     plastic: 2,
                 },
                 time: 1000,
-            }
-        }
-    }
+            },
+        },
+    },
 };
 
 export const items = new Map;
