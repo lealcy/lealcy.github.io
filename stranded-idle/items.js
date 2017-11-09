@@ -187,7 +187,7 @@ const itemData = {
         name: "Low Density Plate",
         description: "Required material to produce Spacecraft Structures.",
         image: "lowDensityPlate",
-        category: "spaceShipConstruction",
+        category: "spacefaring",
         craftable: true,
         cost: {
             copperPlate: 5,
@@ -205,6 +205,7 @@ const itemData = {
         name: "Flight Computer",
         description: "Controls Spacecraft.",
         image: "flightComputer",
+        category: "spacefaring",
         craftable: true,
         cost: {
             processingUnit: 1,
@@ -215,11 +216,24 @@ const itemData = {
         name: "Rocket Fuel",
         description: "Propulsion for your Spacecraft.",
         image: "rocketFuel",
+        category: "spacefaring",
         craftable: true,
         cost: {
             solidFuel: 10,
         },
     },
+    concrete: {
+        name: "Concrete",
+        description: "Very hard material.",
+        image: "concrete",
+        category: "intermediateProducts",
+    },
+    /*    spacecraftModule: {
+            name: "Spacecraft Module",
+            description: "Important part of a healthful Spacecraft.",
+            image: "spacecraftModule",
+            category: "spacefaring",
+        },*/
 
     // Machinery
     pipe: {
@@ -714,6 +728,18 @@ const itemData = {
                     processingUnit: 1,
                 },
                 time: 5400,
+            },
+            concrete: {
+                consume: {
+                    iron: 1,
+                    stoneBrick: 5,
+                    water: 100,
+                    electricity: 1500,
+                },
+                produce: {
+                    concrete: 1,
+                },
+                time: 21000,
             },
         },
     },
