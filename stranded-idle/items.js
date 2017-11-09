@@ -171,6 +171,12 @@ const itemData = {
             electronicCircuit: 5,
         }
     },
+    processingUnit: {
+        name: "Processing Unit",
+        description: "Unit of processing.",
+        image: "processingUnit",
+        category: "intermediateProducts",
+    },
     lowDensityPlate: {
         name: "Low Density Plate",
         description: "Required material to produce Spacecraft Structures.",
@@ -650,6 +656,18 @@ const itemData = {
                     lowDensityPlate: 1,
                 },
                 time: 4000,
+            },
+            processingUnit: {
+                consume: {
+                    microprocessor: 2,
+                    electronicCircuit: 20,
+                    sulfuricAcid: 5,
+                    electricity: 1500,
+                },
+                produce: {
+                    processingUnit: 1,
+                },
+                time: 5400,
             }
         }
     },
