@@ -234,6 +234,12 @@ const itemData = {
         image: "engine",
         category: "intermediateProducts",
     },
+    lubricant: {
+        name: "lubricant",
+        description: "Reduce friction.",
+        image: "lubricant",
+        category: "fluids",
+    },
     /*    spacecraftModule: {
             name: "Spacecraft Module",
             description: "Important part of a healthful Spacecraft.",
@@ -1046,6 +1052,16 @@ const itemData = {
                     solidFuel: 1,
                 },
                 time: 3000,
+            },
+            lubricant: {
+                consume: {
+                    heavyOil: 1,
+                    electricity: 200,
+                },
+                produce: {
+                    lubricant: 1,
+                },
+                time: 100,
             },
         },
     },
