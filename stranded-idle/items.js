@@ -258,6 +258,12 @@ const itemData = {
         image: "battery",
         category: "intermediateProducts",
     },
+    batteryPack: {
+        name: "Battery Pack",
+        description: "Pack batteries.",
+        image: "batteryPack",
+        category: "intermediateProducts",
+    },
 
     // Machinery
     pipe: {
@@ -594,6 +600,17 @@ const itemData = {
                 },
                 time: 3250,
             },
+            batteryPack: {
+                consume: {
+                    electricity: 1000,
+                    battery: 5,
+                    ironPlate: 2,
+                },
+                produce: {
+                    batteryPack: 1,
+                },
+                time: 2275,
+            }
         },
     },
     assembler2: {
