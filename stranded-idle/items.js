@@ -165,6 +165,18 @@ const itemData = {
             electronicCircuit: 5,
         }
     },
+    lowDensityPlate: {
+        name: "Low Density Plate",
+        description: "Required material to produce Spacecraft Structures",
+        image: "lowDensityPlate",
+        category: "spaceShipConstruction",
+        craftable: true,
+        cost: {
+            copperPlate: 5,
+            plastic: 5,
+            steelPlate: 10,
+        },
+    },
 
     // Machinery
     pipe: {
@@ -614,6 +626,18 @@ const itemData = {
                     electricFurnace: 1,
                 },
                 time: 5000,
+            },
+            lowDensityPlate: {
+                consume: {
+                    copperPlate: 5,
+                    plastic: 5,
+                    steelPlate: 10,
+                    electricity: 1500,
+                },
+                produce: {
+                    lowDensityPlate: 1,
+                },
+                time: 4000,
             }
         }
     },
