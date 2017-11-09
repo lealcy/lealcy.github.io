@@ -782,7 +782,19 @@ const itemData = {
                     electricEngine: 1,
                 },
                 time: 3600,
-            }
+            },
+            radar: {
+                consume: {
+                    electricity: 1500,
+                    electronicCircuit: 5,
+                    ironGear: 5,
+                    ironPlate: 10,
+                },
+                produce: {
+                    radar: 1,
+                },
+                time: 4000,
+            },
         },
     },
     assembler3: {
@@ -1115,6 +1127,12 @@ const itemData = {
                 time: 3000,
             }
         }
+    },
+    radar: {
+        name: "Radar",
+        description: "Avoid collisions.",
+        image: "radar",
+        category: "spacefaring",
     }
 };
 
