@@ -246,12 +246,12 @@ const itemData = {
         image: "electrictEngine",
         category: "intermediateProducts",
     },
-    /*    spacecraftModule: {
-            name: "Spacecraft Module",
-            description: "Important part of a healthful Spacecraft.",
-            image: "spacecraftModule",
-            category: "spacefaring",
-        },*/
+    spacecraftModule: {
+        name: "Spacecraft Module",
+        description: "Important part of a healthful Spacecraft.",
+        image: "spacecraftModule",
+        category: "spacefaring",
+    },
 
     // Machinery
     pipe: {
@@ -810,6 +810,19 @@ const itemData = {
                     refinery: 1,
                 },
                 time: 8250,
+            },
+            launchpad: {
+                consume: {
+                    electricity: 2500,
+                    concrete: 1000,
+                    electricEngine: 200,
+                    pipe: 100,
+                    processingUnit: 200,
+                    steelPlate: 1000,
+                }, produce: {
+                    launchpad: 1,
+                },
+                time: 375000,
             }
         }
     },
@@ -1083,7 +1096,26 @@ const itemData = {
             },
         },
     },
-
+    launchpad: {
+        name: "Launchpad",
+        description: "Operation base of your escape.",
+        image: "launchpad",
+        category: "spacefaring",
+        production: {
+            spacecraftModule: {
+                consume: {
+                    electricity: 120000,
+                    lowDensityPlate: 10,
+                    flightComputer: 10,
+                    rocketFuel: 10,
+                },
+                produce: {
+                    spacecraftModule: 1,
+                },
+                time: 3000,
+            }
+        }
+    }
 };
 
 export const items = new Map;
