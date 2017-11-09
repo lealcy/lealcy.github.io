@@ -211,6 +211,15 @@ const itemData = {
             acceleratorModule: 1,
         },
     },
+    rocketFuel: {
+        name: "Rocket Fuel",
+        description: "Propulsion for your Spacecraft.",
+        image: "rocketFuel",
+        craftable: true,
+        cost: {
+            solidFuel: 10,
+        },
+    },
 
     // Machinery
     pipe: {
@@ -536,7 +545,17 @@ const itemData = {
                     flightComputer: 1,
                 },
                 time: 650,
-            }
+            },
+            rocketFuel: {
+                consume: {
+                    solidFuel: 10,
+                    electricity: 500,
+                },
+                produce: {
+                    rocketFuel: 1,
+                },
+                time: 3250,
+            },
         },
     },
     assembler2: {
