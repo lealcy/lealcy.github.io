@@ -68,6 +68,12 @@ const itemData = {
         image: "heavyOil",
         category: "fluids",
     },
+    sulfuricAcid: {
+        name: "Sulfuric Acid",
+        description: "Required for some electronic processes.",
+        image: "sulfuricAcid",
+        category: "fluids",
+    },
 
     // Gases
     steam: {
@@ -167,7 +173,7 @@ const itemData = {
     },
     lowDensityPlate: {
         name: "Low Density Plate",
-        description: "Required material to produce Spacecraft Structures",
+        description: "Required material to produce Spacecraft Structures.",
         image: "lowDensityPlate",
         category: "spaceShipConstruction",
         craftable: true,
@@ -176,6 +182,12 @@ const itemData = {
             plastic: 5,
             steelPlate: 10,
         },
+    },
+    sulfur: {
+        name: "Sulfur",
+        description: "Intermediate substance to produce Sulfuric Acid.",
+        image: "sulfur",
+        category: "intermediateProducts",
     },
 
     // Machinery
@@ -874,6 +886,29 @@ const itemData = {
                 },
                 time: 1000,
             },
+            sulfur: {
+                consume: {
+                    naturalGas: 15,
+                    water: 15,
+                    electricity: 1000,
+                },
+                produce: {
+                    sulfur: 201,
+                },
+                time: 500,
+            },
+            sulfuricAcid: {
+                consume: {
+                    ironPlate: 1,
+                    sulfur: 5,
+                    water: 100,
+                    electricity: 1000,
+                },
+                produce: {
+                    sulfuricAcid: 50,
+                },
+                time: 1000,
+            }
         },
     },
 };
