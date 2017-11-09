@@ -240,6 +240,12 @@ const itemData = {
         image: "lubricant",
         category: "fluids",
     },
+    electricEngine: {
+        name: "Electric Engine",
+        description: "Convert electricity in movement.",
+        image: "electrictEngine",
+        category: "intermediateProducts",
+    },
     /*    spacecraftModule: {
             name: "Spacecraft Module",
             description: "Important part of a healthful Spacecraft.",
@@ -765,6 +771,18 @@ const itemData = {
                 },
                 time: 800,
             },
+            electricEngine: {
+                consume: {
+                    electronicCircuit: 2,
+                    engine: 1,
+                    lubricant: 15,
+                    electricity: 1500,
+                },
+                produce: {
+                    electricEngine: 1,
+                },
+                time: 3600,
+            }
         },
     },
     assembler3: {
@@ -1065,6 +1083,7 @@ const itemData = {
             },
         },
     },
+
 };
 
 export const items = new Map;
