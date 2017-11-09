@@ -160,10 +160,10 @@ const itemData = {
             plastic: 2,
         }
     },
-    processingModule: {
-        name: "Processing Module",
+    acceleratorModule: {
+        name: "Accelerator Module",
         description: "Advanced.",
-        image: "processingModule",
+        image: "acceleratorModule",
         category: "intermediateProducts",
         craftable: true,
         cost: {
@@ -471,14 +471,14 @@ const itemData = {
                 },
                 time: 1625,
             },
-            processingModule: {
+            acceleratorModule: {
                 consume: {
                     electricity: 1000,
                     microprocessor: 5,
                     electronicCircuit: 5,
                 },
                 produce: {
-                    processingModule: 1,
+                    acceleratorModule: 1,
                 },
                 time: 3250,
             },
@@ -486,7 +486,7 @@ const itemData = {
                 consume: {
                     electricity: 1000,
                     assembler2: 2,
-                    processingModule: 4,
+                    acceleratorModule: 4,
                 },
                 produce: {
                     assembler3: 1,
@@ -663,7 +663,7 @@ const itemData = {
         category: "fabrication",
         image: "assembler3",
         craftable: true,
-        cost: { assembler2: 2, processingModule: 4 },
+        cost: { assembler2: 2, acceleratorModule: 4 },
         production: {
             refinery: {
                 consume: {
