@@ -205,7 +205,7 @@ const itemData = {
     engine: {
         name: "engine",
         description: "Basic engine unit.",
-        image: "engine",
+        image: "Engine",
         category: "intermediateProducts",
     },
     lubricant: {
