@@ -21,7 +21,7 @@ for (const [key, value] of letters) {
     element.querySelector(".name").innerText = key;
     const lastLetter = letters.get(value.lastLetter);
     const buy = element.querySelector(".buy");
-    buy.innerText = `Buy (${COST}x${value.lastLetter ? value.lastLetter : "✋"})`;
+    buy.innerText = `Buy (${value.lastLetter ? COST : 1}x${value.lastLetter ? value.lastLetter : "✋"})`;
     buy.addEventListener("click", e => {
         if (!lastLetter) {
             value.quantity++;
