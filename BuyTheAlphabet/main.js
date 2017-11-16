@@ -1,6 +1,7 @@
 "use strict";
 
 const COST = 2;
+const BUY_TIME = 1000;
 
 function createFromTemplate(templateId) {
     return document.importNode(document.getElementById(templateId).content, true).firstElementChild;
@@ -33,11 +34,30 @@ for (const [key, value] of letters) {
     document.body.appendChild(element);
 }
 
-function update() {
+
+let elapsedTime = 0;
+let lastTime = null;
+function update(time) {
     requestAnimationFrame(update);
+    if (lastTime === null) {
+        lastTime = time;
+    } else {
+        elapsedTime += time - lastTime;
+        lastTime = time;
+    }
+    let lastLetter = null;
     for (const [key, value] of letters) {
         const element = document.getElementById(key);
+        if (elapsedTime >= BUY_TIME) {
+            if (lastLetter !== null) {
+                letters.get(lastLetter).quantity += value.quantity;
+            }
+            lastLetter = key;
+        }
         element.querySelector(".quantity").innerText = value.quantity;
+    }
+    if (elapsedTime >= BUY_TIME) {
+        elapsedTime = 0;
     }
 }
 
