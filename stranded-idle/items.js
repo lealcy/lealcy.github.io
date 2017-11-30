@@ -55,6 +55,7 @@ const itemData = {
         description: "Is a liquid, fishes pee on it.",
         image: "water",
         category: "fluids",
+        requirements: ["waterPump"],
     },
     petroleum: {
         name: "Petroleum",
@@ -102,9 +103,8 @@ const itemData = {
         description: "Good heat insulator.",
         image: "stoneBrick",
         cost: { stone: 2 },
-        productionTime: { stoneFurnace: 3571.4, },
-        products: { stoneBrick: 1 },
         category: "intermediateProducts",
+        requirements: ["stoneFurnace"],
     },
     ironPlate: {
         name: "Iron Bar",
@@ -247,6 +247,7 @@ const itemData = {
         category: "intermediateProducts",
         craftable: true,
         cost: { ironPlate: 1 },
+        requirements: ["ironPlate"],
     },
 
     // Machines
@@ -257,6 +258,8 @@ const itemData = {
         craftable: true,
         cost: { stone: 5 },
         category: "smelting",
+        requirements: ["stone"],
+        quantity: 1,
         production: {
             stoneBrick: {
                 consume: {
@@ -305,10 +308,12 @@ const itemData = {
         description: "Smelt things in other things faster, cosumes coal.",
         image: "steelFurnace",
         category: "smelting",
+        quantity: 1,
         cost: {
             steelPlate: 6,
             stoneBrick: 10,
         },
+        requirements: ["steelPlate", "stoneBrick"],
         production: {
             stoneBrick: {
                 consume: {
@@ -362,6 +367,7 @@ const itemData = {
             steelPlate: 10,
             stoneBrick: 10,
         },
+        requirements: ["microprocessor"],
         production: {
             stoneBrick: {
                 consume: {
@@ -410,6 +416,7 @@ const itemData = {
         description: "Disregard taps, adquire resource.",
         image: "burnerMiningDrill",
         category: "mining",
+        quantity: 1,
         craftable: true,
         cost: { ironGear: 3, ironPlate: 3, stoneFurnace: 1 },
         production: {

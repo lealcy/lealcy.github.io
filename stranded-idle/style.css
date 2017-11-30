@@ -1,31 +1,64 @@
+/* 
+Reference Colors:
+    #2b3a42 - Page Background
+    #3f5765 - Container Background / #263033 - Disabled
+    #bdd4de - Button Background
+    #efefef - Text
+    #ff530d - Selected Item
+*/
+
 body {
     user-select: none;
     cursor: default;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: rgb(247, 239, 225);
+    background-color: #2b3a42;
+    color: #efefef;
+}
+
+a {
+    text-decoration-line: none;
+    color: inherit;
+    font-weight: bold;
+}
+
+#title {
+    margin: 10px;
+    font-size: large;
+    font-weight: bold;
+}
+
+#disclaimer {
+    font-size: small;
+    background-color: #3f5765;
+    text-align: justify;
+    margin: 10px;
+    padding: 10px;
+}
+
+#disclaimer > div {
+    text-align: right;
+    color: #bdd4de;
+    font-style: italic;
+}
+
+#itemBar {
+    margin: 10px;
 }
 
 #itemBarTabs {
-    position: relative;
     display: flex;
-    z-index: 1;
 }
 
 .tabName {
-    background-color: rgb(255, 236, 179);
+    background-color: #263033;
     font-size: small;
-    margin-right: 5px;
-    padding: 5px;
-    padding-left: 10px;
-    padding-right: 10px;
-    border-top-left-radius: 5px;
-    border-top-right-radius: 5px;
-    box-shadow: 1px 0px 1px 0px rgba(74,65,33,0.63);
+    margin-right: 10px;
+    padding: 10px;
 }
 
 .blink {
     animation: blink 0.2s;
-    animation-iteration-count: 5;
+    animation-iteration-count: 3;
 }
 
 @keyframes blink {
@@ -34,63 +67,78 @@ body {
 
 
 .tabName[data-selected="true"] {
-    background-color: #f7bb60;
-    font-weight: bold;
+    background-color: #3f5765;
 }
 
 .tabContent {
-    position: relative;
-    z-index: 2;
     display: flex;
     flex-wrap: wrap;
-    margin: 0 5px 10px 0;
-    padding: 5px 5px 0 10px;
-    background-color: #f7bb60;
-    min-width: 90%;
-    border-bottom-left-radius: 5px;
-    border-bottom-right-radius: 5px;
-    border-top-right-radius: 5px;
-    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+    background-color: #3f5765;
+    padding: 10px;
 }
 
 .resource {
-    display: grid;
-    grid-template-areas: 
-        "image quantity"
-        "cost cost"
-        "name name";
-    margin-right: 30px;
-    margin-bottom: 5px;
-    padding: 5px;
+    display:flex;
+    flex-flow: column;
+    justify-content: flex-end;
+    margin-right: 10px;
+    width: 48px;
+    height: 48px;
+    overflow: hidden;
+    background-color: #5F8499;
+    background-image: url("images/electricity.png");
+    background-repeat: no-repeat;
+    background-position: center;
 }
 
-.resource > .image {
-    grid-area: image;
-    margin-right: 5px;
+.resource:hover {
+    background-color: #ff530d;
 }
 
-.resource > .cost {
-    grid-area: cost;
+
+/*.resource > .cost {
     justify-content: center;
     display: none;
     margin-top: 3px;
 
-}
+}*/
 
 .resource > .quantity {
-    grid-area: quantity;
-    margin-top: auto;
-    margin-bottom: auto;
+    text-align: right;
+    font-size: x-small;
+    margin-bottom: 2px;
+    margin-right: 4px;
 }
 
 .resource > .name {
-    grid-area: name;
+    overflow: hidden;
+    visibility: hidden;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
     font-size: x-small;
-    word-break: break-all;
+    word-break: keep-all;
     text-align: center;
+    flex-grow: 1;
+    text-shadow: 
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d,
+        0px 0px 15px #ff530d;
 }
 
-.resourceCostItem {
+.resource:hover > .name {
+    visibility: visible;
+
+}
+
+/*.resourceCostItem {
     display: grid;
     grid-template-areas:
         "image quantity";
@@ -107,66 +155,52 @@ body {
 .resourceCostItem > .quantity {
     grid-area: quantity;
     font-size: 11px;
-}
+}*/
 
 
 #machines {
     display: flex;
     flex-wrap: wrap;
+    margin: 10px;
 }
 
 .machine {
-    /*width: fit-content;*/
-    height: fit-content;
-    margin: 0 10px 10px 0;
-    padding: 5px 5px  10px;
-    background-color: #f7bb60;
-    border-radius: 5px;
-    box-shadow: 1px 1px 1px 0px rgba(74,65,33,0.63);
+    margin-right: 10px;
+    margin-bottom: 10px;
+    padding: 10px 10px 0 10px;
+    background-color: #3f5765;
 }
 
-.machine > .display > * {
-    width: fit-content;
-}
-
-/*.machine > * {
-    border: 1px solid red;
-}*/
-
-.machine > .display > .image {
-    margin-left: 5px;
+.machine > .display {
+    margin-bottom: 10px;
 }
 
 .machine > .productionLines > .productionLine {
     border-top: 1px solid grey;
-    margin-top: 10px;
     padding-top: 10px;
 }
 
+
+
 .machine .productionLines .productionLine > .process {
     display: flex;
+    margin-bottom: 10px;
 }
 
-.machine > .productionLines > .productionLine > .process > .arrow {
-    padding: 0 10px 0 10px;
-}
-
-.machine > .productionLines > .productionLine > .process > .consume, 
-.machine > .productionLines > .productionLine > .process > .produce {
+.machine .productionLines .productionLine > .process > .consume,
+.machine .productionLines .productionLine > .process > .produce {
     display: flex;
-    font-size: xx-small;
-    margin: 0 10px 0 10px;
 }
 
-.machine > .productionLines > .productionLine > .process > .consume > *, 
-.machine > .productionLines > .productionLine > .process > .produce > * {
-    text-align: center;
+
+.machine .productionLines .productionLine > .process > .arrow {
+    height: 48px;
     margin-right: 10px;
 }
 
 .machine > .productionLines > .productionLine > .work {
     display: flex;
-    margin-top: 5px;
+    margin-bottom: 10px;
 }
 
 .machine > .productionLines > .productionLine > .work > * {
@@ -174,10 +208,10 @@ body {
 }
 
 .machine > .productionLines > .productionLine > .work > .produceTime {
-    font-size: xx-small;
+    font-size: x-small;
     vertical-align: middle;
     text-align: center;
-    margin-right: 5px;
+    margin-right: 10px;
 }
 
 .machine > .productionLines > .productionLine > .work > .produceTime > * {
@@ -191,60 +225,30 @@ body {
 }
 
 .machine > .productionLines > .productionLine > .quantitySpinner {
-    grid-area: spinner;
     display: flex;
-    font-size: xx-small;
-    vertical-align: center;
-    justify-content: center;
-    margin-top: 5px;
-    height: 10px;
-
-}
-
-.machine > .productionLines > .productionLine > .quantitySpinner > .left {
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-.machine > .productionLines > .productionLine > .quantitySpinner > .right {
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
+    justify-content: space-between;
+    margin-bottom: 10px;
 }
 
 .machine > .productionLines > .productionLine > .quantitySpinner > .button {
-    flex-grow: 1;
-    border: 1px solid white;
-    border-right-color: tan;
-    border-bottom-color: tan;
-    vertical-align: center;
-    margin: auto;
-    padding: 0 4px 0 4px;
     text-align: center;
-    
-
-    min-width: 15px;
-    background-color: rgb(253, 222, 196);
+    background-color: #5F8499;
+    margin-right: 4px;
+    padding: 4px;
+    font-size: x-small;
+    flex-grow: 1;
 }
 
 .machine > .productionLines > .productionLine > .quantitySpinner > .button:hover {
-    background-color: rgb(255, 198, 151);
-}
-
-.machine > .productionLines > .productionLine > .quantitySpinner > .button:active {
-    border: 1px solid tan;
-    border-right-color: white;
-    border-bottom-color: white;
-    background-color: rgb(255, 240, 227);
+    background-color: #ff530d;
 }
 
 .machine > .productionLines > .productionLine > .quantitySpinner > .quantity {
-    border: 0;
-    font-size: 10px;
-    background-color: rgb(252, 246, 230);
-    min-width: 2em;
+    font-size: x-small;
     text-align: right;
-    padding-right: 4px;
-    height: 13px;
-
+    background-color: #7BACC7;
+    margin-right: 4px;
+    padding: 4px;
+    flex-grow: 2;
 }
         

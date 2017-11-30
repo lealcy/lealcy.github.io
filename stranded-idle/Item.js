@@ -4,7 +4,7 @@ import ProductionSetting from "./ProductionSetting.js";
 export default class Item {
     constructor(id, data) {
         this.id = id;
-        this.quantity = 0;
+        this.quantity = data.quantity || 0;
         this.inUse = 0;
         this.visible = data.visible || false;
         this.active = false;
@@ -32,7 +32,7 @@ export default class Item {
 
     attendRequirements() {
         for (const item of this.requirements) {
-            if (items.get(item).quantity) {
+            if (items.get(item).active) {
                 return true;
             }
         }

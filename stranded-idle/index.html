@@ -11,21 +11,22 @@
 </head>
 
 <body>
-    <h1>Stranded Idle</h1>
-    <h3>This game is prototype and is in constant development. What you see is not the end product. I'm just publishing this
-        here for those interested in follow the development progress. If you like to comment on it, please do so
-        <a href="https://www.reddit.com/r/incremental_games/comments/77tefk/hi_i_just_started_developing_this_mini_game_and_i/?ref=share&ref_source=link"
-            target="_blank">here</a>.</h3>
+    <div id="title">Stranded Idle</div>
+    <div id="disclaimer">
+        This game is prototype and is in constant development. What you see is not the end product. I'm just publishing this here
+        for those interested in follow the development progress. If you like to comment on it, please do so
+        <a href="https://goo.gl/gbw9B9" target="_blank">here</a>.
+        <div>Click to close.</div>
+    </div>
     <div id="itemBar"></div>
     <div id="machines"></div>
     <div id="items"></div>
 
     <template id="resourceTemplate">
         <div class="resource">
-            <img class="image" src="images/electricity.png">
-            <div class="cost"></div>
-            <div class="quantity">0</div>
             <div class="name">Resource Name</div>
+            <!--<div class="cost"></div> -->
+            <div class="quantity">0</div>
         </div>
     </template>
 
@@ -79,13 +80,6 @@
                 <div class="add100 button">+100</div>
                 <div class="addAll button right">+all</div>
             </div>
-        </div>
-    </template>
-
-    <template id="machineItemTemplate">
-        <div class="item">
-            <img class="image" src="images/coal.png">
-            <div class="quantity">x0.08</div>
         </div>
     </template>
 

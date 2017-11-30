@@ -2,7 +2,7 @@ export function createFromTemplate(templateId) {
     return document.importNode(document.getElementById(templateId).content, true).firstElementChild;
 }
 
-export function shortNumber(value) {
+/*export function shortNumber(value) {
     if (value >= 1000) {
         const suffixes = ["", "k", "m", "t", "g", "p", "y"];
         const suffixNum = (("" + value).length / 3) | 0;
@@ -21,4 +21,26 @@ export function shortNumber(value) {
         return shortValue + suffixes[suffixNum];
     }
     return value;
+}*/
+
+export function shortNumber(number, precision = 0) {
+    const suffixes = [
+        "", "k", "M", "G", "T", "P", "E", "Z", "Y", "kY", "MY", "GY", "TY",
+        "PY", "EY", "ZY", "YY",
+    ];
+
+    let negative = number < 0 ? -1 : 1;
+
+    number = parseFloat(Math.abs(number));
+
+    let fraction = number;
+
+    let i;
+    for (i = 0; fraction >= 1000; i++) {
+        fraction /= 1000;
+    }
+    if (i >= suffixes.length) {
+        return (number * negative).toExponential(precision);
+    }
+    return (fraction * negative).toFixed(precision) + suffixes[i];
 }

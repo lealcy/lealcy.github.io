@@ -4,8 +4,7 @@ import ItemBar from "./ItemBar.js";
 import MachineContainer from "./MachineContainer.js";
 
 export default class Game {
-    constructor(buttonsEl) {
-        this.buttonsEl = buttonsEl;
+    constructor() {
         this.lastTimestamp = 0;
         this.itemBar = new ItemBar(document.getElementById("itemBar"), items);
         this.machines = new MachineContainer(document.getElementById("machines"), items);

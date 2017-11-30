@@ -14,7 +14,7 @@ export default class MachineContainer {
                 machine.element.style.display = "none";
                 const resourceEl = createFromTemplate("resourceTemplate");
                 machine.quantityEl = resourceEl.querySelector(".quantity");
-                resourceEl.querySelector(".image").src = `images/${item.image}.png`;
+                resourceEl.style.backgroundImage = `url(images/${item.image}.png)`;
                 resourceEl.querySelector(".name").innerText = item.name;
                 machine.element.querySelector(".display").appendChild(resourceEl);
                 const productionLinesEl = machine.element.querySelector(".productionLines");
@@ -114,8 +114,18 @@ export default class MachineContainer {
 
     populateItems(el, data) {
         for (const [id, quantity] of data) {
-            const itemEl = createFromTemplate("machineItemTemplate");
-            itemEl.querySelector(".image").src = `images/${this.items.get(id).image}.png`;
+            const itemEl = createFromTemplate("resourceTemplate");
+            const item = this.items.get(id);
+            itemEl.id = `machineItem_${id}_${item.id}`;
+            itemEl.className += ` machineItem_${item.id} machineItem ${item.craftable ? "craftable" : "nonCraftable"}`;
+            itemEl.style.backgroundImage = `url(images/${item.image}.png)`;
+            if (item.craftable) {
+                itemEl.addEventListener("click", e => {
+                    e.stopPropagation();
+                    item.handcraft();
+                });
+            }
+            itemEl.querySelector(".name").innerText = item.name;
             itemEl.querySelector(".quantity").innerText = quantity;
             el.appendChild(itemEl);
         }
