@@ -124,6 +124,8 @@ export default class MachineContainer {
                     e.stopPropagation();
                     item.handcraft();
                 });
+            } else {
+                itemEl.dataset.notHandCraftable = true;
             }
             itemEl.querySelector(".name").innerText = item.name;
             itemEl.querySelector(".quantity").innerText = quantity;

@@ -95,7 +95,6 @@ a {
     background-color: #ff530d;
 }
 
-
 /*.resource > .cost {
     justify-content: center;
     display: none;
@@ -103,11 +102,28 @@ a {
 
 }*/
 
-.resource > .quantity {
+.resource > .footer {
+    display: flex;
+    flex-direction: row-reverse;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin-bottom: 2px;
+}
+
+.resource > .footer > .notCraftable {
+    padding-left: 4px;
+    display: none;
+
+}
+
+.resource:hover[data-not-hand-craftable="true"] > .footer > .notCraftable {
+    display: block;
+}
+
+.resource > .footer > .quantity {
     text-align: right;
     font-size: x-small;
-    margin-bottom: 2px;
-    margin-right: 4px;
+    padding-right: 4px;
 }
 
 .resource > .name {

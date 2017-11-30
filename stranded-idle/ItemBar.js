@@ -77,6 +77,8 @@ export default class ItemBar {
                     e.stopPropagation();
                     item.handcraft();
                 });
+            } else {
+                itemEl.dataset.notHandCraftable = true;
             }
             if (item.cost.size) {
                 /*const costEl = itemEl.querySelector(".cost");
@@ -110,6 +112,6 @@ export default class ItemBar {
             //itemEl.style.opacity = 1.0;
         }
 
-        document.querySelectorAll(`${itemClass} > .quantity`).forEach(i => i.innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse)));
+        document.querySelectorAll(`${itemClass} > .footer > .quantity`).forEach(i => i.innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse)));
     }
 }
