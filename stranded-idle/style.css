@@ -180,8 +180,6 @@ a {
     padding-top: 10px;
 }
 
-
-
 .machine .productionLines .productionLine > .process {
     display: flex;
     margin-bottom: 10px;
@@ -208,10 +206,15 @@ a {
 }
 
 .machine > .productionLines > .productionLine > .work > .produceTime {
+    display: none;
     font-size: x-small;
     vertical-align: middle;
     text-align: center;
     margin-right: 10px;
+}
+
+.machine > .productionLines > .productionLine:hover > .work > .produceTime {
+    display: block;
 }
 
 .machine > .productionLines > .productionLine > .work > .produceTime > * {
@@ -220,14 +223,23 @@ a {
 
 
 .machine > .productionLines > .productionLine > .work > .progress {
+    height: 4px;
     border: 0;
     flex-grow: 1;
 }
 
+.machine > .productionLines > .productionLine:hover > .work > .progress {
+    height: auto;
+}
+
 .machine > .productionLines > .productionLine > .quantitySpinner {
-    display: flex;
+    display: none;
     justify-content: space-between;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
+}
+
+.machine > .productionLines > .productionLine:hover > .quantitySpinner {
+    display: flex;
 }
 
 .machine > .productionLines > .productionLine > .quantitySpinner > .button {
