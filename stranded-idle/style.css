@@ -10,7 +10,7 @@ Reference Colors:
 body {
     user-select: none;
     cursor: default;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: 'Source Sans Pro', sans-serif;
     background-color: #2b3a42;
     color: #efefef;
 }
