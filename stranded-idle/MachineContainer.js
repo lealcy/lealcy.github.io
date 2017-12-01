@@ -126,7 +126,9 @@ export default class MachineContainer {
             itemEl.addEventListener("click", e => {
                 e.stopPropagation();
                 if (item.craftable) {
-                    item.handcraft();
+                    if (!item.handcraft()) {
+                        message("Not enough material.");
+                    }
                 } else {
                     message("This item is not handcraftable.");
                 }

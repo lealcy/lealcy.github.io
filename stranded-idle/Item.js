@@ -50,7 +50,7 @@ export default class Item {
 
     handcraft() {
         if (this.craftable) {
-            this.craft();
+            return this.craft();
         }
     }
 
