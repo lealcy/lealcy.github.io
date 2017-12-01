@@ -1,4 +1,5 @@
 import { createFromTemplate } from "./helpers.js";
+import { message } from "./message.js";
 
 export default class MachineContainer {
     constructor(containerEl, items) {
@@ -119,14 +120,17 @@ export default class MachineContainer {
             itemEl.id = `machineItem_${id}_${item.id}`;
             itemEl.className += ` machineItem_${item.id} machineItem ${item.craftable ? "craftable" : "nonCraftable"}`;
             itemEl.style.backgroundImage = `url(images/${item.image}.png)`;
-            if (item.craftable) {
-                itemEl.addEventListener("click", e => {
-                    e.stopPropagation();
-                    item.handcraft();
-                });
-            } else {
-                itemEl.dataset.notHandCraftable = true;
+            if (!item.craftable) {
+                itemEl.dataset.notHandcraftable = true;
             }
+            itemEl.addEventListener("click", e => {
+                e.stopPropagation();
+                if (item.craftable) {
+                    item.handcraft();
+                } else {
+                    message("This item is not handcraftable.");
+                }
+            });
             itemEl.querySelector(".name").innerText = item.name;
             itemEl.querySelector(".quantity").innerText = quantity;
             el.appendChild(itemEl);

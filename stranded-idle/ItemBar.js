@@ -1,5 +1,6 @@
 import { createFromTemplate, shortNumber } from "./helpers.js";
 import { categories } from "./categories.js";
+import { message } from "./message.js";
 
 export default class ItemBar {
     constructor(containerEl, items) {
@@ -72,14 +73,17 @@ export default class ItemBar {
             itemEl.className += ` tabItem_${item.id} tabItem ${item.craftable ? "craftable" : "nonCraftable"}`;
             itemEl.style.display = "none";
             itemEl.style.backgroundImage = `url(images/${item.image}.png)`;
-            if (item.craftable) {
-                itemEl.addEventListener("click", e => {
-                    e.stopPropagation();
-                    item.handcraft();
-                });
-            } else {
-                itemEl.dataset.notHandCraftable = true;
+            if (!item.craftable) {
+                itemEl.dataset.notHandcraftable = true;
             }
+            itemEl.addEventListener("click", e => {
+                e.stopPropagation();
+                if (item.craftable) {
+                    item.handcraft();
+                } else {
+                    message("This item is not handcraftable.");
+                }
+            });
             if (item.cost.size) {
                 /*const costEl = itemEl.querySelector(".cost");
                 costEl.style.display = "flex";

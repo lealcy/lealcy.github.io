@@ -41,40 +41,48 @@ a {
     font-style: italic;
 }
 
-#itemBar {
+#message {
     margin: 10px;
-}
-
-#itemBarTabs {
-    display: flex;
-}
-
-.tabName {
-    background-color: #263033;
-    font-size: small;
-    margin-right: 10px;
     padding: 10px;
+    text-align: center;
+    font-style: italic;
 }
 
-.blink {
-    animation: blink 0.2s;
-    animation-iteration-count: 3;
+.messageAnimation {
+    animation: messageAnimation 0.15s ease-in-out 6 alternate;
 }
 
-@keyframes blink {
-    50% { opacity: 0; }
+.messageFadeOut {
+    animation: messageFadeOut 1s forwards;
 }
 
 
-.tabName[data-selected="true"] {
-    background-color: #3f5765;
+@keyframes messageAnimation {
+    0% {
+        color: #2b3a42;
+    }
+    20% {
+        color: #efefef;
+        text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #228DFF, 0 0 70px #228DFF, 0 0 80px #228DFF, 0 0 100px #228DFF, 0 0 150px #228DFF;
+    }
+    50% {
+        font-weight: bolder;
+    }
+    60%, 80% {
+        text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #228DFF, 0 0 35px #228DFF, 0 0 40px #228DFF, 0 0 50px #228DFF, 0 0 75px #228DFF;
+    }
+    100% {
+        text-shadow: 0;
+    }
 }
 
-.tabContent {
-    display: flex;
-    flex-wrap: wrap;
-    background-color: #3f5765;
-    padding: 10px;
+@keyframes messageFadeOut {
+    from {
+        color: #efefef;
+    }
+    to {
+        color: #2b3a42;
+    }
 }
 
 .resource {
@@ -93,6 +101,21 @@ a {
 
 .resource:hover {
     background-color: #ff530d;
+}
+
+.resource:active {
+    animation: resourceClick 400ms;
+}
+
+@keyframes resourceClick{
+    from {
+        background-color: #fff;
+        box-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px #fff, 0 0 40px #ff530d, 0 0 70px #ff530d, 0 0 80px #ff530d, 0 0 100px #ff530d, 0 0 150px #ff530d;
+    }
+    to {
+        background-color: #fff;
+        box-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px #fff, 0 0 20px #ff530d, 0 0 35px #ff530d, 0 0 40px #ff530d, 0 0 50px #ff530d, 0 0 75px #ff530d;
+    }
 }
 
 /*.resource > .cost {
@@ -116,9 +139,10 @@ a {
 
 }
 
-.resource:hover[data-not-hand-craftable="true"] > .footer > .notCraftable {
+.resource:hover[data-not-handcraftable="true"] > .footer > .notCraftable {
     display: block;
 }
+
 
 .resource > .footer > .quantity {
     text-align: right;
@@ -173,6 +197,46 @@ a {
     font-size: 11px;
 }*/
 
+
+#itemBar {
+    margin: 10px;
+}
+
+#itemBarTabs {
+    display: flex;
+}
+
+.tabName {
+    background-color: #263033;
+    font-size: small;
+    margin-right: 10px;
+    padding: 10px;
+}
+
+.blink {
+    animation: blink 0.2s;
+    animation-iteration-count: 3;
+}
+
+@keyframes blink {
+    50% { opacity: 0; }
+}
+
+
+.tabName[data-selected="true"] {
+    background-color: #3f5765;
+}
+
+.tabContent {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #3f5765;
+    padding: 10px 10px 0 10px;
+}
+
+.tabContent > .resource {
+    margin-bottom: 10px;
+}
 
 #machines {
     display: flex;

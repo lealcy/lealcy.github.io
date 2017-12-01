@@ -2,6 +2,7 @@ import { items } from "./items.js";
 import { createFromTemplate, shortNumber } from "./helpers.js";
 import ItemBar from "./ItemBar.js";
 import MachineContainer from "./MachineContainer.js";
+import { message } from "./message.js";
 
 export default class Game {
     constructor() {
@@ -11,6 +12,7 @@ export default class Game {
     }
 
     run() {
+        message("Welcome! Clicking an item will produce it. Hover it to see its name.");
         requestAnimationFrame(this.update.bind(this));
     }
 

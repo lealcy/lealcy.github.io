@@ -102,7 +102,6 @@ const itemData = {
         name: "Brick",
         description: "Good heat insulator.",
         image: "stoneBrick",
-        cost: { stone: 2 },
         category: "intermediateProducts",
         requirements: ["stoneFurnace"],
     },
@@ -259,7 +258,6 @@ const itemData = {
         cost: { stone: 5 },
         category: "smelting",
         requirements: ["stone"],
-        quantity: 1,
         production: {
             stoneBrick: {
                 consume: {
@@ -308,7 +306,6 @@ const itemData = {
         description: "Smelt things in other things faster, cosumes coal.",
         image: "steelFurnace",
         category: "smelting",
-        quantity: 1,
         cost: {
             steelPlate: 6,
             stoneBrick: 10,
@@ -416,7 +413,6 @@ const itemData = {
         description: "Disregard taps, adquire resource.",
         image: "burnerMiningDrill",
         category: "mining",
-        quantity: 1,
         craftable: true,
         cost: { ironGear: 3, ironPlate: 3, stoneFurnace: 1 },
         production: {
