@@ -1,5 +1,6 @@
 import { createFromTemplate } from "./helpers.js";
 import { message } from "./message.js";
+import { items } from "./items.js";
 
 export default class MachineContainer {
     constructor(containerEl, items) {
@@ -133,6 +134,17 @@ export default class MachineContainer {
                     message("This item is not handcraftable.");
                 }
             });
+            if (item.cost.size) {
+                itemEl.addEventListener("mouseenter", e => {
+                    console.log(items);
+                    let msg = "Cost: ";
+                    for (const [id, quantity] of item.cost) {
+                        const costItem = allItems.get(id);
+                        msg += `<img height=16 src="images/${costItem.image}.png">x${quantity}`;
+                    }
+                    message(msg);
+                });
+            }
             itemEl.querySelector(".name").innerText = item.name;
             itemEl.querySelector(".quantity").innerText = quantity;
             el.appendChild(itemEl);

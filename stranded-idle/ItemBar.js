@@ -1,6 +1,7 @@
 import { createFromTemplate, shortNumber } from "./helpers.js";
 import { categories } from "./categories.js";
 import { message } from "./message.js";
+import { items as allItems } from "./items.js";
 
 export default class ItemBar {
     constructor(containerEl, items) {
@@ -86,17 +87,16 @@ export default class ItemBar {
                     message("This item is not handcraftable.");
                 }
             });
-
             if (item.cost.size) {
-                /*const costEl = itemEl.querySelector(".cost");
-                costEl.style.display = "flex";
-                for (const [id, quantity] of item.cost) {
-                    const costItem = items.get(id);
-                    const costItemEl = createFromTemplate("resourceCostItemTemplate");
-                    costItemEl.querySelector(".image").src = `images/${costItem.image}.png`;
-                    costItemEl.querySelector(".quantity").innerText = quantity;
-                    costEl.appendChild(costItemEl);
-                }*/
+                itemEl.addEventListener("mouseenter", e => {
+                    console.log(items);
+                    let msg = "Cost: ";
+                    for (const [id, quantity] of item.cost) {
+                        const costItem = allItems.get(id);
+                        msg += `<img height=16 src="images/${costItem.image}.png">x${quantity}`;
+                    }
+                    message(msg);
+                });
             }
             itemEl.querySelector(".name").innerText = item.name;
             tabContentEl.appendChild(itemEl);
