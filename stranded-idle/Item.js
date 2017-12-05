@@ -14,6 +14,7 @@ export default class Item {
         this.image = data.image;
         this.category = data.category || "none";
         this.requirements = new Set(data.requirements || []);
+        this.tendency = 0;
 
         this.production = new Map;
         if (data.production !== undefined) {

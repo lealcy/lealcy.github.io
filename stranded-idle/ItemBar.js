@@ -89,7 +89,6 @@ export default class ItemBar {
             });
             if (item.cost.size) {
                 itemEl.addEventListener("mouseenter", e => {
-                    console.log(items);
                     let msg = "Cost: ";
                     for (const [id, quantity] of item.cost) {
                         const costItem = allItems.get(id);
@@ -108,10 +107,16 @@ export default class ItemBar {
         const itemClass = `.tabItem_${item.id}`;
         const itemEls = document.querySelectorAll(itemClass);
 
+        itemEls.forEach(el => {
+            el.dataset.tendency = Math.sign(item.tendency);
+        });
+
         //if (!item.active && (((item.craftable && item.canCraft()) || item.quantity || item.attendRequirements()))) {
         if (!item.active && (item.visible || item.attendRequirements())) {
             item.active = true;
-            itemEls.forEach(i => i.style.display = "flex");
+            itemEls.forEach(i => {
+                i.style.display = "flex";
+            });
             const tabNameEl = document.getElementById(`tab_${item.category}`);
             tabNameEl.style.display = "block";
             tabNameEl.className = tabNameEl.className.replace(" blink", "");
@@ -119,6 +124,10 @@ export default class ItemBar {
             //itemEl.style.opacity = 1.0;
         }
 
-        document.querySelectorAll(`${itemClass} > .footer > .quantity`).forEach(i => i.innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse)));
+        document.querySelectorAll(`${itemClass} > .footer > .quantity`).forEach(i => {
+            i.dataset.tendency = Math.sign(item.tendency);
+            i.innerText = item.quantity > 0 && item.quantity < 1 ? "< 1" : shortNumber((item.quantity + item.inUse));
+            // i.innerText += ` (${Math.sign(item.tendency) > 0 ? "+" : ""}${item.tendency}/s.)`
+        });
     }
 }
