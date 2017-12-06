@@ -87,16 +87,18 @@ export default class ItemBar {
                     message("This item is not handcraftable.");
                 }
             });
-            if (item.cost.size) {
-                itemEl.addEventListener("mouseenter", e => {
-                    let msg = "Cost: ";
+            itemEl.addEventListener("mouseenter", e => {
+                let msg = `"${item.description}"`;
+                if (item.cost.size) {
+                    msg += " (";
                     for (const [id, quantity] of item.cost) {
                         const costItem = allItems.get(id);
-                        msg += `<img height=16 src="images/${costItem.image}.png">x${quantity}`;
+                        msg += ` <img height=16 src="images/${costItem.image}.png">x${quantity} `;
                     }
-                    message(msg);
-                });
-            }
+                    msg += ")";
+                }
+                message(msg);
+            });
             itemEl.querySelector(".name").innerText = item.name;
             tabContentEl.appendChild(itemEl);
         }
