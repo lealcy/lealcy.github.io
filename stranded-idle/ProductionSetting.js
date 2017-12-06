@@ -59,7 +59,9 @@ export default class ProductionSetting {
                     this.currentProduction = this.quantity;
                 }
                 for (const [id, quantity] of this.produce) {
-                    items.get(id).quantity += quantity * this.currentProduction;
+                    const item = items.get(id);
+                    item.visible = true;
+                    item.quantity += quantity * this.currentProduction;
                 }
                 this.elapsedTime = 0;
                 this.state = WAITING;

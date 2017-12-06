@@ -103,13 +103,12 @@ const itemData = {
         description: "Good heat insulator.",
         image: "stoneBrick",
         category: "intermediateProducts",
-        requirements: ["stoneFurnace"],
     },
     ironPlate: {
         name: "Iron Bar",
         description: "You'll need a lot of it.",
         image: "ironPlate",
-        category: "intermediateProducts"
+        category: "intermediateProducts",
     },
     copperPlate: {
         name: "Copper Bar",

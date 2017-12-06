@@ -1,6 +1,7 @@
 import { createFromTemplate } from "./helpers.js";
 import { message } from "./message.js";
 import { items } from "./items.js";
+import { createResourceItem } from "./resource.js";
 
 export default class MachineContainer {
     constructor(containerEl, items) {
@@ -14,10 +15,8 @@ export default class MachineContainer {
                 machine.element = createFromTemplate("machineTemplate");
                 machine.element.id = `machine_${itemId}`;
                 machine.element.style.display = "none";
-                const resourceEl = createFromTemplate("resourceTemplate");
+                const resourceEl = createResourceItem(item);
                 machine.quantityEl = resourceEl.querySelector(".quantity");
-                resourceEl.style.backgroundImage = `url(images/${item.image}.png)`;
-                resourceEl.querySelector(".name").innerText = item.name;
                 machine.element.querySelector(".display").appendChild(resourceEl);
                 const productionLinesEl = machine.element.querySelector(".productionLines");
                 machine.production = new Map;
@@ -116,36 +115,8 @@ export default class MachineContainer {
 
     populateItems(el, data) {
         for (const [id, quantity] of data) {
-            const itemEl = createFromTemplate("resourceTemplate");
             const item = this.items.get(id);
-            itemEl.id = `machineItem_${id}_${item.id}`;
-            itemEl.className += ` machineItem_${item.id} machineItem ${item.craftable ? "craftable" : "nonCraftable"}`;
-            itemEl.style.backgroundImage = `url(images/${item.image}.png)`;
-            if (!item.craftable) {
-                itemEl.dataset.notHandcraftable = true;
-            }
-            itemEl.addEventListener("click", e => {
-                e.stopPropagation();
-                if (item.craftable) {
-                    if (!item.handcraft()) {
-                        message("Not enough material.");
-                    }
-                } else {
-                    message("This item is not handcraftable.");
-                }
-            });
-            if (item.cost.size) {
-                itemEl.addEventListener("mouseenter", e => {
-                    console.log(items);
-                    let msg = "Cost: ";
-                    for (const [id, quantity] of item.cost) {
-                        const costItem = allItems.get(id);
-                        msg += `<img height=16 src="images/${costItem.image}.png">x${quantity}`;
-                    }
-                    message(msg);
-                });
-            }
-            itemEl.querySelector(".name").innerText = item.name;
+            const itemEl = createResourceItem(item, `machineItem_${id}_${item.id}`, ` machineItem_${item.id} machineItem `);
             itemEl.querySelector(".quantity").innerText = quantity;
             el.appendChild(itemEl);
         }

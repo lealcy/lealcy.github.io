@@ -2,6 +2,7 @@ import { createFromTemplate, shortNumber } from "./helpers.js";
 import { categories } from "./categories.js";
 import { message } from "./message.js";
 import { items as allItems } from "./items.js";
+import { createResourceItem } from "./resource.js";
 
 export default class ItemBar {
     constructor(containerEl, items) {
@@ -69,38 +70,9 @@ export default class ItemBar {
             tabContentEl.style.display = "none";
         }
         for (const item of items) {
-            const itemEl = createFromTemplate("resourceTemplate");
-            itemEl.id = `tabItem_${id}_${item.id}`;
-            itemEl.className += ` tabItem_${item.id} tabItem ${item.craftable ? "craftable" : "nonCraftable"}`;
-            itemEl.style.display = "none";
-            itemEl.style.backgroundImage = `url(images/${item.image}.png)`;
-            if (!item.craftable) {
-                itemEl.dataset.notHandcraftable = true;
-            }
-            itemEl.addEventListener("click", e => {
-                e.stopPropagation();
-                if (item.craftable) {
-                    if (!item.handcraft()) {
-                        message("Not enough material.");
-                    }
-                } else {
-                    message("This item is not handcraftable.");
-                }
-            });
-            itemEl.addEventListener("mouseenter", e => {
-                let msg = `"${item.description}"`;
-                if (item.cost.size) {
-                    msg += " (";
-                    for (const [id, quantity] of item.cost) {
-                        const costItem = allItems.get(id);
-                        msg += ` <img height=16 src="images/${costItem.image}.png">x${quantity} `;
-                    }
-                    msg += ")";
-                }
-                message(msg);
-            });
-            itemEl.querySelector(".name").innerText = item.name;
-            tabContentEl.appendChild(itemEl);
+            tabContentEl.appendChild(
+                createResourceItem(item, `tabItem_${id}_${item.id}`, ` tabItem_${item.id} tabItem `, "none")
+            );
         }
         return tabContentEl;
     }

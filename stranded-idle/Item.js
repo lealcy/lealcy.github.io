@@ -60,6 +60,7 @@ export default class Item {
             this.cost.forEach((quantity, id) => {
                 items.get(id).quantity -= quantity;
             });
+            this.visible = true;
             this.quantity++;
             return true;
         }
