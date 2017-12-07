@@ -36,7 +36,7 @@ export default class Game {
                 item.tendency = item.quantity - this.tendency.get(id);
                 this.tendency.set(id, item.quantity);
             }
-            this.tendencyElapsedTime -= 1000;
+            this.tendencyElapsedTime = 0;
         }
     }
 }
