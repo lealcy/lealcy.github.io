@@ -4,6 +4,6 @@ document.getElementById("disclaimer").addEventListener("click", function () {
     this.remove();
 });
 
-const game = new Game(document.getElementById("buttons"));
+const game = new Game();
 
 game.run();

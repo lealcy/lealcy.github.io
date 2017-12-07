@@ -1,5 +1,4 @@
 import { items } from "./items.js";
-import { createFromTemplate, shortNumber } from "./helpers.js";
 import ItemBar from "./ItemBar.js";
 import MachineContainer from "./MachineContainer.js";
 import { message } from "./message.js";

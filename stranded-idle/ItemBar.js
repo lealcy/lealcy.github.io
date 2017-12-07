@@ -86,7 +86,7 @@ export default class ItemBar {
         });
 
         //if (!item.active && (((item.craftable && item.canCraft()) || item.quantity || item.attendRequirements()))) {
-        if (!item.active && (item.visible || item.attendRequirements())) {
+        if (!item.active && (item.visible || item.attendRequirements() || (item.craftable && item.canCraft()))) {
             item.active = true;
             itemEls.forEach(i => {
                 i.style.display = "flex";
