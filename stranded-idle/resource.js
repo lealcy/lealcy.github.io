@@ -12,6 +12,7 @@ export function createResourceItem(item, elementId = "", elementClasses = "", de
         itemEl.dataset.notHandcraftable = true;
     }
     itemEl.addEventListener("click", e => {
+        e.preventDefault();
         e.stopPropagation();
         if (item.craftable) {
             if (!item.handcraft()) {

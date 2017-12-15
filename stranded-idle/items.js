@@ -21,14 +21,14 @@ const itemData = {
     iron: {
         name: "Iron Ore",
         craftable: true,
-        description: "Melt it into plates.",
+        description: "Melt it into bars.",
         image: "iron",
         visible: true,
         category: "resources",
     },
     copper: {
         name: "Copper Ore",
-        description: "Melt it into plates.",
+        description: "Melt it into bars.",
         craftable: true,
         image: "copper",
         visible: true,
@@ -201,9 +201,9 @@ const itemData = {
         category: "intermediateProducts",
     },
     engine: {
-        name: "engine",
-        description: "Basic engine unit.",
-        image: "Engine",
+        name: "Engine",
+        description: "Basic engine.",
+        image: "engine",
         category: "intermediateProducts",
     },
     lubricant: {
