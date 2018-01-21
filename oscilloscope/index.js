@@ -1,4 +1,4 @@
-import { Oscilloscope } from "/Oscilloscope.js";
+import { Oscilloscope } from "./Oscilloscope.js";
 
 const o = new Oscilloscope(640, 480);
 o.appendTo(document.body);
