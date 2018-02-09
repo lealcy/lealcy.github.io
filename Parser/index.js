@@ -8,8 +8,9 @@ const text = document.querySelector("textarea");
 const code =
     `x = 0
 y = 10
-10 text x, y, "Hello, World!"
-y = y + 10
+10 clear
+text x, y, "Hello, World!"
+y = y + 1
 x = x + 1
 refresh
 goto 10
