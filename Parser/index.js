@@ -8,13 +8,13 @@ const text = document.querySelector("textarea");
 const code =
     `x = 0
 y = 10
-10 clear
+next: clear
 text x, y, "Hello, World!"
 y = y + 1
 x = x + 1
 refresh
 sleep 50
-goto 10
+goto next
 `;
 text.value = code;
 
@@ -47,8 +47,8 @@ instructions.set(/^\s*text\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*,\s*(\d+|[a-zA-Z_][a
 instructions.set(/^\s*refresh\s*$/i, r => {
     refresh = true;
 });
-instructions.set(/^\s*goto\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*/i, r => {
-    jump = solve(r[1]);
+instructions.set(/^\s*goto\s+([a-zA-Z0-9_]+)\s*/i, r => {
+    jump = r[1];
 });
 instructions.set(/^\s*sleep\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*/i, r => {
     sleep = solve(r[1]);
@@ -87,10 +87,10 @@ function parse() {
 
 function parseLine() {
     let text = lines[line];
-    const label = text.match(/^\s*(\d+)\s+/);
+    const label = text.match(/^\s*([a-zA-Z0-9_]+)\s*:/);
     if (label) {
         //console.log(`Label "${label[1]}" -> ${line}`);
-        labels.set(parseInt(label[1]), line);
+        labels.set(label[1], line);
         text = text.substring(label[0].length);
     }
     for (const [regex, fn] of instructions) {
