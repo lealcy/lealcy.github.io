@@ -6,8 +6,11 @@ const context = canvas.getContext("2d", {
 });
 const text = document.querySelector("textarea");
 const code =
-    `10 translate 0, 10
-text "Hello, World!"
+    `x = 0
+y = 10
+10 text x, y, "Hello, World!"
+y = y + 10
+x = x + 1
 refresh
 goto 10
 `;
