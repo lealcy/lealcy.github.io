@@ -51,7 +51,10 @@ instructions.set(/^\s*translate\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*,\s*(\d+|[a-zA-
     context.translate(solve(r[1]), solve(r[2]));
 });
 instructions.set(/^\s*clear\s*$/i, r => {
+    context.save();
+    context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
+    context.restore();
 });
 instructions.set(/^\s*reset\s*$/i, r => {
     context.setTransform(1, 0, 0, 1, 0, 0);
