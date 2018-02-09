@@ -13,6 +13,7 @@ text x, y, "Hello, World!"
 y = y + 1
 x = x + 1
 refresh
+sleep 50
 goto 10
 `;
 text.value = code;
@@ -22,6 +23,7 @@ let line = 0;
 let refresh = false;
 let jump = null;
 let stop = false;
+let sleep = 0;
 const labels = new Map;
 const vars = new Map;
 
@@ -48,6 +50,9 @@ instructions.set(/^\s*refresh\s*$/i, r => {
 instructions.set(/^\s*goto\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*/i, r => {
     jump = solve(r[1]);
 });
+instructions.set(/^\s*sleep\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*/i, r => {
+    sleep = solve(r[1]);
+});
 instructions.set(/^\s*translate\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*,\s*(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*$/i, r => {
     context.translate(solve(r[1]), solve(r[2]));
 });
@@ -70,6 +75,11 @@ function parse() {
         if (refresh) {
             refresh = false;
             requestAnimationFrame(() => parse());
+            break;
+        }
+        if (sleep) {
+            setTimeout(() => parse(), sleep);
+            sleep = 0;
             break;
         }
     }
