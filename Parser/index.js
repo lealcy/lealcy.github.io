@@ -6,67 +6,67 @@ const context = canvas.getContext("2d", {
 });
 const taEl = document.querySelector("textarea");
 const code =
-    `on key ArrowUp goto up
-on key ArrowRight goto right
-on key ArrowDown goto down
-on key ArrowLeft goto left
+    `on key ArrowUp targetY = y - speed
+on key ArrowRight targetX = x + speed
+on key ArrowDown targetY = y + speed
+on key ArrowLeft targetX = x - speed
 
-x = 0
-y = 10
-speed = 10
+x = width / 2
+y = height / 2
+targetX = x
+targetY = y
+hello = "Hello, World!"
+speed = 20
 
-next: 
+repeat:
+  if targetX > x then x = x + 1
+  if targetX < x then x = x - 1
+  if targetY > y then y = y + 1
+  if targetY < y then y = y - 1 
   clear
-  text x, y, "Hello, World!"
-  goto end
-
-up:
-  y = y - speed
-  goto next
-
-right:
-  x = x + speed
-  goto next
-
-down:
-  y = y + speed
-  goto next
-
-left:
-  x = x - speed
-  goto next
-
-end:
+  text x, y, hello
   refresh
+  repeat
 `;
 taEl.value = code;
 
 let lines = [];
 let line = 0;
 let refresh = false;
-let jump = null;
+let goto = null;
 let stop = false;
 let sleep = 0;
 const labels = new Map;
+
 const vars = new Map;
+vars.set("width", canvas.width);
+vars.set("height", canvas.height);
+
 const keymap = new Map;
 
 const instructions = new Map;
 
-instructions.set(/^\s*([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)\s*/i, r => {
+instructions.set(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)$/, r => {
     vars.set(r[1], solve(r[2]));
 });
 
-instructions.set(/^\s*canvas\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*,\s*(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*$/i, r => {
-    canvas.width = solve(r[1]);
-    canvas.height = solve(r[2]);
+instructions.set(/^canvas\s+(.*)$/, r => {
+    r = params(r[1]);
+    if (r.length !== 2) {
+        console.error("Invalid canvas arguments:", r);
+    } else {
+        canvas.width = solve(r[0]);
+        canvas.height = solve(r[1]);
+        vars.set("width", canvas.width);
+        vars.set("height", canvas.height);
+    }
 });
 
-instructions.set(/^\s*color\s+([a-zA-Z]+)\s*$/i, r => {
+instructions.set(/^color\s+([a-zA-Z]+)$/, r => {
     context.fillStyle = r[1];
 });
 
-instructions.set(/^\s*text\s+(.*)\s*$/, r => {
+instructions.set(/^text\s+(.*)$/, r => {
     r = params(r[1]);
     switch (r.length) {
         case 1:
@@ -88,37 +88,59 @@ instructions.set(/^\s*text\s+(.*)\s*$/, r => {
     }
 });
 
-instructions.set(/^\s*refresh\s*$/i, r => {
+instructions.set(/^refresh$/, r => {
     refresh = true;
 });
 
-instructions.set(/^\s*goto\s+([a-zA-Z0-9_]+)\s*/i, r => {
-    jump = r[1];
+instructions.set(/^goto\s+([a-zA-Z0-9_]+)\s*/, r => {
+    goto = r[1];
 });
 
-instructions.set(/^\s*sleep\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*/i, r => {
+instructions.set(/^sleep\s+(.*)$/, r => {
     sleep = solve(r[1]);
 });
 
-instructions.set(/^\s*translate\s+(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*,\s*(\d+|[a-zA-Z_][a-zA-Z0-9_]*)\s*$/i, r => {
-    context.translate(solve(r[1]), solve(r[2]));
+instructions.set(/^translate\s+(.*)$/, r => {
+    r = params(r[1]);
+    if (r.length !== 2) {
+        console.error("Invalid translate arguments:", r);
+    } else {
+        context.translate(solve(r[0]), solve(r[1]));
+    }
 });
 
-instructions.set(/^\s*clear\s*$/i, r => {
+instructions.set(/^rotate\s+(.*)$/, r => {
+    context.rotate(solve(r[1]) * Math.PI / 180);
+});
+
+instructions.set(/^clear$/, r => {
     context.save();
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.clearRect(0, 0, canvas.width, canvas.height);
     context.restore();
 });
 
-instructions.set(/^\s*reset\s*$/i, r => {
+instructions.set(/^save$/, r => {
+    context.save();
+});
+
+instructions.set(/^restore$/, r => {
+    context.restore();
+});
+
+instructions.set(/^reset$/, r => {
     context.setTransform(1, 0, 0, 1, 0, 0);
-    context.fillStyle = "white";
-    context.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+instructions.set(/^if\s+(.*)\s+then\s+(.*)$/, r => {
+    if (solve(r[1])) {
+        execute(r[2]);
+    }
 });
 
 // Key values based on https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
-instructions.set(/^\s*on\s+key\s+([a-zA-Z0-9_]+)\s+goto\s+([a-zA-Z0-9_]+)\s*/i, r => {
+instructions.set(/^on\s+key\s+([a-zA-Z0-9_]+)\s+(.*)$/, r => {
+    //console.log("onkey", r);
     keymap.set(r[1], r[2]);
 });
 
@@ -140,30 +162,33 @@ function parse() {
 }
 
 function parseLine() {
-    let text = lines[line];
-    const label = text.match(/^\s*([a-zA-Z0-9_]+)\s*:/);
-    if (label) {
-        text = text.substring(label[0].length);
-    }
-    execute(text);
-    if (jump !== null) {
-        console.log("jump", jump);
-        line = labels.get(jump);
-        jump = null;
+    execute(lines[line]);
+    if (goto !== null) {
+        //console.log("goto", goto);
+        line = labels.get(goto);
+        goto = null;
     } else {
         line++;
     }
 }
 
 function execute(text) {
+    if (text == "") {
+        return;
+    }
     for (const [regex, fn] of instructions) {
         const result = text.match(regex);
         if (result) {
             //console.log(result);
             fn(result);
-            break;
+            return;
         }
     }
+    if (labels.has(text)) {
+        goto = text;
+        return;
+    }
+    console.log("Unable to execute:", text);
 }
 
 function params(text) {
@@ -184,17 +209,17 @@ function params(text) {
                 } else {
                     insideString = true;
                 }
-                p += text[i];
+                p += c;
                 break;
             case "\\":
                 if (insideString) {
                     escaped = true;
                 }
-                p += text[i];
+                p += c;
                 break;
             case ",":
                 if (insideString) {
-                    p += text[i];
+                    p += c;
                     break;
                 }
                 ps.push(p);
@@ -203,11 +228,11 @@ function params(text) {
             case " ":
             case "\t":
                 if (insideString) {
-                    p += text[i];
+                    p += c;
                 }
                 break;
             default:
-                p += text[i];
+                p += c;
                 break;
         }
     }
@@ -220,7 +245,7 @@ function solve(x) {
         return;
     }
     x = x.trim();
-    console.log(`Solve = ${x}`);
+    //console.log(`Solve = ${x}`);
 
     if (/^\d+$/.test(x)) {
         return parseInt(x);
@@ -235,6 +260,38 @@ function solve(x) {
 
     let r;
 
+    if (r = x.match(/^(.+)==(.+)$/)) {
+        return solve(r[1]) == solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)!=(.+)$/)) {
+        return solve(r[1]) != solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)>(.+)$/)) {
+        return solve(r[1]) > solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)<(.+)$/)) {
+        return solve(r[1]) < solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)>=(.+)$/)) {
+        return solve(r[1]) >= solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)<=(.+)$/)) {
+        return solve(r[1]) <= solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)\*(.+)$/)) {
+        return solve(r[1]) * solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)\/(.+)$/)) {
+        return solve(r[1]) / solve(r[2]);
+    }
+
     if (r = x.match(/^(.+)\+(.+)$/)) {
         return solve(r[1]) + solve(r[2]);
     }
@@ -243,17 +300,18 @@ function solve(x) {
         return solve(r[1]) - solve(r[2]);
     }
 
-    console.log("failed to solve x: ", x);
+    console.log("Failed to solve x: ", x);
 }
 
 function parseLabels() {
     let line = 0;
     while (line < lines.length) {
         let text = lines[line];
-        const label = text.match(/^\s*([a-zA-Z0-9_]+)\s*:/);
+        const label = text.match(/^([a-zA-Z0-9_]+)\s*:/);
         if (label) {
             console.log(`Label "${label[1]}" -> ${line}`);
             labels.set(label[1], line);
+            lines[line] = lines[line].substring(label[0].length).trim();
         }
         line++;
     }
@@ -263,11 +321,13 @@ document.querySelector("button#parse").addEventListener("click", e => {
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.fillStyle = "white";
     context.clearRect(0, 0, canvas.width, canvas.height);
-    lines = lines = taEl.value.split("\n").filter(v => v !== "");
+    lines = lines = taEl.value.split("\n").map(v => v.trim()).filter(v => v !== "");
     line = 0;
     labels.clear();
     keymap.clear();
     vars.clear();
+    vars.set("width", canvas.width);
+    vars.set("height", canvas.height);
     stop = false;
     parseLabels();
     parse();
@@ -281,9 +341,8 @@ document.querySelector("button#stop").addEventListener("click", e => {
 
 document.addEventListener("keydown", e => {
     //console.log(e.code);
-    if (keymap.has(e.code) && labels.has(keymap.get(e.code))) {
-        line = labels.get(keymap.get(e.code));
-        //console.log("goto", line);
+    if (keymap.has(e.code)) {
+        execute(keymap.get(e.code));
         parse();
     }
 }, false);
