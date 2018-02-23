@@ -5,29 +5,133 @@ const context = canvas.getContext("2d", {
     alpha: false
 });
 const taEl = document.querySelector("textarea");
+// Based on https://robots.thoughtbot.com/pong-clone-in-javascript
 const code =
-    `on key ArrowUp dy = -1
-on key ArrowRight dx = 1
-on key ArrowDown dy = 1
-on key ArrowLeft dx = -1
+    `canvas 400, 600
 
-x = width / 2
-y = height / 2
-dx = 1
-dy = 1
-hello = "Hello, World!"
+playerPaddleX = 175
+playerPaddleY = 580
+playerPaddleWidth = 50
+playerPaddleHeight = 10
+playerPaddleXSpeed = 0
+playerPaddleYSpeed = 0
 
-repeat:
-  x = x + dx
-  y = y + dy
-  if x < 0 then dx = 1
-  if x > width - 58 then dx = -1
-  if y < 10 then dy = 1
-  if y > height then dy = -1
-  clear
-  text x, y, hello
-  sleep 15
-  repeat
+computerPaddleX = 175
+computerPaddleY = 10
+computerPaddleWidth = 50
+computerPaddleHeight = 10
+computerPaddleXSpeed = 0
+computerPaddleYSpeed = 0
+
+ballX = 200
+ballY = 300
+ballXSpeed = 0
+ballYSpeed = 3
+ballRadius = 5
+
+loop:
+  update
+  render
+  refresh
+  loop
+
+update:
+  updatePlayer
+  updateBall
+  return
+
+render:
+  color magenta
+  rect width, height
+  color blue
+  rect playerPaddleX, playerPaddleY, playerPaddleWidth, playerPaddleHeight
+  rect computerPaddleX, computerPaddleY, computerPaddleWidth, computerPaddleHeight
+  color black
+  circle ballX, ballY, ballRadius
+  return
+
+updatePlayer:
+  if keydown("ArrowLeft") then movePlayerPaddleLeft
+  if keydown("ArrowRight") then movePlayerPaddleRight
+  ;if keyup("ArrowLeft") && keyup("ArrowRight) then stopPlayerPaddle
+  updatePlayerPaddlePosition
+  return
+
+updateBall:
+  ballX = ballX + ballXSpeed
+  ballY = ballY + ballYSpeed
+ 
+  if ballX - 5 < 0 then bounceLeft
+  if ballX + 5 > 400 then bounceRight
+
+  if ballY < 0 || ballY > 600 then point
+
+  if intersect(playerPaddleX, playerPaddleY, playerPaddleWidth, playerPaddleHeight, ballX - 5, ballY - 5, 10, 10) then hitPlayerPaddle
+  if intersect(computerPaddleX, computerPaddleY, computerPaddleWidth, computerPaddleHeight, ballX - 5, ballY - 5, 10, 10) then hitComputerPaddle
+
+
+  return
+
+bounceLeft:
+  ballX = 5
+  ballXSpeed = 0-ballXSpeed
+  return
+
+bounceRight:
+  ballX = 395
+  ballXSpeed = 0-ballXSpeed
+  return
+
+point:
+  ballX = 200
+  ballY = 300
+  ballXSpeed = 0
+  ballYSpeed = 3 
+  return
+
+hitPlayerPaddle:
+  ballYSpeed = -3
+  halfXSpeed = playerPaddleXSpeed / 2
+  ballXSpeed = ballXSpeed + halfXSpeed
+  ballY = ballY + ballYSpeed
+  return
+
+hitComputerPaddle:
+  ballYSpeed = 3
+  halfXSpeed = computerPaddleXSpeed / 2
+  ballXSpeed = ballXSpeed + halfXSpeed
+  ballY = ballY + ballYSpeed
+  return 
+
+movePlayerPaddleLeft:
+  playerPaddleXSpeed = -4
+  playerPaddleX = playerPaddleX + playerPaddleXSpeed
+  return 
+
+movePlayerPaddleRight:
+  playerPaddleXSpeed = 4
+  playerPaddleX = playerPaddleX + playerPaddleXSpeed
+  
+  return 
+
+updatePlayerPaddlePosition:
+  if playerPaddleX < 0 then stopPlayerPaddleLeft
+  if playerPaddleX + playerPaddleWidth > 400 then stopPlayerPaddleRight
+  return
+
+stopPlayerPaddleLeft:
+  playerPaddleX = 0
+  return
+
+stopPlayerPaddleRight:
+  playerPaddleX = 400 - playerPaddleWidth
+  playerPaddleXSpeed = 0
+  return
+
+stopPlayerPaddle:
+  playerPaddleXSpeed = 0
+  return   
+
 `;
 taEl.value = code;
 
@@ -39,21 +143,40 @@ let ret = null;
 let stop = false;
 let sleep = 0;
 const labels = new Map;
-const stack = [];
+let stack = [];
 
 const vars = new Map;
 vars.set("width", canvas.width);
 vars.set("height", canvas.height);
 
-const keymap = new Map;
+const funcs = new Map([
+    ["keydown", ps => keysDown.has(ps[0])],
+    ["keyup", ps => !keysDown.has(ps[0])],
+    ["sqrt", ps => Math.sqrt(...ps)],
+    ["intersect", ps => {
+        const ax = ps[0],
+            ay = ps[1],
+            aw = ps[2],
+            ah = ps[3];
+        const bx = ps[4],
+            by = ps[5],
+            bw = ps[6],
+            bh = ps[7];
+        return Math.max(ax, bx) < Math.min(ax + aw, bx + bw) &&
+            Math.max(ay, by) < Math.min(ay + ah, by + bh);
+    }]
+]);
+
+// Key values based on https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
+const keysDown = new Set;
 
 const instructions = new Map;
 
-instructions.set(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.*)$/, r => {
+instructions.set(/^([a-zA-Z_][a-zA-Z0-9_]*)\s*=\s*(.+)$/, r => {
     vars.set(r[1], solve(r[2]));
 });
 
-instructions.set(/^canvas\s+(.*)$/, r => {
+instructions.set(/^canvas\s+(.+)$/, r => {
     r = params(r[1]);
     if (r.length !== 2) {
         console.error("Invalid canvas arguments:", r);
@@ -65,11 +188,11 @@ instructions.set(/^canvas\s+(.*)$/, r => {
     }
 });
 
-instructions.set(/^color\s+([a-zA-Z]+)$/, r => {
+instructions.set(/^color\s+(.+)$/, r => {
     context.fillStyle = r[1];
 });
 
-instructions.set(/^text\s+(.*)$/, r => {
+instructions.set(/^text\s+(.+)$/, r => {
     r = params(r[1]);
     switch (r.length) {
         case 1:
@@ -91,7 +214,26 @@ instructions.set(/^text\s+(.*)$/, r => {
     }
 });
 
-instructions.set(/^rect\s+(.*)$/, r => {
+instructions.set(/^circle\s+(.+)$/, r => {
+    r = params(r[1]);
+    switch (r.length) {
+        case 1:
+            context.beginPath();
+            context.arc(0, 0, solve(r[0]), 0, 2 * Math.PI, false);
+            context.fill();
+            break;
+        case 3:
+            context.beginPath();
+            context.arc(solve(r[0]), solve(r[1]), solve(r[2]), 0, 2 * Math.PI, false);
+            context.fill();
+            break;
+        default:
+            console.log("Invalid circle arguments:", r);
+            break;
+    }
+});
+
+instructions.set(/^rect\s+(.+)$/, r => {
     r = params(r[1]);
     switch (r.length) {
         case 1:
@@ -104,7 +246,7 @@ instructions.set(/^rect\s+(.*)$/, r => {
             context.fillRect(solve(r[0]), solve(r[1]), solve(r[2]), solve(r[2]));
             break;
         case 4:
-            context.fillrect(solve(r[0]), solve(r[1]), solve(r[2]), solve(r[3]));
+            context.fillRect(solve(r[0]), solve(r[1]), solve(r[2]), solve(r[3]));
             break;
         default:
             console.log("Invalid rect arguments:", r);
@@ -128,11 +270,11 @@ instructions.set(/^return$/, r => {
     }
 });
 
-instructions.set(/^sleep\s+(.*)$/, r => {
+instructions.set(/^sleep\s+(.+)$/, r => {
     sleep = solve(r[1]);
 });
 
-instructions.set(/^translate\s+(.*)$/, r => {
+instructions.set(/^translate\s+(.+)$/, r => {
     r = params(r[1]);
     if (r.length !== 2) {
         console.error("Invalid translate arguments:", r);
@@ -141,7 +283,7 @@ instructions.set(/^translate\s+(.*)$/, r => {
     }
 });
 
-instructions.set(/^scale\s+(.*)$/, r => {
+instructions.set(/^scale\s+(.+)$/, r => {
     r = params(r[1]);
     if (r.length === 1) {
         context.scale(solve(r[0]), solve(r[0]));
@@ -152,7 +294,7 @@ instructions.set(/^scale\s+(.*)$/, r => {
     }
 });
 
-instructions.set(/^rotate\s+(.*)$/, r => {
+instructions.set(/^rotate\s+(.+)$/, r => {
     context.rotate(solve(r[1]) * Math.PI / 180);
 });
 
@@ -181,10 +323,8 @@ instructions.set(/^if\s+(.*)\s+then\s+(.*)$/, r => {
     }
 });
 
-// Key values based on https://developer.mozilla.org/en-US/docs/Web/API/KeyboardEvent/key/Key_Values
-instructions.set(/^on\s+key\s+([a-zA-Z0-9_]+)\s+(.*)$/, r => {
-    //console.log("onkey", r);
-    keymap.set(r[1], r[2]);
+instructions.set(/^log\s+(.+)$/, r => {
+    console.log(...params(r[1]).map(v => solve(v)));
 });
 
 function parse() {
@@ -210,12 +350,9 @@ function parseLine() {
         line = ret;
         ret = null;
     } else if (goto !== null) {
-        //console.log("goto", goto);
         if (labels.has(goto)) {
+            stack.push(line + 1);
             line = labels.get(goto);
-            if (stack[stack.length - 1] !== line) {
-                stack.push(line);
-            }
             goto = null;
         } else {
             console.log("Invalid jump label:", goto);
@@ -232,7 +369,6 @@ function execute(text) {
     for (const [regex, fn] of instructions) {
         const result = text.match(regex);
         if (result) {
-            //console.log(result);
             fn(result);
             return;
         }
@@ -300,6 +436,8 @@ function solve(x) {
     x = x.trim();
     //console.log(`Solve = ${x}`);
 
+
+
     if (/^-?\d+$/.test(x)) {
         return parseInt(x);
     }
@@ -308,10 +446,25 @@ function solve(x) {
     }
 
     if (/^[a-zA-Z_][a-zA-Z0-9_]*$/.test(x)) {
+        if (!vars.has(x)) {
+            console.log('Unknown variable', x);
+        }
         return vars.get(x);
     }
 
     let r;
+
+    if (r = x.match(/^([a-zA-Z_][a-zA-Z0-9_]*)\((.*)\)$/)) {
+        return funcs.get(r[1])(params(r[2]).map(v => solve(v)));
+    }
+
+    if (r = x.match(/^(.+)\|\|(.+)$/)) {
+        return solve(r[1]) || solve(r[2]);
+    }
+
+    if (r = x.match(/^(.+)&&(.+)$/)) {
+        return solve(r[1]) && solve(r[2]);
+    }
 
     if (r = x.match(/^(.+)==(.+)$/)) {
         return solve(r[1]) == solve(r[2]);
@@ -370,31 +523,38 @@ function parseLabels() {
     }
 }
 
-document.querySelector("button#parse").addEventListener("click", e => {
+function runEvent(e) {
     context.setTransform(1, 0, 0, 1, 0, 0);
     context.fillStyle = "white";
     context.clearRect(0, 0, canvas.width, canvas.height);
-    lines = lines = taEl.value.split("\n").map(v => v.trim()).filter(v => v !== "");
+    lines = taEl.value.split("\n").map(v => v.trim()).filter(v => v !== "" && !v.startsWith(";"));
     line = 0;
     labels.clear();
-    keymap.clear();
+    keysDown.clear();
     vars.clear();
     vars.set("width", canvas.width);
     vars.set("height", canvas.height);
+    stack = [];
+    goto = null;
+    ret = null;
     stop = false;
     parseLabels();
     parse();
     console.log("end");
-}, false);
+}
 
-document.querySelector("button#stop").addEventListener("click", e => {
+function stopEvent(e) {
     stop = true;
     console.log("stop");
-}, false);
+}
+
+document.querySelector("button#parse").addEventListener("click", runEvent, false);
+document.querySelector("button#stop").addEventListener("click", stopEvent, false);
 
 document.addEventListener("keydown", e => {
-    //console.log(e.code);
-    if (keymap.has(e.code)) {
-        execute(keymap.get(e.code));
-    }
+    keysDown.add(e.code);
+}, false);
+
+document.addEventListener("keyup", e => {
+    keysDown.delete(e.code);
 }, false);
