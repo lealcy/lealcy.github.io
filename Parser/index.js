@@ -6,26 +6,27 @@ const context = canvas.getContext("2d", {
 });
 const taEl = document.querySelector("textarea");
 const code =
-    `on key ArrowUp targetY = y - speed
-on key ArrowRight targetX = x + speed
-on key ArrowDown targetY = y + speed
-on key ArrowLeft targetX = x - speed
+    `on key ArrowUp dy = -1
+on key ArrowRight dx = 1
+on key ArrowDown dy = 1
+on key ArrowLeft dx = -1
 
 x = width / 2
 y = height / 2
-targetX = x
-targetY = y
+dx = 1
+dy = 1
 hello = "Hello, World!"
-speed = 20
 
 repeat:
-  if targetX > x then x = x + 1
-  if targetX < x then x = x - 1
-  if targetY > y then y = y + 1
-  if targetY < y then y = y - 1 
+  x = x + dx
+  y = y + dy
+  if x < 0 then dx = 1
+  if x > width - 58 then dx = -1
+  if y < 10 then dy = 1
+  if y > height then dy = -1
   clear
   text x, y, hello
-  refresh
+  sleep 15
   repeat
 `;
 taEl.value = code;
@@ -34,9 +35,11 @@ let lines = [];
 let line = 0;
 let refresh = false;
 let goto = null;
+let ret = null;
 let stop = false;
 let sleep = 0;
 const labels = new Map;
+const stack = [];
 
 const vars = new Map;
 vars.set("width", canvas.width);
@@ -88,12 +91,41 @@ instructions.set(/^text\s+(.*)$/, r => {
     }
 });
 
+instructions.set(/^rect\s+(.*)$/, r => {
+    r = params(r[1]);
+    switch (r.length) {
+        case 1:
+            context.fillRect(0, 0, solve(r[0]), solve(r[0]));
+            break;
+        case 2:
+            context.fillRect(0, 0, solve(r[0]), solve(r[1]));
+            break;
+        case 3:
+            context.fillRect(solve(r[0]), solve(r[1]), solve(r[2]), solve(r[2]));
+            break;
+        case 4:
+            context.fillrect(solve(r[0]), solve(r[1]), solve(r[2]), solve(r[3]));
+            break;
+        default:
+            console.log("Invalid rect arguments:", r);
+            break;
+    }
+});
+
 instructions.set(/^refresh$/, r => {
     refresh = true;
 });
 
 instructions.set(/^goto\s+([a-zA-Z0-9_]+)\s*/, r => {
     goto = r[1];
+});
+
+instructions.set(/^return$/, r => {
+    if (stack.length) {
+        ret = stack.pop();
+    } else {
+        console.log("Returning on an empty stack.");
+    }
 });
 
 instructions.set(/^sleep\s+(.*)$/, r => {
@@ -106,6 +138,17 @@ instructions.set(/^translate\s+(.*)$/, r => {
         console.error("Invalid translate arguments:", r);
     } else {
         context.translate(solve(r[0]), solve(r[1]));
+    }
+});
+
+instructions.set(/^scale\s+(.*)$/, r => {
+    r = params(r[1]);
+    if (r.length === 1) {
+        context.scale(solve(r[0]), solve(r[0]));
+    } else if (r.length === 2) {
+        context.scale(solve(r[0]), solve(r[1]));
+    } else {
+        console.error("Invalid scale arguments:", r);
     }
 });
 
@@ -163,10 +206,20 @@ function parse() {
 
 function parseLine() {
     execute(lines[line]);
-    if (goto !== null) {
+    if (ret !== null) {
+        line = ret;
+        ret = null;
+    } else if (goto !== null) {
         //console.log("goto", goto);
-        line = labels.get(goto);
-        goto = null;
+        if (labels.has(goto)) {
+            line = labels.get(goto);
+            if (stack[stack.length - 1] !== line) {
+                stack.push(line);
+            }
+            goto = null;
+        } else {
+            console.log("Invalid jump label:", goto);
+        }
     } else {
         line++;
     }
@@ -247,7 +300,7 @@ function solve(x) {
     x = x.trim();
     //console.log(`Solve = ${x}`);
 
-    if (/^\d+$/.test(x)) {
+    if (/^-?\d+$/.test(x)) {
         return parseInt(x);
     }
     if (/^".*"$/.test(x)) {
@@ -343,6 +396,5 @@ document.addEventListener("keydown", e => {
     //console.log(e.code);
     if (keymap.has(e.code)) {
         execute(keymap.get(e.code));
-        parse();
     }
 }, false);
