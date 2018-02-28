@@ -6,7 +6,7 @@ const context = canvas.getContext("2d", {
 });
 const blockWidth = 32;
 const blockHeight = 32;
-const boardWidth = 32;
+const boardWidth = location.search.substring(1) || 32;
 const boardHeight = 16;
 const fallSpeed = 10;
 
@@ -99,22 +99,6 @@ function fallBlocks() {
             }
         }
     }
-    /*
-        for (let i = boardWidth - 1; i > 0; i--) {
-            for (let j = 0; j < boardHeight; j++) {
-                if (!board[i][j] && board[i - 1][j]) {
-                    board[i][j] = board[i - 1][j]
-                    board[i - 1][j] = null;
-                    board[i][j].x = j;
-                    board[i][j].y = i;
-                }
-            }
-        }
-        for (let j = 0; j < boardWidth; j++) {
-            if (!board[0][j]) {
-                board[0][j] = new Block(0, j, getRandomColor());
-            }
-        }*/
 }
 
 function click(e) {
@@ -122,7 +106,7 @@ function click(e) {
 }
 
 function removeBlock(x, y) {
-    console.log("clicked block at", x, y);
+    //console.log("clicked block at", x, y);
     const color = board[x][y].color;
     const up = y > 0 ? board[x][y - 1] : null,
         right = x < boardWidth - 1 ? board[x + 1][y] : null,
@@ -131,7 +115,7 @@ function removeBlock(x, y) {
     if (!((up && up.color === color) || (right && right.color === color) || (down && down.color === color) || (left && left.color === color))) {
         return;
     }
-    console.log("Remove root block", x, y, color)
+    //console.log("Remove root block", x, y, color)
     board[x][y] = null;
     score += basePoints;
     removeBlockAdjacent(x, y - 1, color, basePoints);
@@ -148,7 +132,7 @@ function removeBlockAdjacent(x, y, color, points) {
     if (!block || block.color !== color) {
         return;
     }
-    console.log("Remove block", x, y, color)
+    //console.log("Remove block", x, y, color)
     board[x][y] = null;
     score += points * multiplier;
     removeBlockAdjacent(x, y - 1, color, points * multiplier);
