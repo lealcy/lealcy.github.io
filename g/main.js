@@ -8,6 +8,9 @@ import {
     Drawable
 } from "./Game/Drawable.js";
 
+const g = new Game(document.querySelector("canvas"));
+window.g = g; // Allow debugging from the console.
+
 
 class GrassTile extends Drawable {
     constructor(pos) {
@@ -21,8 +24,6 @@ class GrassTile extends Drawable {
 
 }
 
-const g = new Game(document.querySelector("canvas"));
-window.g = g; // Allow debuging from the console.
 g.loadImage("grass-tile", "./Images/grass-tile.png");
 g.level.fill(0, Vector.Zero, 10, 10, GrassTile, 32, 32);
 g.start();
