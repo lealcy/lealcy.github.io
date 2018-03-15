@@ -10,17 +10,26 @@ const SLOT_IMAGE = new Image();
 SLOT_IMAGE.src = "slotImage.png";
 const SLOTS_FRAME = new Image();
 SLOTS_FRAME.src = "slotsFrame.png";
-let SLOT_WIDTH = 16,
-    SLOT_HEIGHT = 96,
+const SLOT_HEIGHT = 96,
     STAMP_WIDTH = 16,
-    STAMP_HEIGHT = 16;
+    STAMP_HEIGHT = 16,
+    SCALE = 5,
+    WIDTH = 8,
+    HEIGHT = 8,
+    FRAME_MARGIN = 4;
+
+const CANVAS_WIDTH = (STAMP_WIDTH * WIDTH + FRAME_MARGIN * 2) * SCALE;
+const CANVAS_HEIGHT = (STAMP_HEIGHT * HEIGHT + FRAME_MARGIN * 2) * SCALE;
+
+canvas.width = CANVAS_WIDTH;
+canvas.height = CANVAS_HEIGHT;
 
 let slots;
 
 function start() {
     requestAnimationFrame(update);
     context.imageSmoothingEnabled = false;
-    slots = new Slots(7, 7, 6);
+    slots = new Slots(0, 0, SCALE);
 }
 
 function update(timestamp) {
@@ -35,21 +44,21 @@ class Slots {
         this.x = x;
         this.y = y;
         this.scale = scale;
-        this.slots = new Set([
-            new Slot(4, 4),
-            new Slot(SLOT_WIDTH + 8, 4),
-            new Slot(2 * SLOT_WIDTH + 12, 4),
-            new Slot(3 * SLOT_WIDTH + 16, 4),
-            new Slot(4 * SLOT_WIDTH + 20, 4),
-        ]);
+        this.slots = new Set();
+        for (let line = 0; line < 8; line++) {
+            for (let col = 0; col < 8; col++) {
+                this.slots.add(new Slot(col * STAMP_WIDTH, line * STAMP_HEIGHT));
+            }
+        }
     }
 
     update(timestamp, context) {
         context.save();
         context.translate(this.x, this.y);
         context.scale(this.scale, this.scale);
+        context.translate(FRAME_MARGIN, FRAME_MARGIN);
         this.slots.forEach(slot => slot.update(timestamp, context));
-        context.drawImage(SLOTS_FRAME, 0, 0);
+        //context.drawImage(SLOTS_FRAME, 0, 0);
         context.restore();
     }
 
