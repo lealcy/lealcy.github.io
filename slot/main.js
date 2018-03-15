@@ -1,5 +1,7 @@
 "use strict";
 
+document.addEventListener("click", e => slots.spin(), false);
+
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d", {
     alpha: false,
