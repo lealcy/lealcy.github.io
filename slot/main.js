@@ -104,7 +104,7 @@ class Slot {
     }
 
     spin() {
-        this.speed = Math.random() * 5 + 5;
+        this.speed = Math.random() * 2 + 2;
         this.spinning = true;
     }
 }
