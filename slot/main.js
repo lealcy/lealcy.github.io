@@ -37,7 +37,13 @@ function update(timestamp) {
 }
 
 function click(x, y) {
-    slots.spin();
+    // Adjust x,y to scale
+    x = Math.floor(x / scale);
+    y = Math.floor(y / scale);
+
+    // Spin only the clicked row
+    slots.spinRow(Math.floor(y / STAMP_HEIGHT));
+
 }
 
 function adjustCanvasToPage() {
@@ -47,14 +53,29 @@ function adjustCanvasToPage() {
     scale = canvas.width / (STAMP_WIDTH * WIDTH);
 }
 
+function lerp(v1, v2, t) {
+    return (1 - t) * v1 + t * v2;
+}
+
+function recursiveSum(n, damp) {
+    let sum = 0;
+    while (n > 0) {
+        sum += n;
+        n -= damp;
+    }
+    return sum;
+    //return n ? n + recursiveSum(n - damp, damp) : 0;
+}
+
+
 class Slots {
     constructor(x, y) {
         this.x = x;
         this.y = y;
         this.slots = new Set();
-        for (let line = 0; line < WIDTH; line++) {
+        for (let row = 0; row < WIDTH; row++) {
             for (let col = 0; col < HEIGHT; col++) {
-                this.slots.add(new Slot(col * STAMP_WIDTH, line * STAMP_HEIGHT));
+                this.slots.add(new Slot(col, row, col * STAMP_WIDTH, row * STAMP_HEIGHT));
             }
         }
     }
@@ -70,16 +91,24 @@ class Slots {
     spin() {
         this.slots.forEach(slot => slot.spin());
     }
+
+    spinRow(rowNumber) {
+        this.slots.forEach(slot => {
+            if (slot.row === rowNumber) slot.spin();
+        });
+    }
 }
 
 class Slot {
-    constructor(x, y) {
+    constructor(col, row, x, y) {
+        this.col = col;
+        this.row = row;
         this.x = x;
         this.y = y;
         this.sy = 0;
         this.spinning = false;
         this.speed = 0;
-        this.damp = 0.01;
+        this.damp = 0.1;
     }
 
     update(timestamp, context) {
@@ -92,24 +121,19 @@ class Slot {
             this.sy += this.speed;
             this.speed -= this.damp;
             if (this.speed < 0) {
-                /*                 const mod = this.sy % STAMP_HEIGHT;
-                                if (mod > STAMP_HEIGHT / 2) {
-                                    this.sy += mod;
-                                } else if (mod <= STAMP_HEIGHT / 2) {
-                                    this.sy -= mod;
-                                }
-                 */
                 this.speed = 0;
                 this.spinning = false;
             }
             if (this.sy >= SLOT_HEIGHT) {
                 this.sy = 0;
             }
+        } else {
+            this.sy -= this.sy % STAMP_HEIGHT;
         }
     }
 
     spin() {
-        this.speed = Math.random() * 2 + 2;
+        this.speed = Math.random() * 5 + 2;
         this.spinning = true;
     }
 }
