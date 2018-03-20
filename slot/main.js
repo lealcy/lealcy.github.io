@@ -1,52 +1,52 @@
 "use strict";
 
-document.addEventListener("click", e => slots.spin(), false);
-
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d", {
     alpha: false,
 });
 const SLOT_IMAGE = new Image();
-SLOT_IMAGE.src = "slotImage.png";
+SLOT_IMAGE.src = "slotImage2.png";
 const SLOTS_FRAME = new Image();
 SLOTS_FRAME.src = "slotsFrame.png";
-const SLOT_HEIGHT = 96,
-    STAMP_WIDTH = 16,
-    STAMP_HEIGHT = 16,
-    SCALE = 5,
-    WIDTH = 8,
-    HEIGHT = 8,
-    FRAME_MARGIN = 4;
+const SLOT_HEIGHT = 96;
+const STAMP_WIDTH = 16;
+const STAMP_HEIGHT = 16;
+const WIDTH = 8;
+const HEIGHT = 8;
+const SCALE = canvas.width / (STAMP_WIDTH * WIDTH);
 
-const CANVAS_WIDTH = (STAMP_WIDTH * WIDTH + FRAME_MARGIN * 2) * SCALE;
-const CANVAS_HEIGHT = (STAMP_HEIGHT * HEIGHT + FRAME_MARGIN * 2) * SCALE;
-
-canvas.width = CANVAS_WIDTH;
-canvas.height = CANVAS_HEIGHT;
+canvas.addEventListener("click", e => click(e.offsetX, e.offsetY), false);
 
 let slots;
 
 function start() {
     requestAnimationFrame(update);
     context.imageSmoothingEnabled = false;
-    slots = new Slots(0, 0, SCALE);
+    slots = new Slots(0, 0);
+    slots.spin();
 }
 
 function update(timestamp) {
     requestAnimationFrame(update);
     context.fillStyle = "black";
     context.fillRect(0, 0, canvas.width, canvas.height);
+    context.save();
+    context.scale(SCALE, SCALE);
     slots.update(timestamp, context);
+    context.restore();
+}
+
+function click(x, y) {
+    slots.spin();
 }
 
 class Slots {
-    constructor(x, y, scale = 1) {
+    constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.scale = scale;
         this.slots = new Set();
-        for (let line = 0; line < 8; line++) {
-            for (let col = 0; col < 8; col++) {
+        for (let line = 0; line < WIDTH; line++) {
+            for (let col = 0; col < HEIGHT; col++) {
                 this.slots.add(new Slot(col * STAMP_WIDTH, line * STAMP_HEIGHT));
             }
         }
@@ -55,8 +55,6 @@ class Slots {
     update(timestamp, context) {
         context.save();
         context.translate(this.x, this.y);
-        context.scale(this.scale, this.scale);
-        context.translate(FRAME_MARGIN, FRAME_MARGIN);
         this.slots.forEach(slot => slot.update(timestamp, context));
         //context.drawImage(SLOTS_FRAME, 0, 0);
         context.restore();
@@ -92,8 +90,8 @@ class Slot {
                                     this.sy += mod;
                                 } else if (mod <= STAMP_HEIGHT / 2) {
                                     this.sy -= mod;
-                                } */
-
+                                }
+                 */
                 this.speed = 0;
                 this.spinning = false;
             }
