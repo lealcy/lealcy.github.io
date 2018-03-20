@@ -1,9 +1,9 @@
 "use strict";
-
 const canvas = document.querySelector("canvas");
 const context = canvas.getContext("2d", {
     alpha: false,
 });
+context.imageSmoothingEnabled = false;
 const SLOT_IMAGE = new Image();
 SLOT_IMAGE.src = "slotImage2.png";
 const SLOTS_FRAME = new Image();
@@ -13,15 +13,15 @@ const STAMP_WIDTH = 16;
 const STAMP_HEIGHT = 16;
 const WIDTH = 8;
 const HEIGHT = 8;
-const SCALE = canvas.width / (STAMP_WIDTH * WIDTH);
-
-canvas.addEventListener("click", e => click(e.offsetX, e.offsetY), false);
 
 let slots;
+let scale;
 
 function start() {
     requestAnimationFrame(update);
-    context.imageSmoothingEnabled = false;
+    canvas.addEventListener("click", e => click(e.offsetX, e.offsetY), false);
+    window.addEventListener("resize", adjustCanvasToPage, false);
+    adjustCanvasToPage();
     slots = new Slots(0, 0);
     slots.spin();
 }
@@ -31,13 +31,20 @@ function update(timestamp) {
     context.fillStyle = "black";
     context.fillRect(0, 0, canvas.width, canvas.height);
     context.save();
-    context.scale(SCALE, SCALE);
+    context.scale(scale, scale);
     slots.update(timestamp, context);
     context.restore();
 }
 
 function click(x, y) {
     slots.spin();
+}
+
+function adjustCanvasToPage() {
+    const pageDimension = Math.min(document.body.offsetWidth, window.innerHeight);
+    canvas.width = pageDimension;
+    canvas.height = pageDimension;
+    scale = canvas.width / (STAMP_WIDTH * WIDTH);
 }
 
 class Slots {
