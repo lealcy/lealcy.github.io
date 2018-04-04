@@ -12,8 +12,6 @@ const board = [];
 
 let tileWidth;
 let tileHeight;
-let imageWidth;
-let slotHeight;
 let mouseX = 0;
 let mouseY = 0;
 let grabbedTile = null;
@@ -21,17 +19,8 @@ let points = 0;
 let frameCount = 0;
 let stop = false;
 
-const SLOT_IMAGE = new Image();
-SLOT_IMAGE.onload = () => {
-    imageWidth = SLOT_IMAGE.width;
-    slotHeight = SLOT_IMAGE.height;
-};
-SLOT_IMAGE.src = "slotImage2.png";
-
-
 function start() {
     requestAnimationFrame(update);
-    canvas.addEventListener("click", e => click(e.offsetX, e.offsetY), false);
     canvas.addEventListener("mousedown", e => mouseDown(e.offsetX, e.offsetY), false);
     canvas.addEventListener("mouseup", e => mouseUp(e.offsetX, e.offsetY), false);
     canvas.addEventListener("mousemove", e => mouseMove(e.offsetX, e.offsetY), false);
@@ -40,7 +29,7 @@ function start() {
     fillBoard();
 }
 
-function update(timestamp) {
+function update() {
     if (stop) return;
     requestAnimationFrame(update);
     frameCount++;
@@ -55,18 +44,14 @@ function addNewTile() {
     if (frameCount % ADD_TILE_INTERVAL !== 0) {
         return;
     }
-    const maxTries = 10;
-    let x, y, tries = 0;
-    do {
-        x = Math.floor(Math.random() * BOARD_WIDTH);
-        y = Math.floor(Math.random() * BOARD_HEIGHT);
-        tries++;
-        if (tries > maxTries) {
-            return;
+    for (let y = 0; y < BOARD_HEIGHT; y++) {
+        for (let x = 0; x < BOARD_WIDTH; x++) {
+            if (board[x][y].value === 0) {
+                board[x][y].value = 1;
+                return;
+            }
         }
-    } while (board[x][y].value !== 0);
-    board[x][y].value = 1;
-    console.log("add tile", x, y);
+    }
 }
 
 function fillBoard() {
@@ -87,12 +72,6 @@ function drawBoard() {
 
 }
 
-function click(x, y) {
-    x = Math.floor(x / tileWidth);
-    y = Math.floor(y / tileHeight);
-    console.log("click", x, y);
-}
-
 function mouseDown(x, y) {
     x = Math.floor(x / tileWidth);
     y = Math.floor(y / tileHeight);
@@ -100,7 +79,6 @@ function mouseDown(x, y) {
         return;
     }
     grabbedTile = board[x][y];
-    console.log("mouseDown", x, y);
 }
 
 function mouseUp(x, y) {
@@ -115,16 +93,15 @@ function mouseUp(x, y) {
         grabbedTile.value = 0;
     } else if (grabbedTile !== dropTile && grabbedTile.value === dropTile.value) {
         dropTile.value *= 2;
+        points += dropTile.value;
         grabbedTile.value = 0;
     }
     grabbedTile = null;
-    console.log("mouseUp", x, y);
 }
 
 function mouseMove(x, y) {
     mouseX = x;
     mouseY = y;
-    //console.log("mouseMove", x, y);
 }
 
 function showScore() {
@@ -137,14 +114,7 @@ function showScore() {
     context.restore();
 }
 
-function mergeSets(...sets) {
-    const newSet = new Set;
-    sets.forEach(set => set.forEach(item => newSet.add(item)));
-    return newSet;
-}
-
 function adjustCanvasToPage() {
-    const pageDimension = Math.min(document.body.offsetWidth, );
     canvas.width = document.body.offsetWidth;
     canvas.height = window.innerHeight;
     tileWidth = canvas.width / BOARD_WIDTH;
@@ -164,12 +134,19 @@ class Tile {
         }
         context.save();
         context.strokeStyle = "yellow";
-        context.fillStyle = "yellow";
+
         const x = grabbedTile === this ? mouseX - tileWidth / 2 : this.x * tileWidth;
         const y = grabbedTile === this ? mouseY - tileHeight / 2 : this.y * tileHeight;
         context.strokeRect(x, y, tileWidth, tileHeight);
-        context.font = Math.round(tileWidth / 2) + "px 'VT323', monospace";
-        context.fillText(this.value, x + 10, y + tileHeight - 10);
+        context.fillStyle = "white";
+        context.font = Math.round(Math.min(tileHeight, tileWidth)) + "px 'VT323', monospace";
+        const text = this.value;
+        const textMetrics = context.measureText(text);
+        const textWidth = textMetrics.width;
+        const textHeight = textMetrics.hangingBaseline;
+        const textX = x + tileWidth / 2 - textWidth / 2;
+        const textY = y + textHeight + (tileHeight - textHeight) / 2;
+        context.fillText(text, textX, textY);
         context.restore();
     }
 }
