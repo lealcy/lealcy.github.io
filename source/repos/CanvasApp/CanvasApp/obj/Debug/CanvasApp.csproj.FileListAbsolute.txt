@@ -1,0 +1,15 @@
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\bin\Debug\CanvasApp.exe.config
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\bin\Debug\CanvasApp.exe
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\bin\Debug\CanvasApp.pdb
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.csprojAssemblyReference.cache
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\MainWindow.g.cs
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\App.g.cs
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp_MarkupCompile.cache
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp_MarkupCompile.lref
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\MainWindow.baml
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.g.resources
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.Properties.Resources.resources
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.csproj.GenerateResource.cache
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.csproj.CoreCompileInputs.cache
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.exe
+C:\Users\lealcybj\source\repos\CanvasApp\CanvasApp\obj\Debug\CanvasApp.pdb
