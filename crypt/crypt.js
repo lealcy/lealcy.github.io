@@ -2,14 +2,17 @@
 
 function enc(text, pass) {
     const hashPass = hashCode(pass);
-    const rand = new SeededRandom(hashPass);
-    const dict = generateSubstitutionDictionary(rand);
-    let cypher = "";
-    for (let i = 0; i < text.length; i++) {
-        const dec = text.charCodeAt(i);
-        console.log(dec);
-        cypher += dict[dec][Math.floor(Math.random() * dict[dec].length)];
-    }
+    let rand, dict, cypher;
+    do {
+        rand = new SeededRandom(hashPass);
+        dict = generateSubstitutionDictionary(rand);
+        cypher = "";
+        for (let i = 0; i < text.length; i++) {
+            const dec = text.charCodeAt(i);
+            console.log(dec);
+            cypher += dict[dec][Math.floor(Math.random() * dict[dec].length)];
+        }
+    } while (dec(cypher, pass) !== text);
     return cypher;
 }
 
