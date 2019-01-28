@@ -1,0 +1,30 @@
+@font-face {
+    font-family: 'ProtoSinaitic';
+    src: url('proto-si.eot');
+    /* IE9 Compat Modes */
+    src: url('proto-si.eot?#iefix') format('embedded-opentype'),
+        /* IE6-IE8 */
+        url('proto-si.woff2') format('woff2'),
+        /* Super Modern Browsers */
+        url('proto-si.woff') format('woff'),
+        /* Pretty Modern Browsers */
+        url('proto-si.ttf') format('truetype'),
+        /* Safari, Android, iOS */
+        url('proto-si.svg#svgFontName') format('svg');
+    /* Legacy iOS */
+}
+
+
+#display {
+    margin-top: 20vh;
+    height: 60vh;
+    margin-left: 20vw;
+    width: 60vw;
+    resize: none;
+    word-wrap: break-word;
+    font-family: 'ProtoSinaitic', Fallback, sans-serif;
+    font-size: 5vw;
+    text-align: center;
+    border: 0;
+    outline: 0;
+}
