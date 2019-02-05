@@ -7,16 +7,19 @@
     <script src="crypt.js" defer></script>
     <script src="main.js" defer></script>
     <style>
-        body > textarea { display:block};
-    
+        * { font-family: 'Courier New', Courier, monospace;}
+        body > textarea { display:block; margin-bottom: 10px; margin-top: 10px;}
     </style>
 </head>
 
 <body>
+    <div>
+        cypher key: <input id="pass" type="text"> <button id="dict">generate cypher pool</button>
+    </div>
     <textarea rows="10" cols="80" id="src"></textarea>
-    <button id="encrypt">▼ encrypt</button>
-    <input id="pass" type="text">
-    <button id="decrypt">▲ decrypt</button>
+    <button id="encrypt" disabled>▼ encrypt</button>
+    <button id="decrypt" disabled>▲ decrypt</button>
+    (must generate a cypher pool first!)
     <textarea rows="10" cols="80" id="dst"></textarea>
 </body>
 
