@@ -10,15 +10,15 @@ processBtnEl.addEventListener("click", e => process(srcEl.value));
 
 function process(json) {
     messageEl.textContent = "";
-    /*     try {
-     */
+        try {
+    
     const parser = new JSONHTML;
     dstEl.textContent = parser.parse(json);
     previewEl.innerHTML = dst.textContent;
-    /*     } catch (e) {
+        } catch (e) {
             messageEl.textContent = e.message;
         }
-     */
+    
 }
 
 class JSONHTML {
