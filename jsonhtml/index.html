@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>jsonhtml</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css"> -->
+    <script src="main.js" defer></script>
+    <style>
+        * {
+            font-family: 'Courier New', Courier, monospace;
+        }
+
+        body>textarea {
+            display: block;
+            margin-bottom: 10px;
+            margin-top: 10px;
+        }
+
+        #message {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+    <textarea rows="10" cols="80" id="src">
+        {"p": "My favorite foods is", "p": {"": "1.", "b" : "rice"}, "table": {"tr": {"td": "Olá", "td": "Mundo"}, "tr": {"td": "Hi", "td": "World"}}}
+    </textarea>
+    <button id="process">Generate HTML</button> <span id="message"></span>
+    <textarea rows="10" cols="80" id="dst"></textarea>
+    <div id="preview"></div>
+
+</body>
+
+</html>
