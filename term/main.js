@@ -45,3 +45,5 @@ class Context {
 }
 
 const console = new Console(input, output);
+
+console.writeLine("Type 'hello'.");
