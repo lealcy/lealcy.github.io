@@ -25,7 +25,7 @@ class Console {
     }
 
     executeScript(file) {
-        const fileWithPath = `/apps/${file}.js`;
+        const fileWithPath = `./apps/${file}.js`;
         import(fileWithPath).then(module => {
             new module.default(new Context(this, file, fileWithPath, module))
         }).catch(error => {
