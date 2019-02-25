@@ -20,11 +20,11 @@ class Console {
     }
 
     inputEvent(e) {
-        this.executeScript(e.target.value);
+        this.executeScriptFile(e.target.value);
         e.target.value = "";
     }
 
-    executeScript(file) {
+    executeScriptFile(file) {
         const fileWithPath = `./apps/${file}.js`;
         import(fileWithPath).then(module => {
             new module.default(new Context(this, file, fileWithPath, module))
@@ -40,7 +40,7 @@ class Context {
         this.console = console;
         this.file = file;
         this.fileWithPath = fileWithPath;
-        this.instance = instance
+        this.instance = instance;
     }
 }
 
