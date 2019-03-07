@@ -131,11 +131,24 @@ function click(e) {
         }
     } else {
         const selectedId = selected.y * columns + selected.x;
-        if (id !== selectedId && board[id] === board[selectedId]) {
+        if (id === selectedId) {
+            selected = null;
+        } else if (board[id] === board[selectedId]) {
             board[id]++;
             board[selectedId] = 0;
+            selected = null;
+        } else if (board[id] === 0) {
+            board[id] = board[selectedId];
+            board[selectedId] = 0;
+            selected = null;
+        } else if (board[id] !== 0) {
+            selected = {
+                x,
+                y
+            };
+        } else {
+            selected = null;
         }
-        selected = null;
     }
 }
 
