@@ -17,13 +17,19 @@ let deltaTime = 0;
 let lastTimestamp = 0;
 let frames = 0;
 let selected = null;
-let spawnTime = 3000;
 let lastSpawnTime = 0;
 let currentMoneyFadeTime = 0;
 let lastMoneyGenerateTime = 0;
 let moneyGenerateTime = 5000;
 let moneyFadeTime = 1000;
 let money = 0;
+let baseLevel = 1;
+let baseLevelIncrementMultiplier = 2.2;
+let currentLevelUpgradeCost = 128;
+let currentSpawnUpgradeCost = 180;
+let spawnTime = 3000;
+let spawnTimeDecrement = 100;
+let spawnDecrementMultiplier = 6;
 
 function start() {
     requestAnimationFrame(update);
@@ -41,7 +47,7 @@ function update(timestamp) {
     if (timestamp >= lastSpawnTime + spawnTime) {
         for (let i = 0; i < board.length; i++) {
             if (board[i] === 0) {
-                board[i]++;
+                board[i] = baseLevel;
                 break;
             }
         }
@@ -55,6 +61,7 @@ function update(timestamp) {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     drawBoard();
     drawMoney();
+    drawUpgradeButtons();
     if (currentMoneyFadeTime > 0) {
         currentMoneyFadeTime -= frameTime;
     }
@@ -66,25 +73,13 @@ function drawBoard() {
             const id = y * columns + x;
             const px = x * blockWidth;
             const py = y * blockHeight;
-            ctx.fillStyle = "#333333";
-            ctx.lineWidth = 2;
-            ctx.strokeStyle = "black";
-            ctx.fillRect(px, py, blockWidth, blockHeight);
-            ctx.strokeRect(px, py, blockWidth, blockHeight);
+            drawBlock(px, py, blockWidth, blockHeight, board[id] === 0 ? "#333333" : "#444444");
             if (board[id] !== 0) {
                 ctx.drawImage(images[board[id]], px, py, blockWidth, blockHeight);
             }
             if (board[id] && currentMoneyFadeTime > 0) {
-                ctx.font = "bold 18px 'Verdana'";
                 ctx.globalAlpha = currentMoneyFadeTime / moneyFadeTime;
-                ctx.lineWidth = 0.5;
-                ctx.fillStyle = "white";
-                const text = `$${formatNumber(moneyFor(id), 2)}`;
-                const textMetrics = ctx.measureText(text);
-                const textX = px + (blockWidth / 2) - (textMetrics.width / 2);
-                const textY = py + (blockHeight / 2) + (15 / 4);
-                ctx.fillText(text, textX, textY);
-                ctx.strokeText(text, textX, textY);
+                drawText(px + (blockWidth / 2), py + (blockHeight / 2) + (15 / 4), 18, `$${formatNumber(moneyFor(id), 2)}`, true);
                 ctx.globalAlpha = 1;
             }
 
@@ -99,16 +94,40 @@ function drawBoard() {
 }
 
 function drawMoney() {
-    ctx.font = "bold 25px 'Verdana'";
+    drawText(canvas.width / 2, rows * (blockHeight + 1) + 35 / 2, 25, `Money: $${formatNumber(money, 2)}`, true);
+}
+
+function drawUpgradeButtons() {
+    const y = rows * blockHeight + 28;
+
+    drawBlock(0, y, canvas.width / 2, canvas.height, money >= currentLevelUpgradeCost ? "#555555" : "#333333");
+    drawText(canvas.width / 4, y + 26, 16, `Level: ${baseLevel + 1}`, true);
+    drawText(canvas.width / 4, y + 56, 18, `$${formatNumber(currentLevelUpgradeCost, 2)}`, true);
+
+    drawBlock(canvas.width / 2, y, canvas.width / 2, canvas.height, money >= currentSpawnUpgradeCost ? "#555555" : "#333333");
+    drawText(canvas.width / 4 * 3, y + 26, 16, `Interval: ${(spawnTime - spawnTimeDecrement) / 1000}s`, true);
+    drawText(canvas.width / 4 * 3, y + 56, 18, `$${formatNumber(currentSpawnUpgradeCost, 2)}`, true);
+}
+
+function drawBlock(x, y, width, height, color) {
+    ctx.fillStyle = color;
+    ctx.strokeStyle = "black";
+    ctx.lineWidth = 2;
+    ctx.fillRect(x, y, width, height);
+    ctx.strokeRect(x, y, width, height);
+}
+
+function drawText(x, y, size, text, centered = false) {
+    ctx.font = `bold ${size}px 'Verdana'`;
     ctx.lineWidth = 0.5;
     ctx.strokeStyle = "black";
     ctx.fillStyle = "white";
-    const text = `Money: $${formatNumber(money, 2)}`;
-    const textMetrics = ctx.measureText(text);
-    const textX = canvas.width / 2 - textMetrics.width / 2;
-    const textY = rows * (blockHeight + 1) + 35 / 2;
-    ctx.fillText(text, textX, textY);
-    ctx.strokeText(text, textX, textY);
+    if (centered) {
+        const textMetrics = ctx.measureText(text);
+        x -= textMetrics.width / 2;
+    }
+    ctx.fillText(text, x, y);
+    ctx.strokeText(text, x, y);
 
 }
 
@@ -142,7 +161,10 @@ function click(e) {
         } else if (board[id] === board[selectedId]) {
             board[id]++;
             board[selectedId] = 0;
-            selected = null;
+            selected = {
+                x,
+                y
+            };
         } else if (board[id] === 0) {
             board[id] = board[selectedId];
             board[selectedId] = 0;
