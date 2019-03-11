@@ -5,6 +5,11 @@ const ctx = canvas.getContext("2d", {
     alpha: false
 });
 
+if (window.innerWidth < window.innerHeight) {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+
 const rows = 6;
 const columns = 4;
 const board = new Uint8Array(rows * columns);
