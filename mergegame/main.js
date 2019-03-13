@@ -1,20 +1,8 @@
 "use strict";
 
-const canvas = document.querySelector("canvas");
-const ctx = canvas.getContext("2d", {
-    alpha: false
-});
-
-if (window.innerWidth < window.innerHeight) {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-}
-
 const rows = 6;
 const columns = 4;
 const board = new Uint8Array(rows * columns);
-const blockWidth = canvas.width / columns;
-const blockHeight = blockWidth;
 const perfectFrameTime = 1000 / 60;
 const images = [];
 let frameTime = 0;
@@ -36,7 +24,126 @@ let spawnTime = 3000;
 let spawnTimeDecrement = 100;
 let spawnDecrementMultiplier = 6;
 
+class Game {
+    constructor(boardElement) {
+        this.spawnInterval = 3000;
+        this.baseBlockValue = 1;
+        this.imageFiles = [null, "stone", "stoneBrick", "stoneFurnace", "coal", "burnerMiningDrill", "iron", "ironPlate", "ironGear", "copper", "copperPlate", "copperCable", "pipe", "water", "waterPump", "boiler", "steam", "steamTurbine", "steamEngine", "electricity", "assembler1", "concrete", "electricMiner", "electricFurnace", "steelPlate", "steelFurnace", "oilPump", "petroleum", "assembler2", "refinery", "heavyOil", "lightOil", "naturalGas", "chemicalPlant", "sulfur", "sulfuricAcid", "lubricant", "solidFuel", "plastic", "assembler3", "electronicCircuit", "microprocessor", "processingUnit", "lowDensityPlate", "launchpad", "rocketFuel", "engine", "battery", "batteryPack", "flightComputer", "acceleratorModule", "radar", "spacecraftModule"];
+
+        this.board = new Board(this, boardElement);
+
+    }
+
+    getBlockImageSrc(value) {
+        if (value >= this.imageFiles.length) {
+            value = this.imageFiles.length - 1;
+        }
+        return `images/${this.imageFiles[value]}.png`;
+    }
+}
+
+class Board {
+    constructor(game, boardElement) {
+        this.game = game;
+        this.boardElement = boardElement;
+        this.selectedBlock = null;
+        this.initializeBlocks();
+        this.spawn();
+    }
+
+    initializeBlocks() {
+        this.blocks = [];
+        Array.from(this.boardElement.querySelectorAll(".block")).forEach(element => {
+            const block = new Block(this.game, element);
+            this.blocks[block.id] = block;
+            element.addEventListener("mouseup", e => this.blockClickedEvent(e, block), false);
+        });
+    }
+
+    spawn() {
+        setTimeout(this.spawn.bind(this), this.game.spawnInterval);
+        for (let block of this.blocks) {
+            if (block.value === 0) {
+                block.value = this.game.baseBlockValue;
+                break;
+            }
+        }
+    }
+
+    blockClickedEvent(e, block) {
+        if (block.value === 0) {
+            if (this.selectedBlock !== null) {
+                block.value = this.selectedBlock.value;
+                this.selectedBlock.value = 0;
+                this.select(block);
+            }
+        } else {
+            if (this.selectedBlock === null) {
+                this.select(block);
+            } else if (this.selectedBlock === block) {
+                this.deselectAll();
+            } else if (block.value === this.selectedBlock.value) {
+                block.value++;
+                this.selectedBlock.value = 0;
+                this.select(block);
+            } else {
+                this.select(block);
+            }
+        }
+    }
+
+    deselectAll() {
+        this.selectedBlock = null;
+        this.blocks.forEach(block => block.deselect());
+    }
+
+    select(block) {
+        this.deselectAll();
+        this.selectedBlock = block;
+        block.select();
+    }
+}
+
+class Block {
+    constructor(game, blockElement) {
+        this.game = game;
+        this.blockElement = blockElement;
+        this.value = 0;
+    }
+    get id() {
+        return this.blockElement.dataset.id;
+    }
+
+    get value() {
+        return parseInt(this.blockElement.dataset.value);
+    }
+
+    set value(value) {
+        this.blockElement.dataset.value = value;
+        this.blockElement.textContent = `${this.blockElement.dataset.id} (${this.blockElement.dataset.value})`;
+        if (value !== 0) {
+            this.blockElement.style.backgroundImage = `url("${this.game.getBlockImageSrc(value)}")`;
+        } else {
+            this.blockElement.style.backgroundImage = "none";
+        }
+    }
+
+    select() {
+        this.blockElement.classList.add("selected");
+    }
+
+    deselect() {
+        this.blockElement.classList.remove("selected");
+
+    }
+}
+
+const game = new Game(document.getElementById("board"));
+
+
+/*
 function start() {
+    return;
     requestAnimationFrame(update);
     ctx.imageSmoothingEnabled = false;
     loadImages();
@@ -85,16 +192,16 @@ function drawBoard() {
             if (board[id] && currentMoneyFadeTime > 0) {
                 ctx.globalAlpha = currentMoneyFadeTime / moneyFadeTime;
                 drawText(px + (blockWidth / 2), py + (blockHeight / 2) + (15 / 4), 18, `$${formatNumber(moneyFor(id), 2)}`, true);
-                ctx.globalAlpha = 1;
-            }
+        ctx.globalAlpha = 1;
+    }
 
-        }
-    }
-    if (selected) {
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 3;
-        ctx.strokeRect(selected.x * blockWidth, selected.y * blockHeight, blockWidth, blockHeight);
-    }
+}
+}
+if (selected) {
+    ctx.strokeStyle = "white";
+    ctx.lineWidth = 3;
+    ctx.strokeRect(selected.x * blockWidth, selected.y * blockHeight, blockWidth, blockHeight);
+}
 
 }
 
@@ -212,4 +319,4 @@ function formatNumber(num, digits) {
 
 const imageFiles = [null, "stone", "stoneBrick", "stoneFurnace", "coal", "burnerMiningDrill", "iron", "ironPlate", "ironGear", "copper", "copperPlate", "copperCable", "pipe", "water", "waterPump", "boiler", "steam", "steamTurbine", "steamEngine", "electricity", "assembler1", "concrete", "electricMiner", "electricFurnace", "steelPlate", "steelFurnace", "oilPump", "petroleum", "assembler2", "refinery", "heavyOil", "lightOil", "naturalGas", "chemicalPlant", "sulfur", "sulfuricAcid", "lubricant", "solidFuel", "plastic", "assembler3", "electronicCircuit", "microprocessor", "processingUnit", "lowDensityPlate", "launchpad", "rocketFuel", "engine", "battery", "batteryPack", "flightComputer", "acceleratorModule", "radar", "spacecraftModule"];
 
-start();
+start();*/

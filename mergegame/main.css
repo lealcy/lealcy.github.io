@@ -6,10 +6,77 @@ body {
     outline: 0;
     height: 100%;
     width: 100%;
-    text-align: center;
-    overflow: hidden;
+    user-select: none;
 }
 
-canvas {
+
+#title {
+    background-color: red;
+    color: white;
+    margin: 0 auto;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    height: 10%;
+    width: 100%;
+}
+
+
+#board {
+    display: grid;
+    grid-template-columns: auto auto auto auto;
+    background-color: black;
+    color: white;
+    margin: 0 auto;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    height: 70%;
+    width: 100%;
+}
+
+.block {
+    background-color: #333;
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    border: medium solid black;
     display: block;
 }
+
+.selected {
+    border: medium solid white;
+}
+
+/*#game-screen {
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    color: white;
+    margin: 0 auto;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    height: 95vh;
+    width: 60vh;
+}
+
+#title {
+    flex-grow: 1;
+}
+
+#board {
+    display: grid;
+    background-color: blue;
+    flex-grow: 1;
+}
+
+#money {
+    background-color: green;
+    flex-grow: 1;
+}
+
+#upgrades {
+    background-color: red;
+    flex-grow: 1;
+}*/
