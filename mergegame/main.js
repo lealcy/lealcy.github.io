@@ -58,17 +58,16 @@ class Game {
     }
 
     preloadImages() {
-        const container = document.getElementById("preloadedImages");
         this.imageFiles.forEach(image => {
             if (image == null) {
                 return;
             }
-            const img = document.createElement("div");
-            img.style.backgroundImage = `url("images/${image}.png")`;
-            container.appendChild(img);
+            const link = document.createElement("link");
+            link.href = `images/${image}.png`;
+            link.rel = "preload";
+            link.as = "image";
+            document.head.appendChild(link);
         });
-        container.style.display = "none";
-
     }
 }
 
