@@ -32,7 +32,7 @@ class Game {
         this.baseBlockValue = 1;
         this.money = 0;
         this.imageFiles = [null, "stone", "stoneBrick", "stoneFurnace", "coal", "burnerMiningDrill", "iron", "ironPlate", "ironGear", "copper", "copperPlate", "copperCable", "pipe", "water", "waterPump", "boiler", "steam", "steamTurbine", "steamEngine", "electricity", "assembler1", "concrete", "electricMiner", "electricFurnace", "steelPlate", "steelFurnace", "oilPump", "petroleum", "assembler2", "refinery", "heavyOil", "lightOil", "naturalGas", "chemicalPlant", "sulfur", "sulfuricAcid", "lubricant", "solidFuel", "plastic", "assembler3", "electronicCircuit", "microprocessor", "processingUnit", "lowDensityPlate", "launchpad", "rocketFuel", "engine", "battery", "batteryPack", "flightComputer", "acceleratorModule", "radar", "spacecraftModule"];
-
+        this.preloadImages();
         this.board = new Board(this, boardElement);
 
     }
@@ -55,6 +55,20 @@ class Game {
             }
         }
         return num.toFixed(digits);
+    }
+
+    preloadImages() {
+        const container = document.getElementById("preloadedImages");
+        this.imageFiles.forEach(image => {
+            if (image == null) {
+                return;
+            }
+            const img = document.createElement("div");
+            img.style.backgroundImage = `url("images/${image}.png")`;
+            container.appendChild(img);
+        });
+        container.style.display = "none";
+
     }
 }
 
@@ -91,7 +105,6 @@ class Board {
         setTimeout(this.generateIncome.bind(this), this.game.incomeInterval);
         for (const block of this.blocks) {
             if (block.value !== 0) {
-                console.log(block.value, this.game.incomeMultipler);
                 const income = block.value === 1 ? block.value : block.value * this.game.incomeMultipler;
                 this.game.money += income;
                 block.innerElement.textContent = `$${this.game.formatNumber(income, 2)}`;
