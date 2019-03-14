@@ -26,8 +26,11 @@ let spawnDecrementMultiplier = 6;
 
 class Game {
     constructor(boardElement) {
-        this.spawnInterval = 3000;
+        this.spawnBlockInterval = 3000;
+        this.incomeInterval = 5000;
+        this.incomeMultipler = 1.15;
         this.baseBlockValue = 1;
+        this.money = 0;
         this.imageFiles = [null, "stone", "stoneBrick", "stoneFurnace", "coal", "burnerMiningDrill", "iron", "ironPlate", "ironGear", "copper", "copperPlate", "copperCable", "pipe", "water", "waterPump", "boiler", "steam", "steamTurbine", "steamEngine", "electricity", "assembler1", "concrete", "electricMiner", "electricFurnace", "steelPlate", "steelFurnace", "oilPump", "petroleum", "assembler2", "refinery", "heavyOil", "lightOil", "naturalGas", "chemicalPlant", "sulfur", "sulfuricAcid", "lubricant", "solidFuel", "plastic", "assembler3", "electronicCircuit", "microprocessor", "processingUnit", "lowDensityPlate", "launchpad", "rocketFuel", "engine", "battery", "batteryPack", "flightComputer", "acceleratorModule", "radar", "spacecraftModule"];
 
         this.board = new Board(this, boardElement);
@@ -40,6 +43,19 @@ class Game {
         }
         return `images/${this.imageFiles[value]}.png`;
     }
+
+    formatNumber(num, digits) {
+
+        const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+        let decimal;
+        for (let i = units.length - 1; i >= 0; i--) {
+            decimal = Math.pow(1000, i + 1);
+            if (num <= -decimal || num >= decimal) {
+                return +(num / decimal).toFixed(digits) + units[i];
+            }
+        }
+        return num.toFixed(digits);
+    }
 }
 
 class Board {
@@ -48,7 +64,8 @@ class Board {
         this.boardElement = boardElement;
         this.selectedBlock = null;
         this.initializeBlocks();
-        this.spawn();
+        this.spawnBlock();
+        this.generateIncome();
     }
 
     initializeBlocks() {
@@ -60,14 +77,29 @@ class Board {
         });
     }
 
-    spawn() {
-        setTimeout(this.spawn.bind(this), this.game.spawnInterval);
-        for (let block of this.blocks) {
+    spawnBlock() {
+        setTimeout(this.spawnBlock.bind(this), this.game.spawnBlockInterval);
+        for (const block of this.blocks) {
             if (block.value === 0) {
                 block.value = this.game.baseBlockValue;
                 break;
             }
         }
+    }
+
+    generateIncome() {
+        setTimeout(this.generateIncome.bind(this), this.game.incomeInterval);
+        for (const block of this.blocks) {
+            if (block.value !== 0) {
+                console.log(block.value, this.game.incomeMultipler);
+                const income = block.value === 1 ? block.value : block.value * this.game.incomeMultipler;
+                this.game.money += income;
+                block.innerElement.textContent = `$${this.game.formatNumber(income, 2)}`;
+                block.innerElement.classList.remove("fadeOutAnimation");
+                setTimeout(() => block.innerElement.classList.add("fadeOutAnimation"), 1);
+            }
+        }
+
     }
 
     blockClickedEvent(e, block) {
@@ -108,6 +140,7 @@ class Block {
     constructor(game, blockElement) {
         this.game = game;
         this.blockElement = blockElement;
+        this.innerElement = blockElement.querySelector("span");
         this.value = 0;
     }
     get id() {
@@ -120,7 +153,6 @@ class Block {
 
     set value(value) {
         this.blockElement.dataset.value = value;
-        this.blockElement.textContent = `${this.blockElement.dataset.id} (${this.blockElement.dataset.value})`;
         if (value !== 0) {
             this.blockElement.style.backgroundImage = `url("${this.game.getBlockImageSrc(value)}")`;
         } else {
