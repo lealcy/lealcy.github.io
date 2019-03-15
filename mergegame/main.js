@@ -130,10 +130,10 @@ class Board {
     prefetchImages() {
         let j;
         this.game.imageFiles.forEach((image, i) => {
-            setTimeout(() => this.blocks[i % this.blocks.length].setImage(i), i * 5);
+            setTimeout(() => this.blocks[i % this.blocks.length].setImage(i), i * 10);
             j = i;
         });
-        setTimeout(() => this.clear(), j * 5 + 5);
+        setTimeout(() => this.clear(), j * 10 + 200);
     }
 
 }
