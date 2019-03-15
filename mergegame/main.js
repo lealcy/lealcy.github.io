@@ -53,8 +53,6 @@ class Board {
         this.selectedBlock = null;
         this.initializeBlocks();
         this.prefetchImages();
-        this.spawnBlock();
-        this.generateIncome();
     }
 
     initializeBlocks() {
@@ -133,7 +131,11 @@ class Board {
             setTimeout(() => this.blocks[i % this.blocks.length].setImage(i), i * 10);
             j = i;
         });
-        setTimeout(() => this.clear(), j * 10 + 200);
+        setTimeout(() => {
+            this.clear();
+            this.spawnBlock();
+            this.generateIncome();
+        }, j * 10 + 200);
     }
 
 }
