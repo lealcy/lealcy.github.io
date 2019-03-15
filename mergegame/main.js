@@ -1,29 +1,5 @@
 "use strict";
 
-const rows = 6;
-const columns = 4;
-const board = new Uint8Array(rows * columns);
-const perfectFrameTime = 1000 / 60;
-const images = [];
-let frameTime = 0;
-let deltaTime = 0;
-let lastTimestamp = 0;
-let frames = 0;
-let selected = null;
-let lastSpawnTime = 0;
-let currentMoneyFadeTime = 0;
-let lastMoneyGenerateTime = 0;
-let moneyGenerateTime = 5000;
-let moneyFadeTime = 1000;
-let money = 0;
-let baseLevel = 1;
-let baseLevelIncrementMultiplier = 2.2;
-let currentLevelUpgradeCost = 128;
-let currentSpawnUpgradeCost = 180;
-let spawnTime = 3000;
-let spawnTimeDecrement = 100;
-let spawnDecrementMultiplier = 6;
-
 class Game {
     constructor(boardElement) {
         this.spawnBlockInterval = 3000;
@@ -34,7 +10,6 @@ class Game {
         this.imageFiles = [null, "stone", "stoneBrick", "stoneFurnace", "coal", "burnerMiningDrill", "iron", "ironPlate", "ironGear", "copper", "copperPlate", "copperCable", "pipe", "water", "waterPump", "boiler", "steam", "steamTurbine", "steamEngine", "electricity", "assembler1", "concrete", "electricMiner", "electricFurnace", "steelPlate", "steelFurnace", "oilPump", "petroleum", "assembler2", "refinery", "heavyOil", "lightOil", "naturalGas", "chemicalPlant", "sulfur", "sulfuricAcid", "lubricant", "solidFuel", "plastic", "assembler3", "electronicCircuit", "microprocessor", "processingUnit", "lowDensityPlate", "launchpad", "rocketFuel", "engine", "battery", "batteryPack", "flightComputer", "acceleratorModule", "radar", "spacecraftModule"];
         this.preloadImages();
         this.board = new Board(this, boardElement);
-
     }
 
     getBlockImageSrc(value) {
@@ -58,12 +33,12 @@ class Game {
     }
 
     preloadImages() {
-        this.imageFiles.forEach(image => {
+        this.imageFiles.forEach((image, i) => {
             if (image == null) {
                 return;
             }
             const link = document.createElement("link");
-            link.href = `images/${image}.png`;
+            link.href = this.getBlockImageSrc(i);
             link.rel = "preload";
             link.as = "image";
             document.head.appendChild(link);
@@ -77,6 +52,7 @@ class Board {
         this.boardElement = boardElement;
         this.selectedBlock = null;
         this.initializeBlocks();
+        this.prefetchImages();
         this.spawnBlock();
         this.generateIncome();
     }
@@ -146,6 +122,20 @@ class Board {
         this.selectedBlock = block;
         block.select();
     }
+
+    clear() {
+        this.blocks.forEach(block => block.value = 0);
+    }
+
+    prefetchImages() {
+        let j;
+        this.game.imageFiles.forEach((image, i) => {
+            setTimeout(() => this.blocks[i % this.blocks.length].setImage(i), i * 5);
+            j = i;
+        });
+        setTimeout(() => this.clear(), j * 5 + 5);
+    }
+
 }
 
 class Block {
@@ -165,11 +155,11 @@ class Block {
 
     set value(value) {
         this.blockElement.dataset.value = value;
-        if (value !== 0) {
-            this.blockElement.style.backgroundImage = `url("${this.game.getBlockImageSrc(value)}")`;
-        } else {
-            this.blockElement.style.backgroundImage = "none";
-        }
+        this.setImage(value);
+    }
+
+    setImage(value) {
+        this.blockElement.style.backgroundImage = value === 0 ? "none" : `url("${this.game.getBlockImageSrc(value)}")`;
     }
 
     select() {
@@ -184,8 +174,30 @@ class Block {
 
 const game = new Game(document.getElementById("board"));
 
+/*const rows = 6;
+const columns = 4;
+const board = new Uint8Array(rows * columns);
+const perfectFrameTime = 1000 / 60;
+const images = [];
+let frameTime = 0;
+let deltaTime = 0;
+let lastTimestamp = 0;
+let frames = 0;
+let selected = null;
+let lastSpawnTime = 0;
+let currentMoneyFadeTime = 0;
+let lastMoneyGenerateTime = 0;
+let moneyGenerateTime = 5000;
+let moneyFadeTime = 1000;
+let money = 0;
+let baseLevel = 1;
+let baseLevelIncrementMultiplier = 2.2;
+let currentLevelUpgradeCost = 128;
+let currentSpawnUpgradeCost = 180;
+let spawnTime = 3000;
+let spawnTimeDecrement = 100;
+let spawnDecrementMultiplier = 6;
 
-/*
 function start() {
     return;
     requestAnimationFrame(update);
