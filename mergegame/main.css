@@ -1,5 +1,6 @@
 html,
 body {
+    background-color: black;
     margin: 0;
     padding: 0;
     border: 0;
@@ -7,18 +8,53 @@ body {
     height: 100%;
     width: 100%;
     user-select: none;
+    text-shadow: 0.2vw 0.2vw 0.2vw black;
 }
 
 
 #title {
-    background-color: red;
     color: white;
     margin: 0 auto;
     padding: 0;
     outline: 0;
     border: 0;
-    height: 10%;
+    height: 8.2vw;
     width: 100%;
+    font-family: 'Days One',
+        sans-serif;
+    font-size: 8vw;
+    font-weight: bold;
+    text-align: center;
+
+    vertical-align: center;
+}
+
+#values {
+    background-color: gray;
+    color: white;
+    margin: 0 auto;
+    padding: 0;
+    outline: 0;
+    border: 0;
+    height: 5%;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    font-family: 'Lilita One',
+        cursive;
+    font-size: 5vw;
+}
+
+#level {
+    padding-left: 4vw;
+    justify-self: left;
+    align-self: center;
+}
+
+#money {
+    padding-right: 4vw;
+    justify-self: right;
+    align-self: center;
 }
 
 
@@ -52,8 +88,9 @@ body {
 }
 
 .block>span {
-    font-family: Verdana, Geneva, Tahoma, sans-serif;
-    font-size: 3.3vw;
+    font-family: 'Lilita One',
+        cursive;
+    font-size: 4.2vw;
 }
 
 @keyframes fadeOut {

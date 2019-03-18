@@ -1,15 +1,39 @@
 "use strict";
 
+const boardElement = document.getElementById("board");
+const levelElement = document.getElementById("level");
+const moneyElement = document.getElementById("money");
+
 class Game {
-    constructor(boardElement) {
+    constructor(boardElement, levelElement, moneyElement) {
         this.spawnBlockInterval = 3000;
         this.incomeInterval = 5000;
         this.incomeMultipler = 1.15;
-        this.baseBlockValue = 1;
-        this.money = 0;
         this.imageFiles = [null, "stone", "stoneBrick", "stoneFurnace", "coal", "burnerMiningDrill", "iron", "ironPlate", "ironGear", "copper", "copperPlate", "copperCable", "pipe", "water", "waterPump", "boiler", "steam", "steamTurbine", "steamEngine", "electricity", "assembler1", "concrete", "electricMiner", "electricFurnace", "steelPlate", "steelFurnace", "oilPump", "petroleum", "assembler2", "refinery", "heavyOil", "lightOil", "naturalGas", "chemicalPlant", "sulfur", "sulfuricAcid", "lubricant", "solidFuel", "plastic", "assembler3", "electronicCircuit", "microprocessor", "processingUnit", "lowDensityPlate", "launchpad", "rocketFuel", "engine", "battery", "batteryPack", "flightComputer", "acceleratorModule", "radar", "spacecraftModule"];
         this.preloadImages();
+        this.levelElement = levelElement;
+        this.level = 1;
+        this.moneyElement = moneyElement;
+        this.money = 0;
         this.board = new Board(this, boardElement);
+    }
+
+    get level() {
+        return this._level;
+    }
+
+    set level(value) {
+        this._level = value;
+        this.levelElement.textContent = `Level ${this.level}`;
+    }
+
+    get money() {
+        return this._money;
+    }
+
+    set money(value) {
+        this._money = value;
+        this.moneyElement.textContent = `$${this.formatNumber(this.money, 2)}`;
     }
 
     getBlockImageSrc(value) {
@@ -19,8 +43,7 @@ class Game {
         return `images/${this.imageFiles[value]}.png`;
     }
 
-    formatNumber(num, digits) {
-
+    formatNumber(num, digits = 2) {
         const units = ['k', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
         let decimal;
         for (let i = units.length - 1; i >= 0; i--) {
@@ -34,7 +57,7 @@ class Game {
 
     preloadImages() {
         this.imageFiles.forEach((image, i) => {
-            if (image == null) {
+            if (image === null) {
                 return;
             }
             const link = document.createElement("link");
@@ -68,7 +91,7 @@ class Board {
         setTimeout(this.spawnBlock.bind(this), this.game.spawnBlockInterval);
         for (const block of this.blocks) {
             if (block.value === 0) {
-                block.value = this.game.baseBlockValue;
+                block.value = this.game.level;
                 break;
             }
         }
@@ -174,7 +197,7 @@ class Block {
     }
 }
 
-const game = new Game(document.getElementById("board"));
+const game = new Game(boardElement, levelElement, moneyElement);
 
 /*const rows = 6;
 const columns = 4;
