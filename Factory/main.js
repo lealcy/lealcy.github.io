@@ -20,8 +20,10 @@ class Window {
     
     generateHTML() {
         const div = document.createElement("div");
+        div.classList.add("widget");
         div.classList.add("window");
-        const title = document.createElement("h1");
+        const title = document.createElement("div");
+        div.classList.add("widget");
         title.classList.add("title");
         title.textContent = this._title;
         div.appendChild(title);
