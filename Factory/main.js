@@ -2,7 +2,7 @@
 
 class Application {
     constructor() {
-        this._mainWindow = null;
+        this._mainWindow = new Window();
     }
     
     get mainWindow() { return this._mainWindow; }
