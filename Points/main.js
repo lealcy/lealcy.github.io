@@ -1,5 +1,7 @@
 "use strict";
 
+const RADIUS = 10;
+
 const screen = document.getElementById("screen");
 const context = screen.getContext("2d", { alpha: false });
 
@@ -22,6 +24,7 @@ const points = [];
 
 function start() {
     requestAnimationFrame(update);
+    screen.addEventListener("click", e => points.push(e.offsetX, e.offsetY, RADIUS));
 }
 
 function update() {
