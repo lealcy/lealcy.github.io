@@ -1,6 +1,6 @@
 "use strict";
 
-const screen = getElementById("screen");
+const screen = document.getElementById("screen");
 const context = screen.getContext("2d", { alpha: false });
 
 class Point {
@@ -18,7 +18,7 @@ class Point {
     }
 }
 
-const points = []
+const points = [];
 
 function start() {
     requestAnimationFrame(update);
@@ -28,3 +28,5 @@ function update() {
     requestAnimationFrame(update);
     points.forEach(point => point.draw());
 }
+
+start();
