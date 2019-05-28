@@ -33,7 +33,7 @@ function find(min = 1, max = 16) {
         permutations = permutate(inputEl.value.split(""));
     }
     const result = [];
-    permutations.forEach((v, j) => {
+    permutations.forEach(v => {
         const pword = v.join("");
         const len = pword.length;
         for (let i = min - 1; i < len; i++) {
