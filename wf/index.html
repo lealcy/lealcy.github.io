@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Word Finder</title>
+    <script src="words.js"></script>
+    <script src="main.js" defer></script>
+    <style>
+        body { font-family: Verdana, Geneva, Tahoma, sans-serif; }
+        div { margin-bottom: 10px;}
+        #minimumLength { width: 3em; text-align: right;}
+    </style>
+</head>
+
+<body>
+    <div>
+        <label for="input">Search string: </label>
+        <input type="text" id="input">
+    </div>
+    <div>
+        <label for="minimumLength">Minimum length: </label>
+        <input type="number" id="minimumLength" min="1" max="16" value="1">
+    </div>
+    <div>
+        <button onclick="find(document.getElementById('minimumLength').value)">search</button>
+    </div>
+    <div id="result"></div>
+</body>
+
+</html>
