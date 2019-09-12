@@ -94,7 +94,7 @@ function clean() {
 
 function paste() {
     clean();
-    let text = document.querySelector("input").value.toLocaleLowerCase().match(/[a-z]/g);
+    let text = document.querySelector("input").value.toLocaleLowerCase().match(/[a-z ]/g);
     if (text === null) {
         return;
     }
