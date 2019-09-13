@@ -95,16 +95,6 @@ function onInput() {
     });
 }
 
-function dump() {
-    const arr = Array(6).fill(0).map(x => Array(6).fill(0));
-    for (let x = 0; x < 6; x++) {
-        for (let y = 0; y < 6; y++) {
-            arr[x][y] = state.get(y, x);
-        }
-    }
-    console.log(JSON.stringify(arr));
-}
-
 update();
 
 const letters = {
