@@ -11,14 +11,13 @@
                         document.body.appendChild(button);
                     }
                 }, false);
-                function refresh() {
+                (function refresh() {
                     requestAnimationFrame(refresh);
                     document.querySelectorAll("button").forEach(button => {
                         if (button.last) button.last.textContent = parseInt(button.last.textContent) +
                             parseInt(button.textContent);
                     });
-                }
-                refresh();
+                })();
             </script>
         </head>
         <body><button>1</button></body>
