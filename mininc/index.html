@@ -1,39 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-
-    <head>
-        <title>Mini Incremental</title>
-        <script>
-            function add(last) {
-                const button = document.createElement("button");
-                button.last = last;
-                button.count = 1n;
-                button.textContent = "1";
-                button.addEventListener("click", e => {
-                    if (++button.count == 10n) {
-                        add(e.target);
-                    };
-                    button.textContent = button.count;
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+            <title>Mini Incremental</title>
+            <script>
+                document.addEventListener("click", e => {
+                    if (e.target.tagName === "BUTTON" && ++e.target.textContent == 10) {
+                        const button = document.createElement("button");
+                        button.last = e.target;
+                        button.textContent = 1;
+                        document.body.appendChild(button);
+                    }
                 }, false);
-                button.style.minWidth = "10ex";
-                document.body.appendChild(button);
-            }
-
-            function refresh() {
-                requestAnimationFrame(refresh);
-                document.querySelectorAll("button").forEach(button => {
-                    if (!button.last) return;
-                    button.last.count += button.count;
-                    button.last.textContent = button.last.count;
-                });
-            }
-            refresh();
-
-        </script>
-    </head>
-
-    <body onload="add()">
-
-    </body>
-
-</html>
+                function refresh() {
+                    requestAnimationFrame(refresh);
+                    document.querySelectorAll("button").forEach(button => {
+                        if (button.last) button.last.textContent = parseInt(button.last.textContent) +
+                            parseInt(button.textContent);
+                    });
+                }
+                refresh();
+            </script>
+        </head>
+        <body><button>1</button></body>
+    </html>
