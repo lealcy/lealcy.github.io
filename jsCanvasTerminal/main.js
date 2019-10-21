@@ -26,7 +26,6 @@ class Display {
     }
 
     outChar(c) {
-        console.log(this.context.font);
         const x = this.column * this.charWidth;
         const y = this.line * this.charHeight + this.charHeight;
         this.context.save();
