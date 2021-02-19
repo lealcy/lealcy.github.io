@@ -1,0 +1,50 @@
+html,body {
+    margin: 0;
+    border: 0;
+    padding:  0;
+    outline: 0;
+}
+
+#main {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+    height: 100vh;
+    
+}
+
+#jesus_display {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: space-around;
+    align-items: center;
+
+}
+
+#pray_display{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+#prays {
+    font-family: 'Akaya Kanadaka', cursive;
+    font-size: large;
+}
+
+#pray_button {
+    height: 15vh;
+}
+
+#pray_button:hover {
+    filter: drop-shadow(0 0 14px rgb(239, 255, 14));
+}
+
+#pray_button:active {
+    filter: drop-shadow(0 0 30px rgb(239, 255, 14));
+}
