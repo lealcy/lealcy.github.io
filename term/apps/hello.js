@@ -1,5 +1,6 @@
 export default class {
-    constructor(context) {
-        context.console.writeLine(`Hello, world! I'm "${context.file}" app at "${context.fileWithPath}".`);
+    static main(sys, args, env) {
+        sys.con.writeLine(`Hello, ${args === "" ? "World" : args}! I'm the "${env.get("file")}" app at "${env.get("fileWithPath")}".`);
+        return true;
     }
 }

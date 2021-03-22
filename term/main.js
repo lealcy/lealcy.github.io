@@ -1,49 +1,40 @@
 "use strict";
 
-const output = document.getElementById("output");
 const input = document.getElementById("input");
+const output = document.getElementById("output");
+const DEFAULT_EXEC_PATH = "./apps";
 
-class Console {
-    constructor(input, output) {
-        this.input = input;
-        this.output = output;
+import console from "./apps/console.js";
 
-        this.input.addEventListener("change", this.inputEvent.bind(this), false);
+class System {
+    env = new Map([
+        ["exec_path", DEFAULT_EXEC_PATH],
+    ]);
+
+    constructor(inout, output) {
+        this.env.set("input", input);
+        this.env.set("output", output);
+        this.con = console;
+        this.con.main(this, "", this.env);
     }
 
-    write(text) {
-        this.output.textContent += text;
-    }
-
-    writeLine(text) {
-        this.write(text + "\n");
-    }
-
-    inputEvent(e) {
-        this.executeScriptFile(e.target.value);
-        e.target.value = "";
-    }
-
-    executeScriptFile(file) {
-        const fileWithPath = `./apps/${file}.js`;
-        import(fileWithPath).then(module => {
-            new module.default(new Context(this, file, fileWithPath, module))
-        }).catch(error => {
-            this.writeLine(error);
-        });
-
-    }
-}
-
-class Context {
-    constructor(console, file, fileWithPath, instance) {
-        this.console = console;
-        this.file = file;
-        this.fileWithPath = fileWithPath;
-        this.instance = instance;
+    exec(file, args = "") {
+        const localEnv = new Map(this.env);
+        localEnv.set("file", file);
+        localEnv.set("fileWithPath", `${this.env.get("exec_path")}/${file}.js`);
+        import(localEnv.get("fileWithPath"))
+            .then(module => {
+                localEnv.set("app", module.default);
+                module.default.main(this, args, localEnv);
+            })
+            .catch(error => {
+                // console.log(error);
+                this.con.writeLine(`'${localEnv.get("file")}' is not an app in the '${localEnv.get("exec_path")}' directory.`);
+                //this.con.writeLine(error);
+            });
     }
 }
 
-const console = new Console(input, output);
+const sys = new System(input, output);
 
-console.writeLine("Type 'hello'.");
+sys.exec("greeting");
