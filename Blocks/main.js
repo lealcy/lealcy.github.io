@@ -21,11 +21,12 @@ const boardWidth = options.get("width") || 32;
 const boardHeight = options.get("height") || 16;
 const fallSpeed = 10;
 
-
+const colorNames = ["blue", "green", "red", "yellow"];
 const colors = new Set;
-["blue", "green", "red", "yellow"].forEach(c => {
+colorNames.forEach(c => {
     const img = new Image();
     img.src = `${c}.png`;
+    img.colorName = c;
     colors.add(img);
 });
 
@@ -78,10 +79,10 @@ function update(timestamp) {
             if (!board[x][y]) {
                 continue;
             }
-            if (colorCount[board[x][y].color] === undefined) {
-                colorCount[board[x][y].color] = 0;
+            if (colorCount[board[x][y].color.colorName] === undefined) {
+                colorCount[board[x][y].color.colorName] = 0;
             }
-            colorCount[board[x][y].color]++;
+            colorCount[board[x][y].color.colorName]++;
             board[x][y].update();
             board[x][y].draw();
         }
