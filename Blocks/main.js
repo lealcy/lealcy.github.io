@@ -86,6 +86,7 @@ function update(timestamp) {
             board[x][y].draw();
         }
     }
+    console.log(colors);
     const text = `${Math.floor(score)} ${colors}`;
     context.fillStyle = "black";
     context.fillText(text, 11, 21);
