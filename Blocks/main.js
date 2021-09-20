@@ -72,22 +72,22 @@ function start() {
 function update(timestamp) {
     requestAnimationFrame(update);
     context.clearRect(0, 0, canvas.width, canvas.height);
-    const colors = [];
+    const colorCount = [];
     for (let x = 0; x < boardWidth; x++) {
         for (let y = 0; y < boardHeight; y++) {
             if (!board[x][y]) {
                 continue;
             }
-            if (colors[board[x][y].color] === undefined) {
-                colors[board[x][y].color] = 0;
+            if (colorCount[board[x][y].color] === undefined) {
+                colorCount[board[x][y].color] = 0;
             }
-            colors[board[x][y].color]++;
+            colorCount[board[x][y].color]++;
             board[x][y].update();
             board[x][y].draw();
         }
     }
-    console.log(colors);
-    const text = `${Math.floor(score)} ${colors}`;
+    console.log(colorCount);
+    const text = `${Math.floor(score)} ${colorCount}`;
     context.fillStyle = "black";
     context.fillText(text, 11, 21);
     context.fillStyle = "white";
