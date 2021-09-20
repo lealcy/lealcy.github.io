@@ -72,19 +72,25 @@ function start() {
 function update(timestamp) {
     requestAnimationFrame(update);
     context.clearRect(0, 0, canvas.width, canvas.height);
+    const colors = [];
     for (let x = 0; x < boardWidth; x++) {
         for (let y = 0; y < boardHeight; y++) {
             if (!board[x][y]) {
                 continue;
             }
+            if (colors[board[x][y].color] === undefined) {
+                colors[board[x][y].color] = 0;
+            }
+            colors[board[x][y].color]++;
             board[x][y].update();
             board[x][y].draw();
         }
     }
+    const text = `${Math.floor(score)} ${colors}`;
     context.fillStyle = "black";
-    context.fillText(Math.floor(score), 11, 21);
+    context.fillText(text, 11, 21);
     context.fillStyle = "white";
-    context.fillText(Math.floor(score), 10, 20);
+    context.fillText(text, 10, 20);
     fallBlocks();
 }
 
