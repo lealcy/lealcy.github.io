@@ -8,6 +8,7 @@ class CheckerBoard {
     #TILE_COLOR_VALID_MOVE = "#003300";
     #TILE_COLOR_TARGET = "#990000";
     #game_ended = false;
+    #last_move_was_capture = null;
 
     constructor(canvas_element) {
         this.canvas = canvas_element;
@@ -30,7 +31,6 @@ class CheckerBoard {
         this.running = false;
         this.pieces = [];
         this.selected_piece = null;
-        this.valid_moves = null;
 
         document.body.addEventListener("click", this.click.bind(this), false);
         document.body.addEventListener(
@@ -130,17 +130,23 @@ class CheckerBoard {
         this.draw_piece(
             this.selected_piece,
             1.0,
+            40,
+            50,
             this.mousex - this.#TILE_WIDTH / 2,
             this.mousey - this.#TILE_HEIGHT / 2
         );
     }
 
-    draw_piece(piece, alpha = 1.0, x, y) {
+    draw_piece(piece, alpha = 1.0, shadow_offset = 5, shadow_blur = 10, x, y) {
         if (!piece) return;
         x = x ?? piece.x * this.#TILE_WIDTH;
         y = y ?? piece.y * this.#TILE_HEIGHT;
         this.context.save();
         this.context.globalAlpha = alpha;
+        this.context.shadowColor = "#000";
+        this.context.shadowOffsetX = shadow_offset;
+        this.context.shadowOffsetY = shadow_offset;
+        this.context.shadowBlur = shadow_blur;
         if (piece.isQueen) {
             this.context.drawImage(
                 this.piece_images[`${piece.side}_queen`],
@@ -189,17 +195,35 @@ class CheckerBoard {
         const piece = this.get_piece_at(x, y);
         if (this.selected_piece === null) {
             if (piece === null || piece.side !== this.turn) return;
-            this.selected_piece = piece;
-            this.valid_moves = this.get_valid_moves(this.selected_piece);
+            let some_pieces_has_target = false;
+            this.pieces
+                .filter((piece) => piece.side === this.turn)
+                .forEach((piece) => {
+                    const moves = this.get_valid_moves(piece);
+                    piece.moves = moves;
+                    piece.has_target = false;
+                    moves.forEach((move) => {
+                        if (move.target) {
+                            piece.has_target = true;
+                            some_pieces_has_target = true;
+                        }
+                    });
+                });
+            if (piece.has_target || !some_pieces_has_target) {
+                this.selected_piece = piece;
+            }
+            //this.valid_moves = this.get_valid_moves(this.selected_piece);
             return;
         }
         if (piece === this.selected_piece) {
             this.selected_piece = null;
-            this.valid_moves = null;
             return;
         }
-        const move = this.get_move(x, y);
+        const move = this.selected_piece.get_move(x, y);
         if (move !== null) {
+            if (!move.target && this.selected_piece.has_target) {
+                return;
+            }
             this.selected_piece.x = x;
             this.selected_piece.y = y;
             if (
@@ -210,12 +234,11 @@ class CheckerBoard {
             ) {
                 this.selected_piece.isQueen = true;
             }
-            this.selected_piece = null;
-            this.valid_moves = null;
             if (move.target !== null) {
                 this.pieces = this.pieces.filter(
                     (piece) => piece !== move.target
                 );
+                this.#last_move_was_capture = this.selected_piece;
                 if (
                     !this.pieces.filter((piece) => piece.side === "black")
                         .length
@@ -229,23 +252,15 @@ class CheckerBoard {
                 }
             } else {
                 this.turn = this.turn === "white" ? "black" : "white";
+                this.#last_move_was_capture = null;
             }
+            this.selected_piece = null;
         }
     }
 
     mouse_move(e) {
         this.mousex = e.offsetX;
         this.mousey = e.offsetY;
-    }
-
-    get_move(x, y) {
-        for (let i = 0; i < this.valid_moves.length; i++) {
-            const move = this.valid_moves[i];
-            if (move.x === x && move.y === y) {
-                return move;
-            }
-        }
-        return null;
     }
 
     get_piece_at(x, y) {
@@ -265,7 +280,7 @@ class CheckerBoard {
         let target;
         if (x > 0 && y > 0) {
             if (piece.isQueen) {
-                let hasTarget = null;
+                let has_target = null;
                 for (
                     let px = x - 1, py = y - 1;
                     px >= 0 && py >= 0;
@@ -273,15 +288,18 @@ class CheckerBoard {
                 ) {
                     target = this.get_piece_at(px, py);
                     if (target === null) {
-                        valid_moves.push(new Move(px, py, hasTarget));
+                        valid_moves.push(new Move(px, py, has_target));
                     } else {
-                        if (hasTarget || target.side === piece.side) {
+                        if (has_target || target.side === piece.side) {
                             break;
                         }
-                        hasTarget = target;
+                        has_target = target;
                     }
                 }
-            } else {
+            } else if (
+                this.#last_move_was_capture === piece ||
+                piece.side === "white"
+            ) {
                 dest = this.get_piece_at(x - 1, y - 1);
                 if (dest === null) {
                     if (piece.side === "white") {
@@ -302,7 +320,7 @@ class CheckerBoard {
         }
         if (x < 7 && y > 0) {
             if (piece.isQueen) {
-                let hasTarget = null;
+                let has_target = null;
                 for (
                     let px = x + 1, py = y - 1;
                     px <= 7 && py >= 0;
@@ -310,15 +328,18 @@ class CheckerBoard {
                 ) {
                     target = this.get_piece_at(px, py);
                     if (target === null) {
-                        valid_moves.push(new Move(px, py, hasTarget));
+                        valid_moves.push(new Move(px, py, has_target));
                     } else {
-                        if (hasTarget || target.side === piece.side) {
+                        if (has_target || target.side === piece.side) {
                             break;
                         }
-                        hasTarget = target;
+                        has_target = target;
                     }
                 }
-            } else {
+            } else if (
+                this.#last_move_was_capture === piece ||
+                piece.side === "white"
+            ) {
                 dest = this.get_piece_at(x + 1, y - 1);
                 if (dest === null) {
                     if (piece.side === "white") {
@@ -339,7 +360,7 @@ class CheckerBoard {
         }
         if (x < 7 && y < 7) {
             if (piece.isQueen) {
-                let hasTarget = null;
+                let has_target = null;
                 for (
                     let px = x + 1, py = y + 1;
                     px <= 7 && py <= 7;
@@ -347,15 +368,18 @@ class CheckerBoard {
                 ) {
                     target = this.get_piece_at(px, py);
                     if (target === null) {
-                        valid_moves.push(new Move(px, py, hasTarget));
+                        valid_moves.push(new Move(px, py, has_target));
                     } else {
-                        if (hasTarget || target.side === piece.side) {
+                        if (has_target || target.side === piece.side) {
                             break;
                         }
-                        hasTarget = target;
+                        has_target = target;
                     }
                 }
-            } else {
+            } else if (
+                this.#last_move_was_capture === piece ||
+                piece.side === "black"
+            ) {
                 dest = this.get_piece_at(x + 1, y + 1);
                 if (dest === null) {
                     if (piece.side === "black") {
@@ -376,7 +400,7 @@ class CheckerBoard {
         }
         if (x > 0 && y < 7) {
             if (piece.isQueen) {
-                let hasTarget = null;
+                let has_target = null;
                 for (
                     let px = x - 1, py = y + 1;
                     px >= 0 && py <= 7;
@@ -384,15 +408,18 @@ class CheckerBoard {
                 ) {
                     target = this.get_piece_at(px, py);
                     if (target === null) {
-                        valid_moves.push(new Move(px, py, hasTarget));
+                        valid_moves.push(new Move(px, py, has_target));
                     } else {
-                        if (hasTarget || target.side === piece.side) {
+                        if (has_target || target.side === piece.side) {
                             break;
                         }
-                        hasTarget = target;
+                        has_target = target;
                     }
                 }
-            } else {
+            } else if (
+                this.#last_move_was_capture === piece ||
+                piece.side === "black"
+            ) {
                 dest = this.get_piece_at(x - 1, y + 1);
                 if (dest === null) {
                     if (piece.side === "black") {
@@ -415,11 +442,11 @@ class CheckerBoard {
     }
 
     get_tile_color(x, y) {
-        if (this.valid_moves === null) {
+        if (!this.selected_piece) {
             return this.#TILE_COLOR_NORMAL;
         }
-        for (let i = 0; i < this.valid_moves.length; i++) {
-            const move = this.valid_moves[i];
+        for (let i = 0; i < this.selected_piece.moves.length; i++) {
+            const move = this.selected_piece.moves[i];
             if (
                 move.target !== null &&
                 move.target.x === x &&
@@ -427,7 +454,12 @@ class CheckerBoard {
             ) {
                 return this.#TILE_COLOR_TARGET;
             }
-            if (move.x === x && move.y === y) {
+            if (
+                (move.target || !this.selected_piece.has_target) &&
+                move.x === x &&
+                move.y === y
+            ) {
+                console.log(move, this.selected_piece);
                 return this.#TILE_COLOR_VALID_MOVE;
             }
         }
@@ -441,6 +473,18 @@ class Piece {
         this.y = y;
         this.side = side;
         this.isQueen = false;
+        this.moves = [];
+        this.has_target = false;
+    }
+
+    get_move(x, y) {
+        for (let i = 0; i < this.moves.length; i++) {
+            const move = this.moves[i];
+            if (move.x === x && move.y === y) {
+                return move;
+            }
+        }
+        return null;
     }
 }
 
