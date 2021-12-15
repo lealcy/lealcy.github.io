@@ -459,7 +459,6 @@ class CheckerBoard {
                 move.x === x &&
                 move.y === y
             ) {
-                console.log(move, this.selected_piece);
                 return this.#TILE_COLOR_VALID_MOVE;
             }
         }
