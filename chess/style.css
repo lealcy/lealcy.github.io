@@ -1,0 +1,12 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #d79069;
+    height: 100vh;
+    margin: 0;
+}
+
+#board {
+    box-shadow: 0px 0px 5px indianred;
+}
